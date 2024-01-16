@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/16 19:47:42 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/16 20:03:00 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,11 @@ static void	exec(int i, t_pipe *data, int fd[])
 		if (i == 0 || i == data->cmdc - 1)
 			close(fd[2]);
 		dup2(fd[0], STDIN_FILENO);
-		//close(fd[0]);
+		if (fd[0] != STDIN_FILENO)
+			close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
-		//close(fd[1]);
+		if (fd[1] != STDOUT_FILENO)
+			close(fd[1]);
 		execve(path, args, data->envp);
 		exit(EXIT_FAILURE);
 	}

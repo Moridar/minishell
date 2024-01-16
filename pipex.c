@@ -49,10 +49,10 @@ int	main(int argc, char *argv[], char *envp[])
 
 	argc = 0;
 	argv = NULL;
-	cmdc = 2;
+	cmdc = 4;
 	cmds[0] = "ls -l";
 	cmds[1] = "cat";
-	cmds[2] = "cat";
+	cmds[2] = "echo world hello";
 	cmds[3] = "cat";
 	files[0] = NULL;
 	files[1] = NULL;
