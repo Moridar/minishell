@@ -22,13 +22,16 @@ typedef struct s_pipe
 	int		status;
 	int		fd[2][2];
 	pid_t	*pid;
-	int		argc;
+	int		cmdc;
 	char	**envp;
 	char	**paths;
-	char	**argv;
+	char	**cmds;
+	char	*infile;
+	char	*outfile;
 }	t_pipe;
 
 void	freeall(char **strarray);
 char	**make_args(char *arg);
 char	*ft_getpath(char *cmd, char **paths);
+void	execute(int i, t_pipe *data);
 #endif

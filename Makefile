@@ -7,7 +7,7 @@ NAME = pipex
 
 LIB = libft/libft.a
 LIBDIR = ./libft
-SRC = pipex.c pipex_utils.c
+SRC = pipex.c pipex_utils.c pipex_exec.c
 OBJ = $(SRC:%.c=%.o)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
