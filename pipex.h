@@ -16,6 +16,8 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <sys/wait.h>
+
 
 typedef struct s_pipe
 {

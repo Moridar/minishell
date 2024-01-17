@@ -110,7 +110,7 @@ printf: $(PRINTF_OBJS)
 
 # Check each _bonus.o and recreate if there is 
 %.o: %.c
-	@cc $(CFLAGS) -c $< -I $(HEADER) -o $@
+	@cc $(CFLAGS) -c $< -o $@
 	@ar rc $(NAME)$@
 	@ranlib $(NAME)
 

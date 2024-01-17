@@ -47,8 +47,8 @@ int	main(int argc, char *argv[], char *envp[])
 	char	*cmds[4];
 	char	*files[2];
 
-	argc = 0;
-	argv = NULL;
+	if (argc && argv)
+		ft_printf("pipex: %d\n", argc);
 	cmdc = 4;
 	cmds[0] = "ls -l";
 	cmds[1] = "cat";
