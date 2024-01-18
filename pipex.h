@@ -17,6 +17,8 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <sys/wait.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 
 typedef struct s_pipe
