@@ -12,27 +12,36 @@
 
 #include "pipex.h"
 
-void	initalise(int cmdc, char *cmds[], char *files[], t_pipe *data)
+void	set_paths(t_pipe *data)
+{
+	int	i;
+
+	while (data->envp && data->envp[i])
+	{
+		if (ft_strncmp(data->envp[i], "PATH=", 5) == 0)
+			data->paths = ft_split((*data->envp) + 5, ':');
+	}
+	if (!data->paths)
+		data->paths = ft_split("/usr/local/bin:/usr/bin:"
+				"/bin:/usr/sbin:/sbin", ':');
+}
+
+void	initalise(int cmdc, char *cmds[], t_pipe *data, char *envp[])
 {
 	data->cmds = cmds;
 	data->cmdc = cmdc;
-	data->infile = files[0];
-	data->outfile = files[1];
+	data->envp = envp;
 	data->status = 0;
-	while (data->envp && *data->envp && ft_strncmp(*data->envp, "PATH=", 5))
-		data->envp++;
-	if (data->envp && *data->envp)
-		data->paths = ft_split((*data->envp) + 5, ':');
+	set_paths(data);
 	data->pid = ft_calloc(sizeof(pid_t), (cmdc - 1));
 }
 
-int	pipex(int cmdc, char *cmds[], char *files[], char *envp[])
+int	pipex(int cmdc, char *cmds[], char *envp[])
 {
 	t_pipe	data;
 	int		i;
 
-	data.envp = envp;
-	initalise(cmdc, cmds, files, &data);
+	initalise(cmdc, cmds, &data, envp);
 	i = -1;
 	while (++i < cmdc)
 		execute(i, &data);
@@ -47,14 +56,12 @@ int	main(int argc, char *argv[], char *envp[])
 	char	*cmds[4];
 	char	*files[2];
 
-	if (argc && argv)
+	if (argc > 10 && argv)
 		ft_printf("pipex: %d\n", argc);
 	cmdc = 4;
 	cmds[0] = "ls -l";
 	cmds[1] = "cat";
 	cmds[2] = "echo world hello";
-	cmds[3] = "cat";
-	files[0] = NULL;
-	files[1] = NULL;
-	pipex(cmdc, cmds, files, envp);
+	cmds[3] = "wc";
+	pipex(cmdc, cmds, envp);
 }
