@@ -9,7 +9,7 @@ LIB = libft/libft.a
 LIBDIR = ./libft
 READLINE_LIB = ~/.brew/opt/readline/lib
 READLINE_HEADER = ~/.brew/opt/readline/include
-# READLINE_LIB = /opt/homebrew/opt/readline/lib
+# READLINE_LIB = /opt/homebrew/opt/readline/lib 
 # READLINE_HEADER = /opt/homebrew/opt/readline/include
 SRC = pipex.c pipex_utils.c pipex_exec.c
 OBJ = $(SRC:%.c=%.o)

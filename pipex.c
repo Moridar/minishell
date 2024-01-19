@@ -114,25 +114,12 @@ int	main(int argc, char *argv[], char *envp[])
 			// rl_replace_line("\r", 0);
 			// printf("\r");
 			// ft_putstr_fd("exit", 2);
-			// printf("exit\n");
+			// printf("exit\n"); 
 			return (0);
 		}
 		if (line)
 		{
 			commands = ft_split(line, '|');
-			int i;
-			char *temp;
-			char set[] = {9, 10, 11, 12, 13, 32};
-			i = 0;
-			while (commands[i])
-			{
-				temp = commands[i];
-				commands[i] = ft_strtrim(temp, set);
-				i++;
-			}
-			printf("'%s'\n", commands[0]);
-			printf("'%s'\n", commands[1]);
-			printf("'%s'\n", commands[2]);
 			add_history(line);
 			free(line);
 		}
