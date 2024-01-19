@@ -40,7 +40,10 @@ int	pipex(int cmdc, char *cmds[], char *files[], char *envp[])
 	freeall(data.paths);
 	return (WEXITSTATUS(data.status));
 }
-
+/**
+ *  in if signo == SIGINT handles ctrl + C
+ * 	in else handles ctrl + \ by doing nothing
+*/
 void	signal_handler(int signo)
 {
 	if (signo == SIGINT)
@@ -49,7 +52,9 @@ void	signal_handler(int signo)
 		printf("\n");
 		rl_on_new_line();
 		rl_redisplay();
-	} else {
+	}
+	else
+	{
 		rl_redisplay();
 	}
 }
@@ -67,8 +72,6 @@ int	main(int argc, char *argv[], char *envp[])
 	cmds[1] = "cat";
 	cmds[2] = "cat";
 	cmds[3] = "cat";
-	// files[0] = NULL;
-	// files[1] = NULL;
 	files[0] = "Makefile";
 	files[1] = "out";
 
@@ -77,6 +80,7 @@ int	main(int argc, char *argv[], char *envp[])
 	// Interactive mode
 	const char *prompt;
 	char *line;
+	char **commands;
 	struct termios new_attr;
 	struct termios old_attr;
 
@@ -95,6 +99,7 @@ int	main(int argc, char *argv[], char *envp[])
 	while (1)
 	{
 		line = readline(prompt);
+		/* ctrl + D */
 		if (line == NULL)
 		{
 			// line = ft_strdup("exit1");
@@ -106,33 +111,32 @@ int	main(int argc, char *argv[], char *envp[])
 			rl_redisplay();
 
 			// rl_on_new_line();
-
 			// rl_replace_line("\r", 0);
 			// printf("\r");
 			// ft_putstr_fd("exit", 2);
 			// printf("exit\n");
 			return (0);
 		}
-		/* Handle CTRL + D */
 		if (line)
 		{
-			// ft_printf("%s\n", line);
+			commands = ft_split(line, '|');
+			int i;
+			char *temp;
+			char set[] = {9, 10, 11, 12, 13, 32};
+			i = 0;
+			while (commands[i])
+			{
+				temp = commands[i];
+				commands[i] = ft_strtrim(temp, set);
+				i++;
+			}
+			printf("'%s'\n", commands[0]);
+			printf("'%s'\n", commands[1]);
+			printf("'%s'\n", commands[2]);
 			add_history(line);
 			free(line);
 		}
 	}
-
-	// while (read(0, buf, 1)) {
-	// 	write(1, &buf, 1);
-	// }
-	// if (!ft_strncmp(cmds[0], "history", ft_strlen(cmds[0])))
-	// {
-	// 	ft_printf("history print!\n");
-	// }
-	// else
-	// {
 	pipex(cmdc, cmds, files, envp);
-
-	// }
 	return (0);
 }
