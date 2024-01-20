@@ -16,10 +16,12 @@ void	set_paths(t_pipe *data)
 {
 	int	i;
 
+	i = 0;
 	while (data->envp && data->envp[i])
 	{
 		if (ft_strncmp(data->envp[i], "PATH=", 5) == 0)
-			data->paths = ft_split((*data->envp) + 5, ':');
+			data->paths = ft_split((data->envp[i]) + 5, ':');
+		i++;
 	}
 	if (!data->paths)
 		data->paths = ft_split("/usr/local/bin:/usr/bin:"
@@ -50,18 +52,17 @@ int	pipex(int cmdc, char *cmds[], char *envp[])
 	return (WEXITSTATUS(data.status));
 }
 
-int	main(int argc, char *argv[], char *envp[])
-{
-	int		cmdc;
-	char	*cmds[4];
-	char	*files[2];
+// int	main(int argc, char *argv[], char *envp[])
+// {
+// 	int		cmdc;
+// 	char	*cmds[4];
 
-	if (argc > 10 && argv)
-		ft_printf("pipex: %d\n", argc);
-	cmdc = 4;
-	cmds[0] = "ls -l";
-	cmds[1] = "cat";
-	cmds[2] = "echo world hello";
-	cmds[3] = "wc";
-	pipex(cmdc, cmds, envp);
-}
+// 	if (argc > 10 && argv)
+// 		ft_printf("pipex: %d\n", argc);
+// 	cmdc = 2;
+// 	cmds[0] = "<< \"Makefile '\''two\'\" < hello << 'here is another \"\" filename' echo \"Helo world!\" > \"another file name\"";
+// 	cmds[1] = "cat";
+// 	cmds[2] = "echo world hello";
+// 	cmds[3] = "wc";
+// 	pipex(cmdc, cmds, envp);
+// }

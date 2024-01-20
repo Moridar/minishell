@@ -10,8 +10,8 @@ LIBDIR = ./libft
 SRC = pipex.c pipex_utils.c pipex_execute.c pipex_redirect.c pipex_command_prepare.c
 OBJ = $(SRC:%.c=%.o)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-
+#CFLAGS = -Wall -Wextra -Werror
+CFLAGS = 
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -L$(LIBDIR) -lft -o $(NAME)
 
