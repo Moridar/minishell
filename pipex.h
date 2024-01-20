@@ -39,4 +39,5 @@ void	freeall(char **strarray);
 char	**make_args(char *arg);
 char	*ft_getpath(char *cmd, char **paths);
 void	execute(int i, t_pipe *data);
+int		prompt(char **commands);
 #endif

@@ -40,24 +40,6 @@ int	pipex(int cmdc, char *cmds[], char *files[], char *envp[])
 	freeall(data.paths);
 	return (WEXITSTATUS(data.status));
 }
-/**
- *  in if signo == SIGINT handles ctrl + C
- * 	in else handles ctrl + \ by doing nothing
-*/
-void	signal_handler(int signo)
-{
-	if (signo == SIGINT)
-	{
-		rl_replace_line("", 0);
-		printf("\n");
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	else
-	{
-		rl_redisplay();
-	}
-}
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -75,55 +57,11 @@ int	main(int argc, char *argv[], char *envp[])
 	files[0] = "Makefile";
 	files[1] = "out";
 
-	(void)envp;
-
-	// Interactive mode
-	const char *prompt;
-	char *line;
 	char **commands;
-	struct termios new_attr;
-	struct termios old_attr;
 
-	prompt = "bvsh-1.1$ ";
+	commands = NULL;
+	prompt(commands);
 
-	/* Disabling echoing of input characters */
-	tcgetattr(STDIN_FILENO, &old_attr);
-	new_attr = old_attr;
-	new_attr.c_lflag &= ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &new_attr);
-
-	/* Listening to control+c (interuption of the process)*/
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler);
-
-	while (1)
-	{
-		line = readline(prompt);
-		/* ctrl + D */
-		if (line == NULL)
-		{
-			// line = ft_strdup("exit1");
-			// free(line);
-			// printf("exit\n");
-			// rl_insert_text("exit2");
-
-			rl_replace_line("exit3", 0);
-			rl_redisplay();
-
-			// rl_on_new_line();
-			// rl_replace_line("\r", 0);
-			// printf("\r");
-			// ft_putstr_fd("exit", 2);
-			// printf("exit\n"); 
-			return (0);
-		}
-		if (line)
-		{
-			commands = ft_split(line, '|');
-			add_history(line);
-			free(line);
-		}
-	}
 	pipex(cmdc, cmds, files, envp);
 	return (0);
 }
