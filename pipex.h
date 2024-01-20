@@ -42,6 +42,7 @@ void	errormsg(char *msg, int exits);
 int		get_quote_length(char *str, char quote);
 void	set_direction(t_pipe *data, int i, int *fd);
 char	*interpret_quote(char *str, char quote);
+char	*parse_quotes(char *str, char symbol, int set_space);
 
 int		prompt(char **commands);
 

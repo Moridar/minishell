@@ -52,20 +52,20 @@ int	pipex(int cmdc, char *cmds[], char *envp[])
 	return (WEXITSTATUS(data.status));
 }
 
-int	main(int argc, char *argv[], char *envp[])
-{
-	int		cmdc;
-	char	*cmds[4];
-	char	**commands;
+// int	main(int argc, char *argv[], char *envp[])
+// {
+// 	int		cmdc;
+// 	char	*cmds[4];
+// 	char	**commands;
 
-	if (argc > 10 && argv)
-		ft_printf("pipex: %d\n", argc);
-	cmdc = 2;
-	cmds[0] = "<< \"Makefile '\''two\'\" < hello << 'here is another \"\" filename' echo \"Helo world!\" > \"another file name\"";
-	cmds[1] = "cat";
-	cmds[2] = "echo world hello";
-	cmds[3] = "wc";
+// 	if (argc > 10 && argv)
+// 		ft_printf("pipex: %d\n", argc);
+// 	cmdc = 2;
+// 	cmds[0] = "<< \"Makefile '\''two\'\" < hello << 'here is another \"\" filename' echo \"Helo world!\" > \"another file name\"";
+// 	cmds[1] = "cat";
+// 	cmds[2] = "echo world hello";
+// 	cmds[3] = "wc";
 
-	commands = NULL;
-	prompt(commands);
-}
+// 	commands = NULL;
+// 	prompt(commands);
+// }

@@ -3,52 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/20 03:01:52 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/20 17:37:39 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static char	*cut_filename(char *str)
+static int	get_num_of_repeats(char *str, char symbol)
 {
-	int		start;
-	int		end;
+	int	i;
+
+	i = 0;
+	while (str[i] == symbol)
+	{
+		i++;
+	}
+	return (i);
+}
+
+static char	*cut_filename(char *str, char symbol)
+{
+	int		i;
 	char	*filename;
 
 	filename = NULL;
-	start = 0;
-	while (str[start] == '<')
-		start++;
-	while (ft_isspace(str[start]))
-		start++;
-	while (str[start] && str[start] != '<' && !ft_isspace(str[start]))
-	{
-		if (str[start] == '\'' || str[start] == '"')
-		{
-			end = start + get_quote_length(str + start, str[start]) - 1;
-			filename = ft_strjoin(filename, interpret_quote(str + start, str[start]));
-		}
-		else
-		{
-			end = start;
-			while (str[end] && !ft_isspace(str[end]))
-				end++;
-			filename = ft_strjoin(filename, ft_substr(str, start, end - start));
-		}
-		start = end + 1;
-		printf("filename: %s\n", filename);
-	}
-	ft_memset(str, ' ', end + 1);
+	i = 0;
+	while (str[i] == symbol)
+		i++;
+	while (ft_isspace(str[i]))
+		i++;
+	filename = parse_quotes(str + i, symbol, 1);
+	ft_memset(str, ' ', i);
 	return (filename);
 }
 
-//type 0 = pipe
+//infile
+//type 0 = pipe / std-in
 //type 1 = file
 //type 2 = here_doc
-static int	get_fd_in(char *cmd)
+//outfile
+//type 0 = pipe / std-out
+//type 1 = file
+//type 2 = append
+static int	get_fd(char *cmd, char symbol)
 {
 	int		i;
 	char	*filename;
@@ -60,16 +60,15 @@ static int	get_fd_in(char *cmd)
 	{
 		if (cmd[i] == '\'' || cmd[i] == '"')
 			i += get_quote_length(cmd + i, cmd[i]);
-		if (cmd[i] == '<')
+		type = get_num_of_repeats(cmd + i, symbol);
+		if (type == 1 || type == 2)
 		{
-			type = 1;
-			if (cmd[i + 1] == '<')
-				type = 2;
 			if (filename)
 				free(filename);
-			filename = cut_filename(cmd + i);
-			ft_printf("cmd: %s\n", cmd);
+			filename = cut_filename(cmd + i, symbol);
 		}
+		if (type >= 3)
+			errormsg("syntax error near unexpected token `<'", 1);
 	}
 	if (type == 1)
 		return (open(filename, O_RDONLY));
@@ -78,33 +77,14 @@ static int	get_fd_in(char *cmd)
 	return (0);
 }
 
-//type 0 = pipe
-//type 1 = file
-//type 2 = append
-static int	get_fd_out(char *cmd)
-{
-	int		type;
-	char	*filename;
-
-	type = 0;
-	filename = ft_strdup("outfile");
-	if (cmd)
-		type = 0;
-	if (type == 1)
-		return (open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644));
-	else if (type == 2)
-		return (open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644));
-	return (1);
-}
-
 //fd[0] = input (generally pipe, but can be file/heredoc)
 //fd[1] = output (generally pipe, but can be file/stdout)
 void	set_direction(t_pipe *data, int i, int *fd)
 {
-	fd[0] = get_fd_in(data->cmds[i]);
+	fd[0] = get_fd(data->cmds[i], '<');
 	if (fd[0] < 0)
 		errormsg("input file", 1);
-	fd[1] = get_fd_out(data->cmds[i]);
+	fd[1] = get_fd(data->cmds[i], '>');
 	if (fd[1] < 1)
 		errormsg("output file", 1);
 }
@@ -121,6 +101,6 @@ void	set_direction(t_pipe *data, int i, int *fd)
 // 	cmds[1] = "cat";
 // 	cmds[2] = "echo world hello";
 // 	cmds[3] = "wc";
-// 	printf("cmd: %s\n", cmds[0]);
-// 	printf("fd: %d\n", get_fd_in(cmds[0]));
+// 	printf("fd: %d\n", get_fd(cmds[0], '<'));
+// 	printf("fd: %d\n", get_fd(cmds[0], '>'));
 // }
