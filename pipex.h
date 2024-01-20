@@ -17,6 +17,9 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <sys/wait.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <termios.h>
 
 typedef struct s_pipe
 {
@@ -34,9 +37,12 @@ void	freeall(char **strarray);
 char	**make_args(char *arg);
 char	*ft_getpath(char *cmd, char **paths);
 void	execute(int i, t_pipe *data);
+
 void	errormsg(char *msg, int exits);
 int		get_quote_length(char *str, char quote);
 void	set_direction(t_pipe *data, int i, int *fd);
 char	*interpret_quote(char *str, char quote);
+
+int		prompt(char **commands);
 
 #endif

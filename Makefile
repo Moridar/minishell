@@ -7,13 +7,18 @@ NAME = pipex
 
 LIB = libft/libft.a
 LIBDIR = ./libft
-SRC = pipex.c pipex_utils.c pipex_execute.c pipex_redirect.c pipex_command_prepare.c
+# READLINE_LIB = ~/.brew/opt/readline/lib
+# READLINE_HEADER = ~/.brew/opt/readline/include
+READLINE_LIB = /opt/homebrew/opt/readline/lib 
+READLINE_HEADER = /opt/homebrew/opt/readline/include
+SRC = prompt.c pipex.c pipex_utils.c pipex_execute.c pipex_redirect.c pipex_command_prepare.c
+
 OBJ = $(SRC:%.c=%.o)
 CC = cc
 #CFLAGS = -Wall -Wextra -Werror
 CFLAGS = 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -L$(LIBDIR) -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) -L$(LIBDIR) -lft -L $(READLINE_LIB) -I $(READLINE_HEADER) -lreadline -o $(NAME)
 
 .phony: all
 all: $(NAME)
@@ -25,7 +30,7 @@ all: $(NAME)
 # 	@touch .bonus
 
 %.o: %.c $(LIB)
-	$(CC) $(CFLAGS) $< -c
+	$(CC) $(CFLAGS) -I $(READLINE_HEADER) $< -c
 	
 
 $(LIB):
