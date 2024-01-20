@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/20 02:37:11 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/20 03:01:52 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,18 +109,18 @@ void	set_direction(t_pipe *data, int i, int *fd)
 		errormsg("output file", 1);
 }
 
-int	main(int argc, char *argv[], char *envp[])
-{
-	int		cmdc;
-	char	*cmds[4];
+// int	main(int argc, char *argv[], char *envp[])
+// {
+// 	int		cmdc;
+// 	char	*cmds[4];
 
-	if (argc > 10 && argv)
-		ft_printf("pipex: %d\n", argc);
-	cmdc = 2;
-	cmds[0] = ft_strdup("<< \"Makefile '\''two\'\" < hello << 'here is another \"\" filename' echo \"Helo world!\" > \"another file name\"");
-	cmds[1] = "cat";
-	cmds[2] = "echo world hello";
-	cmds[3] = "wc";
-	printf("cmd: %s\n", cmds[0]);
-	printf("fd: %d\n", get_fd_in(cmds[0]));
-}
+// 	if (argc > 10 && argv)
+// 		ft_printf("pipex: %d\n", argc);
+// 	cmdc = 2;
+// 	cmds[0] = ft_strdup("<< \"Makefile '\''two\'\" < hello << 'here is another \"\" filename' echo \"Helo world!\" > \"another file name\"");
+// 	cmds[1] = "cat";
+// 	cmds[2] = "echo world hello";
+// 	cmds[3] = "wc";
+// 	printf("cmd: %s\n", cmds[0]);
+// 	printf("fd: %d\n", get_fd_in(cmds[0]));
+// }
