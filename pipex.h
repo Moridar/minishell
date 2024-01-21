@@ -33,19 +33,20 @@ typedef struct s_pipe
 	char	**cmds;
 }	t_pipe;
 
+//Helper functions
 void	freeall(char **strarray);
-char	**make_args(char *arg);
-char	*ft_getpath(char *cmd, char **paths);
-void	execute(int i, t_pipe *data);
-
 void	errormsg(char *msg, int exits);
-int		get_quote_length(char *str, char quote);
-void	set_direction(t_pipe *data, int i, int *fd);
-char	*interpret_quote(char *str, char quote);
-char	*parse_quotes(char *str, char symbol);
 void	closepipe(t_pipe *data);
 int		count_lead_chars(char *str, char c);
+int		get_quote_length(char *str, char quote);
+char	*interpret_quote(char *str, char quote);
+char	*parse_quotes(char *str, char symbol);
 
+//Main functions
 int		prompt(char **commands);
+void	execute(int i, t_pipe *data);
+void	set_direction(t_pipe *data, int i, int *fd);
+char	**make_args(char *arg);
+char	*ft_getpath(char *cmd, char **paths);
 
 #endif

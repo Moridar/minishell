@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/21 22:46:59 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/21 23:16:48 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,18 @@ static int	here_doc(char *delimiter)
 
 	if (pipe(heredoc_fd) < 0)
 		errormsg("pipe", 1);
-	printf("heredoc> ");
 	while (1)
 	{
 		buffer = readline("> ");
 		if (!buffer)
 			errormsg("heredoc", 1);
 		if (ft_strncmp(buffer, delimiter, ft_strlen(delimiter) + 1) == 0)
-		{
-			free(buffer);
 			break ;
-		}
 		write(heredoc_fd[1], buffer, ft_strlen(buffer));
 		write(heredoc_fd[1], "\n", 1);
 		free(buffer);
 	}
+	free(buffer);
 	close(heredoc_fd[1]);
 	return (heredoc_fd[0]);
 }
