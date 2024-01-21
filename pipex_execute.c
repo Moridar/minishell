@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/21 04:32:53 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/21 04:41:04 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,15 @@
 
 static void	closepipe(t_pipe *data)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < 2)
+	if (data->fd[0])
 	{
-		j = 0;
-		while (j < 2)
-		{
-			if (data->fd[i] && data->fd[i][j])
-				close(data->fd[i][j]);
-			j++;
-		}
-		i++;
+		close(data->fd[0][0]);
+		close(data->fd[0][1]);
+	}
+	if (data->fd[1])
+	{
+		close(data->fd[1][0]);
+		close(data->fd[1][1]);
 	}
 }
 
