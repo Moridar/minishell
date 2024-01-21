@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/21 04:33:17 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/21 16:55:08 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,14 @@ static char	*cut_filename(char *str, char symbol)
 		i++;
 	while (ft_isspace(str[i]))
 		i++;
-	filename = parse_quotes(str + i, symbol, 1);
+	filename = parse_quotes(str + i, symbol);
+	while (str[i] && str[i] != symbol && !ft_isspace(str[i]))
+	{
+		if (str[i] == '\'' || str[i] == '"')
+			i += get_quote_length(str + i, str[i]);
+		else
+			i++;
+	}
 	ft_memset(str, ' ', i);
 	return (filename);
 }

@@ -36,6 +36,10 @@ void	initalise(int cmdc, char *cmds[], t_pipe *data, char *envp[])
 	data->status = 0;
 	set_paths(data);
 	data->pid = ft_calloc(sizeof(pid_t), cmdc);
+	data->fd[0][0] = -1;
+	data->fd[0][1] = -1;
+	data->fd[1][0] = -1;
+	data->fd[1][1] = -1;
 }
 
 int	pipex(int cmdc, char *cmds[], char *envp[])
@@ -55,16 +59,19 @@ int	pipex(int cmdc, char *cmds[], char *envp[])
 int	main(int argc, char *argv[], char *envp[])
 {
 	int		cmdc;
-	char	*cmds[4];
+	char	*cmds[8];
 	char	**commands;
 
 	if (argc > 10 && argv)
 		ft_printf("pipex: %d\n", argc);
-	cmdc = 2;
-	cmds[0] = ft_strdup("ls -la");
-	cmds[1] = ft_strdup("wc");
-	cmds[2] = ft_strdup("echo world hello");
+	cmdc = 7;
+	cmds[0] = ft_strdup("echo \"'a'\" >out1");
+	cmds[1] = ft_strdup("<out cat >>out1");
+	cmds[2] = ft_strdup("<out1 cat");
 	cmds[3] = ft_strdup("wc");
-
+	cmds[4] = ft_strdup("cat >>out1");
+	cmds[5] = ft_strdup("echo hello world >> out1");
+	cmds[6] = ft_strdup("<out1 cat");
 	pipex(cmdc, cmds, envp);
+	exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/21 04:46:29 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/21 16:41:11 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,10 @@
 
 static void	closepipe(t_pipe *data)
 {
-	if (data->fd[0][1])
-	{
-		close(data->fd[0][0]);
-		close(data->fd[0][1]);
-	}
-	if (data->fd[1][1])
-	{
-		close(data->fd[1][0]);
-		close(data->fd[1][1]);
-	}
+	close(data->fd[0][0]);
+	close(data->fd[0][1]);
+	close(data->fd[1][0]);
+	close(data->fd[1][1]);
 }
 
 static void	child_execute(t_pipe *data, int i)
@@ -73,15 +67,14 @@ static void	execute_pipe(int i, t_pipe *data)
 		execute_fork(i, data);
 	else
 	{
-		close(data->fd[(i + 1) % 2][1]);
-		data->fd[(i + 1) % 2][1] = data->fd[i % 2][1];
 		execute_fork(i, data);
 		close(data->fd[(i + 1) % 2][0]);
 		waitpid(data->pid[i - 1], &data->status, 0);
 	}
+	close(data->fd[i % 2][1]);
 }
 
-//Single command and the last command doesnt need pipe
+//Single command and the last command dont pipe
 void	execute(int i, t_pipe *data)
 {
 	if (data->cmdc == 1)
@@ -94,7 +87,6 @@ void	execute(int i, t_pipe *data)
 		execute_fork(i, data);
 		waitpid(data->pid[i - 1], &data->status, 0);
 		close(data->fd[(i + 1) % 2][0]);
-		close(data->fd[(i + 1) % 2][1]);
 		waitpid(data->pid[i], &data->status, 0);
 	}
 	else

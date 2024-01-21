@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:33:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/21 03:10:55 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/21 16:44:55 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*interpret_quote(char *str, char quote)
 	return (word);
 }
 
-char	*parse_quotes(char *str, char symbol, int set_space)
+char	*parse_quotes(char *str, char symbol)
 {
 	char	*ret;
 	int		start;
@@ -80,7 +80,5 @@ char	*parse_quotes(char *str, char symbol, int set_space)
 		}
 		start = end + 1;
 	}
-	if (set_space)
-		ft_memset(str, ' ', end + 1);
 	return (ret);
 }
