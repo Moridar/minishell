@@ -61,8 +61,8 @@ int	main(int argc, char *argv[], char *envp[])
 	if (argc > 10 && argv)
 		ft_printf("pipex: %d\n", argc);
 	cmdc = 2;
-	cmds[0] = ft_strdup("ls");
-	cmds[1] = ft_strdup("cat");
+	cmds[0] = ft_strdup("ls -la");
+	cmds[1] = ft_strdup("wc");
 	cmds[2] = ft_strdup("echo world hello");
 	cmds[3] = ft_strdup("wc");
 

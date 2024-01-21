@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/21 02:03:44 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/21 04:33:17 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,19 +114,3 @@ void	set_direction(t_pipe *data, int i, int *fd)
 	if (fd[1] < 0)
 		errormsg("output file", 1);
 }
-
-// int	main(int argc, char *argv[], char *envp[])
-// {
-// 	int		cmdc;
-// 	char	*cmds[4];
-
-// 	if (argc > 10 && argv)
-// 		ft_printf("pipex: %d\n", argc);
-// 	cmdc = 2;
-// 	cmds[0] = ft_strdup("<< \"Makefile '\''two\'\" < hello << 'here is another \"\" filename' echo \"Helo world!\" > \"another file name\"");
-// 	cmds[1] = "cat";
-// 	cmds[2] = "echo world hello";
-// 	cmds[3] = "wc";
-// 	printf("fd: %d\n", get_fd(cmds[0], '<'));
-// 	printf("fd: %d\n", get_fd(cmds[0], '>'));
-// }

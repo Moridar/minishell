@@ -6,16 +6,41 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/21 02:32:48 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/21 04:32:53 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	child_execute(int fd[2], char **args, char *path, char *envp[])
+static void	closepipe(t_pipe *data)
 {
-	printf("cmd: %s\nfd[0]: %d\nfd[1]: %d\npath: %s\n", args[0], fd[0], fd[1], path);
-	if (fd[0] != STDIN_FILENO)
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < 2)
+	{
+		j = 0;
+		while (j < 2)
+		{
+			if (data->fd[i] && data->fd[i][j])
+				close(data->fd[i][j]);
+			j++;
+		}
+		i++;
+	}
+}
+
+static void	child_execute(t_pipe *data, int i)
+{
+	char	**args;
+	char	*path;
+	int		fd[2];
+
+	set_direction(data, i, fd);
+	args = make_args(data->cmds[i]);
+	path = ft_getpath(ft_strdup(args[0]), data->paths);
+	if (fd[0] != STDERR_FILENO)
 	{
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
@@ -25,20 +50,9 @@ static void	child_execute(int fd[2], char **args, char *path, char *envp[])
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
-	execve(path, args, envp);
+	closepipe(data);
+	execve(path, args, data->envp);
 	exit(EXIT_FAILURE);
-}
-
-static void	child_prepare(t_pipe *data, int i)
-{
-	char	**args;
-	char	*path;
-	int		fd[2];
-
-	set_direction(data, i, fd);
-	args = make_args(data->cmds[i]);
-	path = ft_getpath(ft_strdup(args[0]), data->paths);
-	child_execute(fd, args, path, data->envp);
 }
 
 static void	execute_fork(int i, t_pipe *data)
@@ -50,7 +64,7 @@ static void	execute_fork(int i, t_pipe *data)
 		errormsg("fork", 1);
 	if (pid == 0)
 	{
-		child_prepare(data, i);
+		child_execute(data, i);
 		exit(EXIT_FAILURE);
 	}
 	data->pid[i] = pid;
@@ -83,11 +97,9 @@ void	execute(int i, t_pipe *data)
 	else if (i == data->cmdc - 1)
 	{
 		execute_fork(i, data);
-		printf("waiting for pid[%d]: %d\n", i - 1, data->pid[0]);
 		waitpid(data->pid[i - 1], &data->status, 0);
 		close(data->fd[(i + 1) % 2][0]);
 		close(data->fd[(i + 1) % 2][1]);
-		printf("waiting for pid[%d]: %d\n", i, data->pid[1]);
 		waitpid(data->pid[i], &data->status, 0);
 	}
 	else
