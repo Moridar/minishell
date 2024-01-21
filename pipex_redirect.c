@@ -6,22 +6,36 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/21 17:53:31 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/21 22:46:59 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static int	get_num_of_repeats(char *str, char symbol)
+static int	here_doc(char *delimiter)
 {
-	int	i;
+	int		heredoc_fd[2];
+	char	*buffer;
 
-	i = 0;
-	while (str[i] == symbol)
+	if (pipe(heredoc_fd) < 0)
+		errormsg("pipe", 1);
+	printf("heredoc> ");
+	while (1)
 	{
-		i++;
+		buffer = readline("> ");
+		if (!buffer)
+			errormsg("heredoc", 1);
+		if (ft_strncmp(buffer, delimiter, ft_strlen(delimiter) + 1) == 0)
+		{
+			free(buffer);
+			break ;
+		}
+		write(heredoc_fd[1], buffer, ft_strlen(buffer));
+		write(heredoc_fd[1], "\n", 1);
+		free(buffer);
 	}
-	return (i);
+	close(heredoc_fd[1]);
+	return (heredoc_fd[0]);
 }
 
 static char	*cut_filename(char *str, char symbol)
@@ -59,7 +73,7 @@ static int	get_filename(char *cmd, char symbol, char **filename)
 	{
 		if (cmd[i] == '\'' || cmd[i] == '"')
 			i += get_quote_length(cmd + i, cmd[i]);
-		type = get_num_of_repeats(cmd + i, symbol);
+		type = count_lead_chars(cmd + i, symbol);
 		if (type == 1 || type == 2)
 		{
 			lasttype = type;
@@ -93,10 +107,7 @@ static int	get_fd(char symbol, int i, t_pipe *data, char **filename)
 	if (symbol == '<' && type == 1)
 		return (open(*filename, O_RDONLY));
 	if (symbol == '<' && type == 2)
-	{
-		errormsg("here_doc", 0);
-		return (0);
-	}
+		return (here_doc(*filename));
 	if (symbol == '>' && type == 0 && i == data->cmdc - 1)
 		return (STDOUT_FILENO);
 	if (symbol == '>' && type == 0)

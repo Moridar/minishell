@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:33:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/21 16:44:55 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/21 22:49:39 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,37 +48,14 @@ int	get_quote_length(char *str, char quote)
 	return (0);
 }
 
-char	*interpret_quote(char *str, char quote)
+int	count_lead_chars(char *str, char c)
 {
-	char	*word;
+	int	i;
 
-	word = ft_substr(str + 1, 0, get_quote_length(str + 1, quote) - 1);
-	return (word);
-}
-
-char	*parse_quotes(char *str, char symbol)
-{
-	char	*ret;
-	int		start;
-	int		end;
-
-	ret = NULL;
-	start = 0;
-	while (str[start] && str[start] != symbol && !ft_isspace(str[start]))
+	i = 0;
+	while (str[i] == c)
 	{
-		if (str[start] == '\'' || str[start] == '"')
-		{
-			end = start + get_quote_length(str + start, str[start]) - 1;
-			ret = ft_strjoin(ret, interpret_quote(str + start, str[start]));
-		}
-		else
-		{
-			end = start;
-			while (str[end + 1] && !ft_isspace(str[end + 1]))
-				end++;
-			ret = ft_strjoin(ret, ft_substr(str, start, end - start + 1));
-		}
-		start = end + 1;
+		i++;
 	}
-	return (ret);
+	return (i);
 }

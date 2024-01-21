@@ -11,7 +11,13 @@ LIBDIR = ./libft
 # READLINE_HEADER = ~/.brew/opt/readline/include
 READLINE_LIB = /opt/homebrew/opt/readline/lib 
 READLINE_HEADER = /opt/homebrew/opt/readline/include
-SRC = prompt.c pipex.c pipex_utils.c pipex_execute.c pipex_redirect.c pipex_command_prepare.c
+SRC = 	prompt.c \
+		pipex.c \
+		pipex_utils.c \
+		pipex_execute.c \
+		pipex_redirect.c \
+		pipex_command_prepare.c \
+		pipex_quote.c
 
 OBJ = $(SRC:%.c=%.o)
 CC = cc

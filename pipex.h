@@ -44,6 +44,7 @@ void	set_direction(t_pipe *data, int i, int *fd);
 char	*interpret_quote(char *str, char quote);
 char	*parse_quotes(char *str, char symbol);
 void	closepipe(t_pipe *data);
+int		count_lead_chars(char *str, char c);
 
 int		prompt(char **commands);
 

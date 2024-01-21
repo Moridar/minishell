@@ -64,14 +64,9 @@ int	main(int argc, char *argv[], char *envp[])
 
 	if (argc > 10 && argv)
 		ft_printf("pipex: %d\n", argc);
-	cmdc = 7;
-	cmds[0] = ft_strdup("<out1 echo \"'a'\" >out1");
-	cmds[1] = ft_strdup("<out cat");
-	cmds[2] = ft_strdup("<out1 cat");
-	cmds[3] = ft_strdup("wc");
-	cmds[4] = ft_strdup("cat >>out1");
-	cmds[5] = ft_strdup("echo hello world >> out1");
-	cmds[6] = ft_strdup("<out1 cat");
+	cmdc = 2;
+	cmds[0] = ft_strdup("<< END cat");
+	cmds[1] = ft_strdup("cat");
 	pipex(cmdc, cmds, envp);
 	exit(0);
 }
