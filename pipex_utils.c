@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:33:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/20 17:37:04 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/21 03:10:55 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ char	*parse_quotes(char *str, char symbol, int set_space)
 		else
 		{
 			end = start;
-			while (str[end] && !ft_isspace(str[end]))
+			while (str[end + 1] && !ft_isspace(str[end + 1]))
 				end++;
-			ret = ft_strjoin(ret, ft_substr(str, start, end - start));
+			ret = ft_strjoin(ret, ft_substr(str, start, end - start + 1));
 		}
 		start = end + 1;
 	}
