@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/21 16:55:08 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/21 17:53:31 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static int	get_filename(char *cmd, char symbol, char **filename)
 	int		type;
 	int		lasttype;
 
-	*filename = NULL;
 	i = -1;
 	lasttype = 0;
 	while (cmd[++i])
@@ -76,24 +75,23 @@ static int	get_filename(char *cmd, char symbol, char **filename)
 
 //infile
 //type 0 = pipe / std-in
-//type 1 = file
-//type 2 = here_doc
+//type 1 = < = file
+//type 2 = << = here_doc
 //outfile
 //type 0 = pipe / std-out
-//type 1 = file
-//type 2 = append
-static int	get_fd(char *cmd, char symbol, int i, t_pipe *data)
+//type 1 = > = file  
+//type 2 = >> = append
+static int	get_fd(char symbol, int i, t_pipe *data, char **filename)
 {
-	char	*filename;
 	int		type;
 
-	type = get_filename(cmd, symbol, &filename);
+	type = get_filename(data->cmds[i], symbol, filename);
 	if (symbol == '<' && type == 0 && i == 0)
 		return (STDIN_FILENO);
 	if (symbol == '<' && type == 0)
 		return (data->fd[(i + 1) % 2][0]);
 	if (symbol == '<' && type == 1)
-		return (open(filename, O_RDONLY));
+		return (open(*filename, O_RDONLY));
 	if (symbol == '<' && type == 2)
 	{
 		errormsg("here_doc", 0);
@@ -104,9 +102,9 @@ static int	get_fd(char *cmd, char symbol, int i, t_pipe *data)
 	if (symbol == '>' && type == 0)
 		return (data->fd[i % 2][1]);
 	if (symbol == '>' && type == 1)
-		return (open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644));
+		return (open(*filename, O_WRONLY | O_CREAT | O_TRUNC, 0644));
 	if (symbol == '>' && type == 2)
-		return (open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644));
+		return (open(*filename, O_WRONLY | O_CREAT | O_APPEND, 0644));
 	return (-1);
 }
 
@@ -114,10 +112,24 @@ static int	get_fd(char *cmd, char symbol, int i, t_pipe *data)
 //fd[1] = output (generally pipe, but can be file/stdout)
 void	set_direction(t_pipe *data, int i, int *fd)
 {
-	fd[0] = get_fd(data->cmds[i], '<', i, data);
+	char	*infilename;
+	char	*outfilename;
+
+	infilename = NULL;
+	outfilename = NULL;
+	fd[0] = get_fd('<', i, data, &infilename);
 	if (fd[0] < 0)
-		errormsg("input file", 0);
-	fd[1] = get_fd(data->cmds[i], '>', i, data);
+		errormsg(infilename, 0);
+	fd[1] = get_fd('>', i, data, &outfilename);
 	if (fd[1] < 0)
 		errormsg("output file", 1);
+	if (infilename && outfilename
+		&& ft_strncmp(infilename, outfilename, ft_strlen(infilename) + 1) == 0)
+	{
+		write(2, "cat: -: input file is output file\n", 34);
+		close(fd[1]);
+		close(fd[0]);
+		closepipe(data);
+		exit(1);
+	}
 }

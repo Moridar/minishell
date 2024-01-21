@@ -43,6 +43,7 @@ int		get_quote_length(char *str, char quote);
 void	set_direction(t_pipe *data, int i, int *fd);
 char	*interpret_quote(char *str, char quote);
 char	*parse_quotes(char *str, char symbol);
+void	closepipe(t_pipe *data);
 
 int		prompt(char **commands);
 

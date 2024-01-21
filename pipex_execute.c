@@ -6,13 +6,13 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/21 16:41:11 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/21 17:53:39 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	closepipe(t_pipe *data)
+void	closepipe(t_pipe *data)
 {
 	close(data->fd[0][0]);
 	close(data->fd[0][1]);
