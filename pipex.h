@@ -46,4 +46,8 @@ char	*parse_quotes(char *str, char symbol, int set_space);
 
 int		prompt(char **commands);
 
+char	*expand_env_args(char *str);
+char	**split_shell_cmd(char	*cmd);
+void	free_cmd_mem(char **command);
+
 #endif

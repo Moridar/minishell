@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_execute.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/21 02:32:48 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:42:44 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	child_execute(int fd[2], char **args, char *path, char *envp[])
+static void	child_execute(int fd[2], char **args, char *path, char *envp[], t_pipe *data, int i)
 {
 	printf("cmd: %s\nfd[0]: %d\nfd[1]: %d\npath: %s\n", args[0], fd[0], fd[1], path);
 	if (fd[0] != STDIN_FILENO)
@@ -25,6 +25,8 @@ static void	child_execute(int fd[2], char **args, char *path, char *envp[])
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
+	close(data->fd[(i + 1) % 2][0]);
+	close(data->fd[(i + 1) % 2][1]);
 	execve(path, args, envp);
 	exit(EXIT_FAILURE);
 }
@@ -38,7 +40,7 @@ static void	child_prepare(t_pipe *data, int i)
 	set_direction(data, i, fd);
 	args = make_args(data->cmds[i]);
 	path = ft_getpath(ft_strdup(args[0]), data->paths);
-	child_execute(fd, args, path, data->envp);
+	child_execute(fd, args, path, data->envp, data, i);
 }
 
 static void	execute_fork(int i, t_pipe *data)
