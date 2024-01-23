@@ -56,7 +56,7 @@ int	pipex(int cmdc, char *cmds[], char *envp[])
 	return (WEXITSTATUS(data.status));
 }
 
-int	main(int argc, char *argv[], char *envp[])
+/* int	main(int argc, char *argv[], char *envp[])
 {
 	int		cmdc;
 	char	*cmds[8];
@@ -69,4 +69,4 @@ int	main(int argc, char *argv[], char *envp[])
 	cmds[1] = ft_strdup("cat");
 	pipex(cmdc, cmds, envp);
 	exit(0);
-}
+}*/

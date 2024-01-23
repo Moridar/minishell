@@ -1,0 +1,153 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_variable.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/20 17:12:21 by vshchuki          #+#    #+#             */
+/*   Updated: 2024/01/21 21:25:19 by vshchuki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "pipex.h"
+
+/**
+ * Expands first found env variable in an argument string
+ * @param start a pointer to $ of env variable
+ * @return
+ */
+char	*expand_double_quoted(char *str, char *start)
+{
+	char	*temp;
+	char	*before_var;
+	char	*after_var;
+	char	*res;
+	int		len;
+
+	start++;
+	len = 0;
+	while (start[len] && !ft_isspace(start[len])
+		&& start[len] != '\n' && start[len] != '\"')
+		len++;
+	temp = ft_substr(str, start - str, len);
+	before_var = ft_substr(str, 0, start - str - 1);
+	res = ft_strjoin(before_var, getenv(temp));
+	free(before_var);
+	free(temp);
+	after_var = start + len;
+	temp = res;
+	res = ft_strjoin(temp, after_var);
+	free(temp);
+	return (res);
+}
+
+/**
+ * Replaces all consecutive whitespaces to a space char ' '(32).
+ * Also trims all spaces before and after including next line.
+ *
+ * @return new string
+ */
+char	*shift_replace_spaces(char *str)
+{
+	int		i;
+	char	*res;
+	int		len;
+
+	res = ft_strtrim(str, (char []){9, 10, 11, 12, 13, 32});
+	i = 0;
+	while (res[i])
+	{
+		if (ft_isspace(res[i]))
+		{
+			res[i] = ' ';
+			if (ft_isspace(res[i + 1]))
+			{
+				res[i + 1] = ' ';
+				len = ft_strlen(&res[i]);
+				ft_memmove(&res[i], &res[i + 1], len);
+				i--;
+			}
+		}
+		i++;
+	}
+	return (res);
+}
+
+/**
+ * Expands simple env variable in argument string
+ * @param start a pointer to $ of env variable
+ * @return new allocated expanded env variable or empty string if env variable
+ * not found.
+ */
+char	*expand_simple_var(char *start)
+{
+	char	*res;
+	char	*temp;
+
+	if (getenv(start + 1))
+	{
+		res = ft_strdup(getenv(start + 1));
+		temp = res;
+		res = shift_replace_spaces(temp);
+		free(temp);
+	}
+	else
+		res = ft_strdup("");
+	return (res);
+}
+
+/**
+ * Expands environment variables found in the argument string.
+ * Works with expanding double quoted argument, single quoted and simple.
+ * If the argument string starts with env variable (simple), the whole string
+ * will be treated as the env variable name.
+ * If the argument string is single quoted nothing will happen.
+ *
+ * @param str argument string after the shell command is split.
+ * @return a new allocated string even if there is nothing to expand.
+ */
+char	*expand_env_args(char *str)
+{
+	char	*start;
+	char	*res;
+	char	*temp;
+
+	res = ft_strdup(str);
+	start = ft_strchr(res, '$');
+	while (res && res[0] == '"' && res[ft_strlen(res) - 1] == '"' && start)
+	{
+		temp = res;
+		res = expand_double_quoted(temp, start);
+		free(temp);
+		start = ft_strchr(res, '$');
+	}
+	if (res == start)
+	{
+		temp = res;
+		res = expand_simple_var(start);
+		free(temp);
+	}
+	return (res);
+}
+
+/* int	main(void)
+{
+	char	*str1;
+	// char	*str2;
+	char*new_str;
+	str1 = "\"$USER start $SHELL end $USER\"";
+	// str1 = "\"\"";
+	// str1 = "$SHELL";
+	// str1 = "$HELLO";
+	// str1 = "$SHELLs";
+	// str1 = "'$SHELL'";
+
+	// char *new_str;
+	// expand_env_arg(str);
+	new_str = expand_env_args(str1);
+	printf("%s\n", new_str);
+	free(new_str);
+
+	return (0);
+} */

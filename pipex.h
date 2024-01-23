@@ -49,4 +49,8 @@ void	set_direction(t_pipe *data, int i, int *fd);
 char	**make_args(char *arg);
 char	*ft_getpath(char *cmd, char **paths);
 
+char	*expand_env_args(char *str);
+char	**split_shell_cmd(char	*cmd);
+void	free_cmd_mem(char **command);
+
 #endif
