@@ -18,7 +18,7 @@ SRC = 	env_variables.c \
 		pipex_execute.c \
 		pipex_redirect.c \
 		pipex_command_prepare.c \
-		pipex_quote.c \
+		pipex_interpret.c \
 		split_shell_cmd.c
 
 OBJ = $(SRC:%.c=%.o)
