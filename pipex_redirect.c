@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/23 15:37:00 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:49:23 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static char	*cut_filename(char *str, char symbol)
 	while (ft_isspace(str[i]))
 		i++;
 	start = i;
-	
 	while (str[i] && str[i] != '<' && str[i] != '>' && !ft_isspace(str[i]))
 	{
 		if (str[i] == '\'' || str[i] == '"')
@@ -56,7 +55,7 @@ static char	*cut_filename(char *str, char symbol)
 		else
 			i++;
 	}
-	filename = interpret(ft_substr(str, start, i - 2));
+	filename = interpret(ft_substr(str, start, i - start));
 	printf("%s\n", filename);
 	ft_memset(str, ' ', i);
 	printf("%s\n", str);
@@ -156,7 +155,11 @@ int	main(void)
 	// printf("|%s|\n", interpret(str));
 	char *str;
 	
-	str = ft_strdup("< Makefile>out echo helo world > output");
+	str = ft_strdup("<Makefile>out echo helo world > output");
+	printf("|%s|\n", str);
+	printf("|%s|\n", cut_filename(str, '<'));
+	str = ft_strdup("<  Makefile>out echo helo world > output");
+	printf("|%s|\n", str);
 	printf("|%s|\n", cut_filename(str, '<'));
 
 	return (0);
