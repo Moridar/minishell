@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_command.c                                    :+:      :+:    :+:   */
+/*   split_shell_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:11:39 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/22 19:17:25 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/23 12:03:47 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@
  * Goes through the characters inside the quotes.
  * Works in pair with replace_spaces() function.
 */
-void	pass_quotes(char *new_cmd, int *i, int is_in_quotes, char quote)
+void	pass_quotes(char *new_cmd, int *i, char quote)
 {
+	int		is_in_quotes;
+
+	is_in_quotes = 0;
 	if (new_cmd[*i] == quote && !is_in_quotes)
 	{
 		is_in_quotes++;
@@ -32,22 +35,25 @@ void	pass_quotes(char *new_cmd, int *i, int is_in_quotes, char quote)
 
 /**
  * Replaces all the whitespaces inside the command to special char.
- * It should not affect white
+ * It should not affect whitespces inside quotes.
+ * 
+ * @return pointer to a new command string.
 */
 char	*replace_spaces(char *cmd)
 {
-	int	is_in_quotes = 0;
-	int i;
-	char *new_cmd;
+	int		i;
+	char	*new_cmd;
 
 	new_cmd = ft_strdup(cmd);
+	if (!new_cmd)
+		return (NULL);
 	i = 0;
-	while(new_cmd[i])
+	while (new_cmd[i])
 	{
-		if (!is_in_quotes && ft_isspace(new_cmd[i]))
+		if (ft_isspace(new_cmd[i]))
 			new_cmd[i] = 31;
-		pass_quotes(new_cmd, &i, is_in_quotes,'\"');
-		pass_quotes(new_cmd, &i, is_in_quotes,'\'');
+		pass_quotes(new_cmd, &i, '\"');
+		pass_quotes(new_cmd, &i, '\'');
 		i++;
 	}
 	return (new_cmd);
@@ -63,7 +69,7 @@ void	trim_expand_flag_quotes(char **command)
 	int		i;
 
 	i = 0;
-	while(command[i])
+	while (command[i])
 	{
 		temp = command[i];
 		command[i] = expand_env_args(temp);
@@ -83,13 +89,14 @@ void	free_cmd_mem(char **command)
 	int	i;
 
 	i = 0;
-	while(command[i])
+	while (command[i])
 	{
 		free(command[i]);
 		i++;
 	}
 	free(command);
 }
+
 /**
  * Splits the shell command. Preserves whitespaces inside quotes, expands env
  * variables and trims wrapping quotes.
@@ -112,7 +119,7 @@ char	**split_shell_cmd(char	*cmd)
 	return (command);
 }
 
-int	main(void)
+/* int	main(void)
 {
 	char	*cmd;
 	char	**command;
@@ -130,4 +137,4 @@ int	main(void)
 	free_cmd_mem(command);
 
 	return (0);
-}
+} */

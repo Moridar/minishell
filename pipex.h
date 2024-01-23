@@ -50,6 +50,7 @@ char	**make_args(char *arg);
 char	*ft_getpath(char *cmd, char **paths);
 
 char	*expand_env_args(char *str);
+void	pass_quotes(char *new_cmd, int *i, char quote);
 char	**split_shell_cmd(char	*cmd);
 void	free_cmd_mem(char **command);
 

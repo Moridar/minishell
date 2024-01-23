@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/20 02:43:16 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/23 12:04:55 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ static void	signal_handler(int signo)
 	}
 }
 
-int prompt(char **commands)
+int	prompt(char **commands)
 {
 	// Interactive mode
-	const char *prompt;
-	char *line;
-	struct termios new_attr;
+	const char		*prompt;
+	char			*line;
+	struct termios	new_attr;
 
 	prompt = "bvsh-1.1$ ";
 
