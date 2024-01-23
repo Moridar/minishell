@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/21 23:16:48 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:37:00 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static char	*cut_filename(char *str, char symbol)
 {
 	int		i;
 	char	*filename;
+	int		start;
 
 	filename = NULL;
 	i = 0;
@@ -46,15 +47,19 @@ static char	*cut_filename(char *str, char symbol)
 		i++;
 	while (ft_isspace(str[i]))
 		i++;
-	filename = parse_quotes(str + i, symbol);
-	while (str[i] && str[i] != symbol && !ft_isspace(str[i]))
+	start = i;
+	
+	while (str[i] && str[i] != '<' && str[i] != '>' && !ft_isspace(str[i]))
 	{
 		if (str[i] == '\'' || str[i] == '"')
 			i += get_quote_length(str + i, str[i]);
 		else
 			i++;
 	}
+	filename = interpret(ft_substr(str, start, i - 2));
+	printf("%s\n", filename);
 	ft_memset(str, ' ', i);
+	printf("%s\n", str);
 	return (filename);
 }
 
@@ -140,4 +145,19 @@ void	set_direction(t_pipe *data, int i, int *fd)
 		closepipe(data);
 		exit(1);
 	}
+}
+
+int	main(void)
+{
+	// char	*str = "he\"ll\"o_$SHELL";
+	// char	*str = "$SHELL_hello";
+	// char	*str = "$SHELL\"_hello\"";
+	// char	*str = "$SHELL'_hello'";
+	// printf("|%s|\n", interpret(str));
+	char *str;
+	
+	str = ft_strdup("< Makefile>out echo helo world > output");
+	printf("|%s|\n", cut_filename(str, '<'));
+
+	return (0);
 }

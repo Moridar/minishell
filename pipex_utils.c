@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:33:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/21 22:49:39 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/23 14:46:32 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,13 @@ int	get_quote_length(char *str, char quote)
 {
 	int	i;
 
-	i = 0;
-	while (str[++i])
+	i = 1;
+	while (str[i])
 	{
-		if (str[i] == quote)
-			return (i + 1);
+		if (str[i++] == quote)
+			return (i - 1);
 	}
-	errormsg("unclosed quote", 1);
-	return (0);
+	return (1);
 }
 
 int	count_lead_chars(char *str, char c)

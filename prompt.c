@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/23 12:04:55 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/23 12:10:52 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,30 @@ static void	signal_handler(int signo)
 		rl_redisplay();
 	}
 }
+
+/**
+ * Replaces all pipe char (|) inside prompt line to a special char (31) for
+ * the split avoiding pipe chars (|) inside quotes stay unaffected.
+*/
+/* char	*replace_pipes(char *cmd)
+{
+	int		i;
+	char	*new_cmd;
+
+	new_cmd = ft_strdup(cmd);
+	if (!new_cmd)
+		return (NULL);
+	i = 0;
+	while (new_cmd[i])
+	{
+		if (new_cmd[i] == '|')
+			new_cmd[i] = 31;
+		pass_quotes(new_cmd, &i, '\"');
+		pass_quotes(new_cmd, &i, '\'');
+		i++;
+	}
+	return (new_cmd);
+} */
 
 int	prompt(char **commands)
 {
@@ -73,7 +97,7 @@ int	prompt(char **commands)
 		}
 		if (line)
 		{
-			commands = ft_split(line, '|');
+			commands = ft_split(line, 31);
 			add_history(line);
 			free(line);
 		}

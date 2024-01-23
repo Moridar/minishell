@@ -40,7 +40,7 @@ void	closepipe(t_pipe *data);
 int		count_lead_chars(char *str, char c);
 int		get_quote_length(char *str, char quote);
 char	*interpret_quote(char *str, char quote);
-char	*parse_quotes(char *str, char symbol);
+char	*interpret(char *str);
 
 //Main functions
 int		prompt(char **commands);

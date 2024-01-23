@@ -6,32 +6,11 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:11:39 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/23 12:03:47 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:07:01 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-/**
- * Goes through the characters inside the quotes.
- * Works in pair with replace_spaces() function.
-*/
-void	pass_quotes(char *new_cmd, int *i, char quote)
-{
-	int		is_in_quotes;
-
-	is_in_quotes = 0;
-	if (new_cmd[*i] == quote && !is_in_quotes)
-	{
-		is_in_quotes++;
-		(*i)++;
-	}
-	while (is_in_quotes && new_cmd[*i] != quote)
-	{
-		if (new_cmd[++(*i)] == quote)
-			is_in_quotes--;
-	}
-}
 
 /**
  * Replaces all the whitespaces inside the command to special char.
@@ -52,8 +31,9 @@ char	*replace_spaces(char *cmd)
 	{
 		if (ft_isspace(new_cmd[i]))
 			new_cmd[i] = 31;
-		pass_quotes(new_cmd, &i, '\"');
-		pass_quotes(new_cmd, &i, '\'');
+		if ((new_cmd[i] == '\'' || new_cmd[i] == '"')
+			&& get_quote_length(&new_cmd[i], new_cmd[i]) != 1)
+			i += get_quote_length(&new_cmd[i], new_cmd[i]);
 		i++;
 	}
 	return (new_cmd);
@@ -125,7 +105,16 @@ char	**split_shell_cmd(char	*cmd)
 	char	**command;
 	int i;
 
-	cmd = "    	  echo    \" \'  \' word \' hello 	 $SHELL  $MAIL \"       \'h world $SHELL \" h\'   $MAIL $MAIL $NOT_EXISTS  ";
+	// cmd = "    	  echo 	   \" \'  \' word \' hello 	 $SHELL  $MAIL \"       \'h world $SHELL \" h\'   $MAIL $MAIL $NOT_EXISTS  ";
+	// cmd = "echo \' something should happen here\"\"";
+	// cmd = "\"hello\"";
+	cmd = "    	  echo 	   \" \'  \' word \' hello 	 $SHELL  $MAIL \"       \'h world $SHELL \" h\'   $MAIL $MAIL $NOT_EXISTS  ";
+	// cmd = "'";
+	// printf("cmd: %s\n", cmd);
+
+	// in bash:
+	//     	  echo 	   " '  ' word ' hello 	 $SHELL  $MAIL "       'h world $SHELL " h'   $MAIL $MAIL $NOT_EXISTS  
+	
 	command = split_shell_cmd(cmd);
 	printf("Array elements:\n");
 	i = 0;
