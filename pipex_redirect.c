@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/23 16:10:42 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:32:48 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,7 @@ static char	*cut_filename(char *str, char symbol)
 			i++;
 	}
 	filename = interpret(ft_substr(str, start, i - start));
-	printf("%s\n", filename);
 	ft_memset(str, ' ', i);
-	printf("%s\n", str);
 	return (filename);
 }
 

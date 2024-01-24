@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/23 16:14:08 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:32:20 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*interpret(char *str)
 	{
 		if (str[start] == '\'' || str[start] == '"')
 		{
-			end = start + get_quote_length(str + start, str[start]) - 1;
+			end = start + get_quote_length(str + start, str[start]);
 			ret = ft_strjoin(ret, interpret_quote(str + start, str[start]));
 		}
 		else
