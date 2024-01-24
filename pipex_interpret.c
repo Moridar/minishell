@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/24 15:26:18 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:55:02 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*interpret_quote(char *str, char quote)
 	char	*word;
 	char	*tmp;
 
-	word = ft_substr(str, 1, get_quote_length(str + 1, quote));
+	word = ft_substr(str, 1, ft_strlen(str) - 2);
 	if (quote == '"')
 	{
 		tmp = word;
