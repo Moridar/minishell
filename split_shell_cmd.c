@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:11:39 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/23 15:07:01 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/24 17:12:31 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*replace_spaces(char *cmd)
 			new_cmd[i] = 31;
 		if ((new_cmd[i] == '\'' || new_cmd[i] == '"')
 			&& get_quote_length(&new_cmd[i], new_cmd[i]) != 1)
-			i += get_quote_length(&new_cmd[i], new_cmd[i]);
+			i += get_quote_length(&new_cmd[i], new_cmd[i]) - 1;
 		i++;
 	}
 	return (new_cmd);
@@ -91,11 +91,20 @@ char	**split_shell_cmd(char	*cmd)
 {
 	char	*new_str;
 	char	**command;
+	int i;
 
 	new_str = replace_spaces(cmd);
 	command = ft_split(new_str, 31);
 	free(new_str);
-	trim_expand_flag_quotes(command);
+	i = 0;
+	while (command[i])
+	{
+		new_str = command[i];
+		command[i] = interpret(new_str);
+		free(new_str);
+		i++;
+	}
+	// trim_expand_flag_quotes(command);
 	return (command);
 }
 
@@ -108,8 +117,18 @@ char	**split_shell_cmd(char	*cmd)
 	// cmd = "    	  echo 	   \" \'  \' word \' hello 	 $SHELL  $MAIL \"       \'h world $SHELL \" h\'   $MAIL $MAIL $NOT_EXISTS  ";
 	// cmd = "echo \' something should happen here\"\"";
 	// cmd = "\"hello\"";
-	cmd = "    	  echo 	   \" \'  \' word \' hello 	 $SHELL  $MAIL \"       \'h world $SHELL \" h\'   $MAIL $MAIL $NOT_EXISTS  ";
+	// cmd = "    	  echo 	   \" \'  \' word \' hello 	 $SHELL  $MAIL \"       \'h world $SHELL \" h\'   $MAIL $MAIL $NOT_EXISTS  ";
 	// cmd = "'";
+	// cmd = "echo $SHELL\"HEY\" $SHELL' hey' \"$SHELL 'HEY' HEY$SHELL\" \'hey\' \"hello\" \"' hey hey '\"";
+	
+	// cmd = "echo \"$SHELL\""; // works!
+	// cmd = "echo \"$SHELL\" "; // works!
+	// cmd = "echo \"$SHELL \""; // gives an empty string
+	cmd = "echo \"$SHELL \"\"\""; // gives an empty string
+	// cmd = "echo \"$SHELL \"\'\'"; // gives an empty string
+	// cmd = "echo \"$SHELL 'HEY'\""; // gives an empty string
+	// cmd = "echo \"$SHELL 'HEY' HEY$SHELL\""; // gives an empty string
+	
 	// printf("cmd: %s\n", cmd);
 
 	// in bash:

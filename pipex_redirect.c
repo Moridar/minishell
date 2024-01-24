@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/24 16:11:30 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/24 17:36:14 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static char	*cut_filename(char *str, char symbol)
 			i++;
 	}
 	tmp = ft_substr(str, start, i - start);
-	printf("tmp: |%s|\n", tmp);
+	printf("!tmp: |%s|\n", tmp);
 	filename = interpret(tmp);
 	free(tmp);
 	ft_memset(str, ' ', i);
@@ -163,7 +163,25 @@ int	main(void)
 	char *filename;
 
 	filename = NULL;
-	str = ft_strdup("<$SHELL'Mak'e'fi\"l\"e'>out echo helo world > output");
+	// str = ft_strdup("<$SHELL\"s\"'Mak'e'fi\"l\"e'>out echo helo world > output");
+	// str = ft_strdup("<$SHELL\"s\"'Mak'e'fi\"l\"e'>out echo helo world > output");
+	
+	/*CHECK THE FOLLOWING TESTS*/
+	// str = ft_strdup("<$SHELL > output"); // works!
+	// str = ft_strdup("<\"$SHELL\" > output"); // works!
+
+	// str = ft_strdup("<\"$SHELL \" > output"); // \"$SHELL \" gives an empty string but should be |/bin/zsh |
+	// str = ft_strdup("<\"$SHELL'HEY'\" > output"); // \"$SHELL'HEY'\" gives an empty string but should be |/bin/zsh'HEY'|
+	
+
+	str = ft_strdup("<\"$SHELLs\" > output"); // works!
+	str = ft_strdup("<\" $SHELL\" > output"); // works!
+	// str = ft_strdup("<\" $SHELL\" > output"); // \" $SHELL\" gives | $SHELL| but should be | /bin/zsh|
+	// str = ft_strdup("<\"'HEY'$SHELL\" > output"); // \"'HEY'$SHELL\" gives |'HEY'$SHELL| but should be |'HEY'/bin/zsh|
+	// str = ft_strdup("<\"'HEY'$SHELL\" > output"); // \"'HEY'$SHELL\" gives |'HEY'$SHELL| but should be |'HEY'/bin/zsh|
+	// str = ft_strdup("<\"'HEY' $SHELL\" > output"); // \"'HEY' $SHELL\" gives |'HEY' $SHELL| but should be |'HEY' /bin/zsh|
+	// str = ft_strdup("<\"'HEY' $SHELL \" > output"); // \"'HEY' $SHELL \" gives |'HEY' $SHELL | but should be |'HEY' /bin/zsh |
+
 	printf("|%s|\n", str);
 	filename = cut_filename(str, '<');
 	printf("infile: |%s|\n", filename);
