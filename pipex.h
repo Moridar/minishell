@@ -43,11 +43,14 @@ char	*interpret_quote(char *str, char quote);
 char	*interpret(char *str);
 
 //Main functions
-int		prompt(char **commands);
+int		prompt(char *envp[]);
 void	execute(int i, t_pipe *data);
 void	set_direction(t_pipe *data, int i, int *fd);
 char	**make_args(char *arg);
 char	*ft_getpath(char *cmd, char **paths);
+
+int		pipex(int cmdc, char *cmds[], char *envp[]);
+
 
 char	*expand_env_args(char *str);
 void	pass_quotes(char *new_cmd, int *i, char quote);
