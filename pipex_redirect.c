@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/24 17:36:14 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/24 17:39:30 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,7 @@ int	main(void)
 	// str = ft_strdup("<\"$SHELL'HEY'\" > output"); // \"$SHELL'HEY'\" gives an empty string but should be |/bin/zsh'HEY'|
 	
 
-	str = ft_strdup("<\"$SHELLs\" > output"); // works!
-	str = ft_strdup("<\" $SHELL\" > output"); // works!
+	str = ft_strdup("<\"$SHELLs\" > output"); // works! Returns empty string as it should be!
 	// str = ft_strdup("<\" $SHELL\" > output"); // \" $SHELL\" gives | $SHELL| but should be | /bin/zsh|
 	// str = ft_strdup("<\"'HEY'$SHELL\" > output"); // \"'HEY'$SHELL\" gives |'HEY'$SHELL| but should be |'HEY'/bin/zsh|
 	// str = ft_strdup("<\"'HEY'$SHELL\" > output"); // \"'HEY'$SHELL\" gives |'HEY'$SHELL| but should be |'HEY'/bin/zsh|
