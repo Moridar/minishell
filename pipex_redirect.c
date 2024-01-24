@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/24 17:39:30 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/24 17:57:23 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,12 +174,18 @@ int	main(void)
 	// str = ft_strdup("<\"$SHELL'HEY'\" > output"); // \"$SHELL'HEY'\" gives an empty string but should be |/bin/zsh'HEY'|
 	
 
-	str = ft_strdup("<\"$SHELLs\" > output"); // works! Returns empty string as it should be!
+	// str = ft_strdup("<\"$SHELLs\" > output"); // works! Returns empty string as it should be!
 	// str = ft_strdup("<\" $SHELL\" > output"); // \" $SHELL\" gives | $SHELL| but should be | /bin/zsh|
 	// str = ft_strdup("<\"'HEY'$SHELL\" > output"); // \"'HEY'$SHELL\" gives |'HEY'$SHELL| but should be |'HEY'/bin/zsh|
 	// str = ft_strdup("<\"'HEY'$SHELL\" > output"); // \"'HEY'$SHELL\" gives |'HEY'$SHELL| but should be |'HEY'/bin/zsh|
 	// str = ft_strdup("<\"'HEY' $SHELL\" > output"); // \"'HEY' $SHELL\" gives |'HEY' $SHELL| but should be |'HEY' /bin/zsh|
 	// str = ft_strdup("<\"'HEY' $SHELL \" > output"); // \"'HEY' $SHELL \" gives |'HEY' $SHELL | but should be |'HEY' /bin/zsh |
+
+	// str = ft_strdup("<\"\'$SHELL\'\" > output"); // works! Singles in doubles
+	// str = ft_strdup("<\"\"$SHELL\"\" > output"); // works! Doubles in doubles
+
+	// str = ft_strdup("<\"hello$SHELLworld\" > output"); // gives |hello$SHELLworld| but should be |hello|
+	// str = ft_strdup("<\"hello$SHELL\"world > output"); // gives |hello$SHELLworld| but should be |hello/bin/zshworld|
 
 	printf("|%s|\n", str);
 	filename = cut_filename(str, '<');
