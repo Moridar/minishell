@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:33:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/24 15:52:15 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:08:40 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ void	errormsg(char *msg, int exits)
 		exit(errno);
 }
 
+/**
+ * @brief Returns the length of a quote, including the quote itself.
+*/
 int	get_quote_length(char *str, char quote)
 {
 	int	i;

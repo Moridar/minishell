@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/24 15:56:15 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:11:30 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ int	main(void)
 	char *filename;
 
 	filename = NULL;
-	str = ft_strdup("<'Mak'e'fi\"l\"e'>out echo helo world > output");
+	str = ft_strdup("<$SHELL'Mak'e'fi\"l\"e'>out echo helo world > output");
 	printf("|%s|\n", str);
 	filename = cut_filename(str, '<');
 	printf("infile: |%s|\n", filename);
