@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/24 13:32:48 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:30:31 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ static int	here_doc(char *delimiter)
 static char	*cut_filename(char *str, char symbol)
 {
 	int		i;
-	char	*filename;
 	int		start;
+	char	*filename;
+	char	*tmp;
 
 	filename = NULL;
 	i = 0;
@@ -55,7 +56,9 @@ static char	*cut_filename(char *str, char symbol)
 		else
 			i++;
 	}
-	filename = interpret(ft_substr(str, start, i - start));
+	tmp = ft_substr(str, start, i - start);
+	filename = interpret(tmp);
+	free(tmp);
 	ft_memset(str, ' ', i);
 	return (filename);
 }
@@ -142,6 +145,10 @@ void	set_direction(t_pipe *data, int i, int *fd)
 		closepipe(data);
 		exit(1);
 	}
+	if (infilename)
+		free(infilename);
+	if (outfilename)
+		free(outfilename);
 }
 
 int	main(void)
@@ -152,11 +159,20 @@ int	main(void)
 	// char	*str = "$SHELL'_hello'";
 	// printf("|%s|\n", interpret(str));
 	char *str;
-	
-	str = ft_strdup("<Mak'e'file>out echo helo world > output");
+	char *filename;
+
+	filename = NULL;
+	str = ft_strdup("<Mak'e'fi\"l\"e>out echo helo world > output");
 	printf("|%s|\n", str);
-	printf("|%s|\n", cut_filename(str, '<'));
-
-
+	filename = cut_filename(str, '<');
+	printf("infile: |%s|\n", filename);
+	free(filename);
+	filename = NULL;
+	printf("|%s|\n", str);
+	get_filename(str, '>', &filename);
+	printf("outfile: |%s|\n", filename);
+	printf("|%s|\n", str);
+	free(filename);
+	free(str);
 	return (0);
 }
