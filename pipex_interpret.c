@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/24 15:55:02 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:05:56 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char	*interpret_and_join(char *ret, char *str)
 	char	*interpreted_str;
 
 	quote = *str;
+	printf("str to interpret: |%s|\n", str);
 	if (quote == '"' || quote == '\'')
 		interpreted_str = interpret_quote(str, quote);
 	else
@@ -78,7 +79,7 @@ char	*interpret(char *str)
 				&& str[start + len] != '"' && !ft_isspace(str[start + len]))
 				len++;
 		ret = interpret_and_join(ret, ft_substr(str, start, len));
-		start += len + 1;
+		start += len;
 	}
 	return (ret);
 }
