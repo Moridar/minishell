@@ -6,14 +6,15 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/25 18:28:52 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/26 00:12:26 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 /**
- * @return size of the double dimension string array, for example, created by ft_split().
+ * @return size of the double dimension string array, for example,
+ * created by ft_split().
 */
 int	get_string_array_size(char **str)
 {
@@ -30,22 +31,25 @@ int	get_string_array_size(char **str)
  * Used to copy double dimension array arr1 to arr2.
  * For example, envp.
 */
-void copy_double_array(char **arr1, char ***arr2)
+void	copy_double_array(char **arr1, char ***arr2)
 {
 	int	size;
-	int i;
-	int len;
-	
+	int	i;
+	int	len;
+
 	i = 0;
 	size = get_string_array_size(arr1);
 	// printf("%d\n", size);
 	*arr2 = (char **)malloc((size + 1) * sizeof(char *));
 	(*arr2)[size] = NULL;
-	while (i < size - 1)
+	while (i < size)
 	{
+		// printf("arr1[%d]: %s\n", i, arr1[i]);
 		len = (ft_strlen(arr1[i]) + 1);
 		(*arr2)[i] = (char *)malloc(len * sizeof(char));
-		ft_memmove((*arr2)[i], arr1[i], len - 1);
+		ft_memmove((*arr2)[i], arr1[i], len);
+		// if (i < 20)
+		// 	(*arr2)[i][0] = 'X';
 		// printf("%s\n", (*arr2)[i]);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:32:14 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/25 19:14:27 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/25 23:39:44 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	history(void)
 {
 	int		fd;
 	char	*line;
-	char	*res;
 	int		i;
 
 	fd = open(".bvsh_history", O_RDWR | O_CREAT | O_APPEND, 0644);
@@ -78,7 +77,6 @@ int	history(void)
 		errormsg(".bvsh_history", 1);
 		return (1);
 	}
-	res = ft_strdup("");
 	line = get_next_line(fd);
 	i = 0;
 	while(line)

@@ -6,13 +6,13 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/25 18:55:51 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/26 00:16:01 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	non_int_with_command(char const *argv[], t_pipe *data)
+void	non_int_with_command(char *argv[], t_pipe *data)
 {
 	char	*line;
 
@@ -24,7 +24,7 @@ void	non_int_with_command(char const *argv[], t_pipe *data)
 	pipex(data);
 }
 
-void	non_int_with_files(int argc, char const *argv[], t_pipe *data)
+void	non_int_with_files(int argc, char *argv[], t_pipe *data)
 {
 	int 	i;
 	int 	fd;
@@ -34,6 +34,8 @@ void	non_int_with_files(int argc, char const *argv[], t_pipe *data)
 	while (i < argc)
 	{
 		fd = open(argv[i], O_RDONLY);
+		if (fd < 0)
+			errormsg(argv[i], 1);
 		line = get_next_line(fd);
 		while(line)
 		{
@@ -53,7 +55,7 @@ void	non_int_with_files(int argc, char const *argv[], t_pipe *data)
 	}
 }
 
-int	main(int argc, char const *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipe 	data;
 
