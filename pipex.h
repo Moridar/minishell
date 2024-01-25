@@ -70,5 +70,6 @@ void	copy_double_array(char **arr1, char ***arr2);
 // History
 int		write_history_file(char *line);
 int		read_history_file(void);
+int		history(void);
 
 #endif
