@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:32:14 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/25 23:39:44 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/26 00:35:23 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ int	read_history_file(void)
 }
 
 /**
- * Returns all the history commands with lines numbered
+ * Prints all the history commands with lines numbered
+ * @return 1 for success
 */
 int	history(void)
 {
@@ -75,7 +76,6 @@ int	history(void)
 	if (fd == -1)
 	{
 		errormsg(".bvsh_history", 1);
-		return (1);
 	}
 	line = get_next_line(fd);
 	i = 0;
@@ -87,5 +87,5 @@ int	history(void)
 		line = get_next_line(fd);
 	}
 	close(fd);
-	return (0);
+	return (1);
 }

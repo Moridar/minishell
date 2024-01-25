@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:50:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/26 00:27:45 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/26 00:33:27 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int builtins(char **cmd, t_pipe *data)
 		return print_env_variables(data, 1);
 	if (ft_strncmp(cmd[0], "env", 4) == 0 && count == 1)
 		return print_env_variables(data, 0);
+	if (ft_strncmp(cmd[0], "history", 8) == 0 && count == 1)
+		return history();
 	// if (ft_strncmp(cmd[0], "export", 7) == 0 && count == 2)
 	// 	return export_var(data, cmd[1]);
 	return (0);
