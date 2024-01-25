@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/25 17:38:39 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/26 00:29:03 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,13 @@ void	closepipe(t_pipe *data)
 
 static void	child_execute(t_pipe *data, int i)
 {
-	char	**args;
+	char	**cmd;
 	char	*path;
 	int		fd[2];
 
 	set_direction(data, i, fd);
 	// args = make_args(data->cmds[i]);
-	args = split_shell_cmd(data->cmds[i]);
-	path = ft_getpath(ft_strdup(args[0]), data->paths);
+	cmd = split_shell_cmd(data->cmds[i]);
 	if (fd[0] != STDERR_FILENO)
 	{
 		dup2(fd[0], STDIN_FILENO);
@@ -40,8 +39,11 @@ static void	child_execute(t_pipe *data, int i)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
+	if (builtins(cmd, data))
+		exit(0);
+	path = ft_getpath(ft_strdup(cmd[0]), data->paths);
 	closepipe(data);
-	execve(path, args, data->envp);
+	execve(path, cmd, data->envp);
 	exit(EXIT_FAILURE);
 }
 

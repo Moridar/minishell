@@ -74,5 +74,6 @@ int		history(void);
 
 // Builtins
 void	env(t_pipe *data);
+int 	builtins(char **cmd, t_pipe *data);
 
 #endif
