@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/25 13:12:45 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:19:22 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ char	*interpret(char *str)
 	return (ret);
 }
 
-int	main(void)
+/* int	main(void)
 {
 	char	*str = "he\"ll\"o_\"$SH'E'LL\"$SHELL";
 //char	*str = "\'hey hey\'$SHELL\"some $SHELL some\"";
@@ -122,4 +122,4 @@ int	main(void)
 	//printf("|%s|\n", cut_filename("< Makefile>out echo helo world > output"));
 
 	return (0);
-} 
+}  */

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/25 10:08:04 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:35:02 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,46 +119,48 @@ int	prompt(char *envp[])
 	return (0);
 }
 
-// int	main(int argc, char const *argv[], char *envp[])
-// {
-// 	int 	i;
-// 	int 	fd;
-// 	char 	**cmds;
-// 	char	*line;
+int	main(int argc, char const *argv[], char *envp[])
+{
+	int 	i;
+	int 	fd;
+	char 	**cmds;
+	char	*line;
 
-// 	(void)envp;
-// 	// Interactive mode
-// 	if (argc < 2)
-// 	{
-// 		prompt(envp);
-// 	}
-// 	// Non-interactive mode
-// 	else if (ft_strnstr(argv[1], "-c", 2))
-// 	{
-// 		cmds = ft_split(argv[2], '\0');
-// 		pipex(1, cmds, envp);
-// 	}
-// 	else // handles scrip1.sh script2.sh. // works for several files but still not working for several lines in one .sh file
-// 	{
-// 		i = 1;
-// 		while (i < argc)
-// 		{
-// 			fd = open(argv[i], O_RDONLY);
-// 			// Add handling error here. If not fd return bash: filename: No such file or directory
-// 			line = get_next_line(fd);
-// 			// read line by line
-// 			while(line)
-// 			{
-// 				replace_pipes(line);
-// 				cmds = ft_split(line, 31);
-// 				free(line);
-// 				pipex(get_string_array_size(cmds), cmds, envp);
-// 				freeall(cmds);
-// 				line = get_next_line(fd);
-// 			}
-// 			close(fd);
-// 			i++;
-// 		}
-// 	}
-// 	return (0);
-// }
+	(void)envp;
+	// Interactive mode
+	if (argc < 2)
+	{
+		prompt(envp);
+	}
+	// Non-interactive mode
+	else if (ft_strnstr(argv[1], "-c", 2))
+	{
+		cmds = ft_split(argv[2], '\0');
+		pipex(1, cmds, envp);
+	}
+	else // handles scrip1.sh script2.sh. // works for several files but still not working for several lines in one .sh file
+	{
+		i = 1;
+		while (i < argc)
+		{
+			fd = open(argv[i], O_RDONLY);
+			// Add handling error here. If not fd return bash: filename: No such file or directory
+			line = get_next_line(fd);
+			// read line by line
+			while(line)
+			{
+				if (line[ft_strlen(line) - 1] == '\n')
+					line[ft_strlen(line) - 1] = 0;
+				replace_pipes(line);
+				cmds = ft_split(line, 31);
+				free(line);
+				pipex(get_string_array_size(cmds), cmds, envp);
+				freeall(cmds);
+				line = get_next_line(fd);
+			}
+			close(fd);
+			i++;
+		}
+	}
+	return (0);
+}
