@@ -72,4 +72,7 @@ int		write_history_file(char *line);
 int		read_history_file(void);
 int		history(void);
 
+// Builtins
+void	env(t_pipe *data);
+
 #endif
