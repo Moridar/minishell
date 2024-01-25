@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/24 21:43:36 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/25 10:45:45 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,10 +181,10 @@ void	set_direction(t_pipe *data, int i, int *fd)
 // 	// str = ft_strdup("<\"'HEY' $SHELL\" > output"); // \"'HEY' $SHELL\" gives |'HEY' $SHELL| but should be |'HEY' /bin/zsh|
 // 	// str = ft_strdup("<\"'HEY' $SHELL \" > output"); // \"'HEY' $SHELL \" gives |'HEY' $SHELL | but should be |'HEY' /bin/zsh |
 
-// 	// str = ft_strdup("<\"\'$SHELL\'\" > output"); // works! Singles in doubles
+// 	str = ft_strdup("<\"\'$SHELL\'\" > output"); // works! Singles in doubles
 // 	// str = ft_strdup("<\"\"$SHELL\"\" > output"); // works! Doubles in doubles
 
-// 	// str = ft_strdup("<\"hello$SHELLworld\" > output"); // gives |hello$SHELLworld| but should be |hello|
+// 	//str = ft_strdup("<\"hello$SHELLworld\" > output"); // gives |hello$SHELLworld| but should be |hello|
 // 	// str = ft_strdup("<\"hello$SHELL\"world > output"); // gives |hello$SHELLworld| but should be |hello/bin/zshworld|
 
 // 	printf("|%s|\n", str);

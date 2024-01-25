@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_execute.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/23 11:24:37 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/25 09:49:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ static void	execute_pipe(int i, t_pipe *data)
 	close(data->fd[i % 2][1]);
 }
 
-//Single command and the last command dont pipe
+/**
+ * Entrance to execution of the commands
+ * @param index the command index
+*/
 void	execute(int i, t_pipe *data)
 {
 	if (data->cmdc == 1)

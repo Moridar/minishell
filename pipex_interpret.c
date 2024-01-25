@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/24 16:21:10 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/25 11:05:39 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,12 @@ char	*interpret(char *str)
 	while (str[start] && !ft_isspace(str[start]))
 	{
 		len = 0;
-		printf("str: |%s|\n", str + start);
-		printf("str[start]: %c\n", str[start]);
 		if (str[start] == '\'' || str[start] == '"')
 			len = get_quote_length(str + start, str[start]);
 		else
 			while (str[start + len] && str[start + len] != '\''
 				&& str[start + len] != '"' && !ft_isspace(str[start + len]))
 				len++;
-		printf("len: %d\n", len);
 		ret = interpret_and_join(ret, ft_substr(str, start, len));
 		start += len;
 	}

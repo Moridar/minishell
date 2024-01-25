@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_shell_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:11:39 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/24 23:59:50 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/25 09:52:08 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,7 @@ void	trim_expand_flag_quotes(char **command)
 */
 void	free_cmd_mem(char **command)
 {
-	int	i;
-
-	i = 0;
-	while (command[i])
-	{
-		free(command[i]);
-		i++;
-	}
-	free(command);
+	freeall(command);
 }
 
 /**

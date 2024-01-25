@@ -6,12 +6,16 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:33:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/24 16:08:40 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/25 09:51:55 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+/**
+ * @brief Free the double string array
+ * @param **char strarray
+*/
 void	freeall(char **strarray)
 {
 	int	i;
@@ -24,7 +28,12 @@ void	freeall(char **strarray)
 		free(strarray);
 	}
 }
-
+/**
+ * @brief Print error message and exits
+ * @brief Msg will be formatted: 'pipex: @msg: @stderrmsg. 
+ * @brief Exits if not set 0.
+ * @param msg and exits
+*/
 void	errormsg(char *msg, int exits)
 {
 	msg = ft_strjoin("pipex: ", msg);
@@ -49,7 +58,9 @@ int	get_quote_length(char *str, char quote)
 	}
 	return (1);
 }
-
+/**
+ * Count the number of char c leading the string.
+*/
 int	count_lead_chars(char *str, char c)
 {
 	int	i;
