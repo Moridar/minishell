@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_execute.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/25 09:49:01 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:38:39 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static void	child_execute(t_pipe *data, int i)
 	int		fd[2];
 
 	set_direction(data, i, fd);
-	args = make_args(data->cmds[i]);
+	// args = make_args(data->cmds[i]);
+	args = split_shell_cmd(data->cmds[i]);
 	path = ft_getpath(ft_strdup(args[0]), data->paths);
 	if (fd[0] != STDERR_FILENO)
 	{

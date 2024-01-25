@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/25 13:35:02 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:31:35 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-/**
- * @return size of the double dimension string array, for example, created by ft_split().
-*/
-int	get_string_array_size(char **str)
-{
-	int	j;
-
-	j = 0;
-	while (str[j])
-	{
-		j++;
-	}
-	return (j);
-}
 
 /**
  *  if signo == SIGINT handles ctrl + C
@@ -76,6 +61,9 @@ int	prompt(char *envp[])
 	(void)envp;
 	prompt = "bvsh-1.1$ ";
 
+	/* Reading history*/
+	read_history_file();
+	
 	/* Disabling echoing of input characters */
 	tcgetattr(STDIN_FILENO, &new_attr);
 	new_attr.c_lflag &= ~ECHOCTL;
@@ -108,14 +96,15 @@ int	prompt(char *envp[])
 		}
 		if (line)
 		{
+			add_history(line);
+			write_history_file(line);
 			replace_pipes(line);
 			cmds = ft_split(line, 31);
 			pipex(get_string_array_size(cmds), cmds, envp);
-			add_history(line);
 			free(line);
 		}
 	}
-	printf("%s", cmds[0]);
+	// printf("%s", cmds[0]);
 	return (0);
 }
 
@@ -164,3 +153,9 @@ int	main(int argc, char const *argv[], char *envp[])
 	}
 	return (0);
 }
+
+
+//bash -c "echo $SHELL\"helloworld\""
+//Output: |/bin/zshhelloworld|
+//./pipex -c "echo $SHELL\"helloworld\""
+//Output: /bin/zsh"helloworld"

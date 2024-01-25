@@ -11,7 +11,9 @@ READLINE_LIB = ~/.brew/opt/readline/lib
 READLINE_HEADER = ~/.brew/opt/readline/include
 #READLINE_LIB = /opt/homebrew/opt/readline/lib 
 #READLINE_HEADER = /opt/homebrew/opt/readline/include
-SRC = 	env_variables.c \
+SRC = 	array_utils.c \
+		env_variables.c \
+		history.c \
 		prompt.c \
 		pipex.c \
 		pipex_utils.c \

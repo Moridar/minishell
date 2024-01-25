@@ -57,4 +57,10 @@ void	pass_quotes(char *new_cmd, int *i, char quote);
 char	**split_shell_cmd(char	*cmd);
 void	free_cmd_mem(char **command);
 
+int		get_string_array_size(char **str);
+
+// History
+int		write_history_file(char *line);
+int		read_history_file(void);
+
 #endif
