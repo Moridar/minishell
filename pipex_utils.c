@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:33:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/25 11:45:25 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:17:05 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ int	get_quote_length(char *str, char quote)
 
 /**
  * @brief Return the length until next meta character
+ * @param space sets if space is a stopper
 */
-int	len_next_meta_char(char *str, char *metachars)
+int	len_next_meta_char(char *str, char *metachars, int space)
 {
 	int		i;
 
@@ -40,7 +41,7 @@ int	len_next_meta_char(char *str, char *metachars)
 	{
 		if (ft_strchr(metachars, str[i]))
 			break ;
-		if (ft_isspace(str[i]))
+		if (space && ft_isspace(str[i]))
 			break ;
 		i++;
 	}

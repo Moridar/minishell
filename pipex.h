@@ -41,7 +41,7 @@ int		count_lead_chars(char *str, char c);
 int		get_quote_length(char *str, char quote);
 char	*interpret_quote(char *str, char quote);
 char	*interpret(char *str);
-int		len_next_meta_char(char *str, char *metachars);
+int		len_next_meta_char(char *str, char *metachars, int space);
 
 //Main functions
 int		prompt(char *envp[]);

@@ -6,11 +6,13 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/25 12:18:43 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:12:45 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+char	*interpret_and_join(char *ret, char *str);
 
 // static char	*interpret_simple(char *str)
 // {
@@ -20,13 +22,32 @@
 // 	return (word);
 // }
 
-// static char	*interpret_double_quote(char *str)
-// {
-// 	char	*word;
+static char	*interpret_double_quote(char *str)
+{
+	char	*ret;
+	char	*tmp;
+	char	*substr;
+	int		start;
+	int		len;
 
-// 	word = expand_env_args(str);
-// 	return (word);
-// }
+	ret = NULL;
+	start = 0;
+	while (str[start])
+	{
+		len = 0;
+		if (str[start] == '$')
+			len = len_next_meta_char(str + start + 1, "$'", 1) + 1;
+		else
+			len = len_next_meta_char(str + start, "$", 0);
+		substr = expand_env_args(ft_substr(str, start, len));
+		tmp = ft_strjoin(ret, substr);
+		free(ret);
+		free(substr);
+		ret = tmp;
+		start += len;
+	}
+	return (ret);
+}
 
 char	*interpret_quote(char *str, char quote)
 {
@@ -37,7 +58,7 @@ char	*interpret_quote(char *str, char quote)
 	if (quote == '"')
 	{
 		tmp = word;
-		word = interpret(word);
+		word = interpret_double_quote(word);
 		free(tmp);
 	}
 	return (word);
@@ -81,12 +102,10 @@ char	*interpret(char *str)
 		if (str[start] == '\'' || str[start] == '"')
 			len = get_quote_length(str + start, str[start]);
 		else if (str[start] == '$')
-			len = len_next_meta_char(str + start + 1, "$") + 1;
+			len = len_next_meta_char(str + start + 1, "$\"'", 1) + 1;
 		else
-			len = len_next_meta_char(str + start, "$\"'");
-		printf("len: %d, str: |%s|\n", len, str + start);
+			len = len_next_meta_char(str + start, "$\"'", 1);
 		ret = interpret_and_join(ret, ft_substr(str, start, len));
-		printf("ret: %s\n", ret);
 		start += len;
 	}
 	return (ret);
@@ -94,11 +113,12 @@ char	*interpret(char *str)
 
 int	main(void)
 {
-	char	*str = "he\"ll\"o_\"$SHELL\"$SHELL";
+	char	*str = "he\"ll\"o_\"$SH'E'LL\"$SHELL";
+//char	*str = "\'hey hey\'$SHELL\"some $SHELL some\"";
 	// char	*str = "$SHELL_hello";
 	//char	*str = "$SHELL\"_hello\"";
 	//char	*str = "$SH\"E\"LL'_hello'";
-	printf("|%s|\n", interpret(str));
+	printf("|%s|\n|%s|\n", str, interpret(str));
 	//printf("|%s|\n", cut_filename("< Makefile>out echo helo world > output"));
 
 	return (0);
