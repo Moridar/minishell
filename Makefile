@@ -14,6 +14,7 @@ READLINE_HEADER = ~/.brew/opt/readline/include
 SRC = 	array_utils.c \
 		env_variables.c \
 		history.c \
+		minishell.c \
 		prompt.c \
 		pipex.c \
 		pipex_utils.c \

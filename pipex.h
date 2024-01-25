@@ -45,6 +45,9 @@ int		len_next_meta_char(char *str, char *metachars, int space);
 
 // Init
 void	set_paths(t_pipe *data);
+void	initialise(t_pipe *data);
+
+void	replace_pipes(char *cmd);
 
 //Main functions
 int		prompt(t_pipe *data);
@@ -53,7 +56,7 @@ void	set_direction(t_pipe *data, int i, int *fd);
 char	**make_args(char *arg);
 char	*ft_getpath(char *cmd, char **paths);
 
-int	pipex(t_pipe	*data);
+int		pipex(t_pipe	*data);
 
 char	*expand_env_args(char *str);
 void	pass_quotes(char *new_cmd, int *i, char quote);
