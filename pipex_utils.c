@@ -6,11 +6,46 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:33:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/25 09:51:55 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/25 11:45:25 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+/**
+ * @brief Returns the length of a quote, including the quote itself.
+*/
+int	get_quote_length(char *str, char quote)
+{
+	int	i;
+
+	i = 1;
+	while (str[i])
+	{
+		if (str[i++] == quote)
+			return (i);
+	}
+	return (1);
+}
+
+/**
+ * @brief Return the length until next meta character
+*/
+int	len_next_meta_char(char *str, char *metachars)
+{
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (ft_strchr(metachars, str[i]))
+			break ;
+		if (ft_isspace(str[i]))
+			break ;
+		i++;
+	}
+	return (i);
+}
 
 /**
  * @brief Free the double string array
@@ -43,21 +78,6 @@ void	errormsg(char *msg, int exits)
 		exit(errno);
 }
 
-/**
- * @brief Returns the length of a quote, including the quote itself.
-*/
-int	get_quote_length(char *str, char quote)
-{
-	int	i;
-
-	i = 1;
-	while (str[i])
-	{
-		if (str[i++] == quote)
-			return (i);
-	}
-	return (1);
-}
 /**
  * Count the number of char c leading the string.
 */

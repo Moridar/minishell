@@ -41,6 +41,7 @@ int		count_lead_chars(char *str, char c);
 int		get_quote_length(char *str, char quote);
 char	*interpret_quote(char *str, char quote);
 char	*interpret(char *str);
+int		len_next_meta_char(char *str, char *metachars);
 
 //Main functions
 int		prompt(char *envp[]);
@@ -50,7 +51,6 @@ char	**make_args(char *arg);
 char	*ft_getpath(char *cmd, char **paths);
 
 int		pipex(int cmdc, char *cmds[], char *envp[]);
-
 
 char	*expand_env_args(char *str);
 void	pass_quotes(char *new_cmd, int *i, char quote);
