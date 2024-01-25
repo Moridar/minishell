@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_shell_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:11:39 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/25 09:52:08 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/25 18:34:24 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,6 @@ void	trim_expand_flag_quotes(char **command)
 		free(temp);
 		i++;
 	}
-}
-
-/**
- * Frees double dimension array for command after we no longer need the command.
-*/
-void	free_cmd_mem(char **command)
-{
-	freeall(command);
 }
 
 /**
@@ -134,7 +126,7 @@ char	**split_shell_cmd(char	*cmd)
 		printf("|%s|\n", command[i]);
 		i++;
 	}
-	free_cmd_mem(command);
+	freeall(command);
 
 	return (0);
 } */

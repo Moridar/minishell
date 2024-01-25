@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_variable.c                                     :+:      :+:    :+:   */
+/*   env_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:12:21 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/21 21:25:19 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:56:15 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,28 @@ char	*expand_env_args(char *str)
 	}
 	return (res);
 }
+/**
+ * 
+*/
+/* char	*expand_smart(char *str)
+{
+	int i;
+
+	i = 0;
+	// expand env vars outside of quotes
+	while (str[i])
+	{
+		;
+	}
+	// expand env vars inside double quotes 
+} */
+
+// when the string is glued: "hello"$SHELL'hey'
+// another test case: "$SHELL's'"$SHELL
+// 's' will be not expanded, $SHELL will be expanded.
+// 1. expand simple variables (in loop expand variable => check if it hits ' or "" or the end of string, then expand)
+// 2. expand "quotes" (trim "" and expand env variables). Insided "quotes" expand env vars but not 'singles'
+// 3. expand 'singles' that are not inside (trim and join)
 
 /* int	main(void)
 {

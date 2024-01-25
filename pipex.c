@@ -28,7 +28,7 @@ void	set_paths(t_pipe *data)
 				"/bin:/usr/sbin:/sbin", ':');
 }
 
-void	initalise(int cmdc, char *cmds[], t_pipe *data, char *envp[])
+/* void	initalise(int cmdc, char *cmds[], t_pipe *data, char *envp[])
 {
 	data->cmds = cmds;
 	data->cmdc = cmdc;
@@ -40,20 +40,18 @@ void	initalise(int cmdc, char *cmds[], t_pipe *data, char *envp[])
 	data->fd[0][1] = -1;
 	data->fd[1][0] = -1;
 	data->fd[1][1] = -1;
-}
+} */
 
-int	pipex(int cmdc, char *cmds[], char *envp[])
+int	pipex(t_pipe	*data)
 {
-	t_pipe	data;
 	int		i;
 
-	initalise(cmdc, cmds, &data, envp);
 	i = -1;
-	while (++i < cmdc)
-		execute(i, &data);
-	free(data.pid);
-	freeall(data.paths);
-	return (WEXITSTATUS(data.status));
+	while (++i < data->cmdc)
+		execute(i, data);
+	free(data->pid);
+	freeall(data->paths);
+	return (WEXITSTATUS(data->status));
 }
 
 /* int	main(int argc, char *argv[], char *envp[])

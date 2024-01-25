@@ -43,21 +43,26 @@ char	*interpret_quote(char *str, char quote);
 char	*interpret(char *str);
 int		len_next_meta_char(char *str, char *metachars, int space);
 
+// Init
+void	set_paths(t_pipe *data);
+
 //Main functions
-int		prompt(char *envp[]);
+int		prompt(t_pipe *data);
 void	execute(int i, t_pipe *data);
 void	set_direction(t_pipe *data, int i, int *fd);
 char	**make_args(char *arg);
 char	*ft_getpath(char *cmd, char **paths);
 
-int		pipex(int cmdc, char *cmds[], char *envp[]);
+int	pipex(t_pipe	*data);
 
 char	*expand_env_args(char *str);
 void	pass_quotes(char *new_cmd, int *i, char quote);
 char	**split_shell_cmd(char	*cmd);
 void	free_cmd_mem(char **command);
 
+// Array utils
 int		get_string_array_size(char **str);
+void	copy_double_array(char **arr1, char ***arr2);
 
 // History
 int		write_history_file(char *line);

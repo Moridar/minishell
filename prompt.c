@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/25 17:31:35 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/25 18:31:05 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,24 @@ void	replace_pipes(char *cmd)
 	}
 }
 
-int	prompt(char *envp[])
+void	initialise(t_pipe *data)
 {
-	const char		*prompt;
+	data->status = 0;
+	set_paths(data);
+	data->pid = ft_calloc(sizeof(pid_t), data->cmdc);
+	data->fd[0][0] = -1;
+	data->fd[0][1] = -1;
+	data->fd[1][0] = -1;
+	data->fd[1][1] = -1;
+}
+
+int	prompt(t_pipe *data)
+{
+	const char		*prompt_message;
 	char			*line;
 	struct termios	new_attr;
-	char 			**cmds;
 
-	(void)envp;
-	prompt = "bvsh-1.1$ ";
+	prompt_message = "bvsh-1.1$ ";
 
 	/* Reading history*/
 	read_history_file();
@@ -75,7 +84,7 @@ int	prompt(char *envp[])
 
 	while (1)
 	{
-		line = readline(prompt);
+		line = readline(prompt_message);
 		/* Exit on ctrl + d */
 		if (line == NULL)
 		{
@@ -99,8 +108,10 @@ int	prompt(char *envp[])
 			add_history(line);
 			write_history_file(line);
 			replace_pipes(line);
-			cmds = ft_split(line, 31);
-			pipex(get_string_array_size(cmds), cmds, envp);
+			data->cmds = ft_split(line, 31);
+			data->cmdc = get_string_array_size(data->cmds);
+			initialise(data);
+			pipex(data);
 			free(line);
 		}
 	}
@@ -108,24 +119,39 @@ int	prompt(char *envp[])
 	return (0);
 }
 
+/* int	main(int argc, char const *argv[], char *envp[])
+{
+	t_pipe 	data;
+
+	(void)argc;
+	(void)argv;
+	printf("hello!");
+	copy_double_array(envp, &data.envp);
+	printf("%s\n", data.envp[0]);
+	return (0);
+} */
+
 int	main(int argc, char const *argv[], char *envp[])
 {
 	int 	i;
 	int 	fd;
-	char 	**cmds;
 	char	*line;
+	t_pipe 	data;
 
 	(void)envp;
+	copy_double_array(envp, &data.envp);
 	// Interactive mode
 	if (argc < 2)
 	{
-		prompt(envp);
+		prompt(&data);
 	}
 	// Non-interactive mode
 	else if (ft_strnstr(argv[1], "-c", 2))
 	{
-		cmds = ft_split(argv[2], '\0');
-		pipex(1, cmds, envp);
+		data.cmds = ft_split(argv[2], '\0');
+		data.cmdc = 1;
+		initialise(&data);
+		pipex(&data);
 	}
 	else // handles scrip1.sh script2.sh. // works for several files but still not working for several lines in one .sh file
 	{
@@ -141,10 +167,12 @@ int	main(int argc, char const *argv[], char *envp[])
 				if (line[ft_strlen(line) - 1] == '\n')
 					line[ft_strlen(line) - 1] = 0;
 				replace_pipes(line);
-				cmds = ft_split(line, 31);
+				data.cmds = ft_split(line, 31);
+				data.cmdc = get_string_array_size(data.cmds);
+				initialise(&data);
 				free(line);
-				pipex(get_string_array_size(cmds), cmds, envp);
-				freeall(cmds);
+				pipex(&data);
+				freeall(data.cmds);
 				line = get_next_line(fd);
 			}
 			close(fd);

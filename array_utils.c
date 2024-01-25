@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/25 17:27:59 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/25 18:28:52 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,23 @@ int	get_string_array_size(char **str)
  * Used to copy double dimension array arr1 to arr2.
  * For example, envp.
 */
-void copy_double_array(char **arr1, char **arr2)
+void copy_double_array(char **arr1, char ***arr2)
 {
 	int	size;
 	int i;
+	int len;
 	
 	i = 0;
 	size = get_string_array_size(arr1);
-	arr2 = (char **)malloc((size + 1) * sizeof(char *));
-	arr2[size] = NULL;
-	while (i < size)
+	// printf("%d\n", size);
+	*arr2 = (char **)malloc((size + 1) * sizeof(char *));
+	(*arr2)[size] = NULL;
+	while (i < size - 1)
 	{
-		arr2[i] = (char *)malloc((ft_strlen(arr1[i]) + 1) * sizeof(char));
+		len = (ft_strlen(arr1[i]) + 1);
+		(*arr2)[i] = (char *)malloc(len * sizeof(char));
+		ft_memmove((*arr2)[i], arr1[i], len - 1);
+		// printf("%s\n", (*arr2)[i]);
 		i++;
 	}
 }
