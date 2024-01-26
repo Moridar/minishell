@@ -6,11 +6,11 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/27 01:04:30 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/27 01:19:30 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h";
+#include "pipex.h"
 
 /**
  * @param return status
@@ -92,42 +92,24 @@ void	exit_builtin(char *status)
  * 
  * @return 1 for success
 */
-int builtins(char **cmd, t_pipe *data, int	is_parent)
+int	builtins(char **cmd, t_pipe *data)
 {
-	int count;
+	int	count;
 
+	if (!data)
+		printf("no data");
 	count = get_string_array_size(cmd);
-	printf("count: %d\n", count);
-	if (!is_parent)
+	// printf("is_parent in builtins!\n");
+	// printf("cmd[0]: %s\n", cmd[0]);
+	// printf("ft_strncmp(cmd[0], \"exit\", 5): %d\n", ft_strncmp(cmd[0], "exit", 5));
+	if (ft_strncmp(cmd[0], "exit", 5) == 0 && count == 1)
+		exit(0);
+	if (ft_strncmp(cmd[0], "exit", 5) == 0 && count == 2)
+		exit_builtin(cmd[1]);
+	if (ft_strncmp(cmd[0], "exit", 5) == 0 && count > 2)
 	{
-		if (ft_strncmp(cmd[0], "export", 7) == 0 && count == 1)
-			return print_env_variables(data, 1);
-		if (ft_strncmp(cmd[0], "env", 4) == 0 && count == 1)
-			return print_env_variables(data, 0);
-		if (ft_strncmp(cmd[0], "history", 8) == 0 && count == 1)
-			return history();
-		// if (ft_strncmp(cmd[0], "export", 7) == 0 && count == 2)
-		// 	return export_var(&data, cmd[1]);
-		if (ft_strncmp(cmd[0], "echo", 5) == 0 && count >= 2 && ft_strncmp(cmd[1], "-n", 3) == 0)
-			return (echo_n(cmd[2]));
-		if (ft_strncmp(cmd[0], "pwd", 4) == 0 && pwd())
-			return (1);
+		ft_putstr_fd("exit\nbvsh: exit: too many arguments\n", 2);
+		return (1);
 	}
-	else if (is_parent)
-	{
-		// printf("is_parent in builtins!\n");
-		// printf("cmd[0]: %s\n", cmd[0]);
-		// printf("ft_strncmp(cmd[0], \"exit\", 5): %d\n", ft_strncmp(cmd[0], "exit", 5));
-		if (ft_strncmp(cmd[0], "exit", 5) == 0 && count == 1)
-			exit(0);
-		if (ft_strncmp(cmd[0], "exit", 5) == 0 && count == 2)
-			exit_builtin(cmd[1]);
-		if (ft_strncmp(cmd[0], "exit", 5) == 0 && count > 2)
-		{
-			ft_putstr_fd("exit\nbvsh: exit: too many arguments\n", 2);
-			return (1);
-		}
-	}
-
 	return (0);
 }

@@ -75,7 +75,8 @@ int		history(void);
 // Builtins
 // void	exit_builtin(int status);
 void	env(t_pipe *data);
-int 	builtins(char **cmd, t_pipe *data, int is_parent);
+int 	builtins(char **cmd, t_pipe *data);
+int		child_builtins(char **cmd, t_pipe *data);
 int		export_var(t_pipe *data, char *var);
 
 #endif

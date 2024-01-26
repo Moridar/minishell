@@ -15,6 +15,7 @@ SRC = 	minishell.c \
 		minishell_prompt.c \
 		minishell_history.c \
 		minishell_utils.c \
+		minishell_builtins.c \
 		pipex.c \
 		pipex_execute.c \
 		pipex_redirect.c \
