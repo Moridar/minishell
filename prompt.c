@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/25 18:40:41 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:27:06 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	prompt(t_pipe *data)
 	const char		*prompt_message;
 	char			*line;
 	struct termios	new_attr;
+	char	**cmd;
 
 	prompt_message = "bvsh-1.1$ ";
 
@@ -88,20 +89,17 @@ int	prompt(t_pipe *data)
 		/* Exit on ctrl + d */
 		if (line == NULL)
 		{
-/* 			line = ft_strdup("exit1");
-			free(line);
-			printf("exit\n");
-			rl_insert_text("exit2"); */
-
+			// only works the right way with forbidden function
 /* 			rl_replace_line("exit3", 0);
-			rl_redisplay(); */
+			rl_forced_update_display(); */
 
-/* 			rl_on_new_line();
-			rl_replace_line("\r", 0);
-			printf("\r");
-			ft_putstr_fd("exit", 2); */
-			printf("exit\n"); 
-			return (0);
+			//creates a new prompt line:
+ 			rl_on_new_line();
+            rl_replace_line("exit\n", 0);
+            rl_redisplay();
+			printf("\n");
+			free(line);
+			exit(0);
 		}
 		if (line)
 		{
@@ -111,7 +109,11 @@ int	prompt(t_pipe *data)
 			data->cmds = ft_split(line, 31);
 			data->cmdc = get_string_array_size(data->cmds);
 			initialise(data);
-			pipex(data);
+			
+			cmd = split_shell_cmd(data->cmds[0]);
+			// export_var(data, "HELLO=heyhey");
+			if (!builtins(cmd, data, 1))
+				pipex(data);
 			free(line);
 		}
 	}

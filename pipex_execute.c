@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/26 00:29:03 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:07:44 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	child_execute(t_pipe *data, int i)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
-	if (builtins(cmd, data))
+	if (builtins(cmd, data, 0))
 		exit(0);
 	path = ft_getpath(ft_strdup(cmd[0]), data->paths);
 	closepipe(data);

@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/26 00:16:01 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:56:57 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipe 	data;
 
-	(void)envp;
+	data.envp = NULL;
 	copy_double_array(envp, &data.envp);
 	// Interactive mode
 	if (argc < 2)

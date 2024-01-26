@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/26 00:12:26 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:56:55 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,21 @@ void	copy_double_array(char **arr1, char ***arr2)
 		len = (ft_strlen(arr1[i]) + 1);
 		(*arr2)[i] = (char *)malloc(len * sizeof(char));
 		ft_memmove((*arr2)[i], arr1[i], len);
-		// if (i < 20)
+		// if (i < size - 1)
+		// {
 		// 	(*arr2)[i][0] = 'X';
+		// 	(*arr2)[i][1] = 'X';
+		// 	(*arr2)[i][2] = 'X';
+		// 	(*arr2)[i][3] = 'X';
+		// }
 		// printf("%s\n", (*arr2)[i]);
 		i++;
 	}
 }
+
+/* int	main(int argc, char *argv[], char *envp[])
+{
+	t_pipe 	data;
+
+	copy_double_array(envp, &data.envp);
+} */

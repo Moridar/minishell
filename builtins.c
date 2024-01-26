@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:50:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/26 00:33:27 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:16:04 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,50 @@ export()
 unset() */
 
 /**
- * @return 0 for success, 1 for failure
+ * @param return status
 */
-/* int	export_var(t_pipe *data, char *var)
+void	exit_builtin(char *status)
+{
+	char	*status_converted;
+	int		status_n;
+	char	*error_msg;
+	char	*temp;
+	
+	if (status)
+	{
+		status_n = ft_atoi(status);
+		status_converted = ft_itoa(status_n);
+		if (status[0] == '+')
+			status = status + 1;
+		if (ft_strncmp(status, status_converted, ft_strlen(status_converted) + 1) == 0)
+		{
+			free(status_converted);
+			ft_putstr_fd("exit\n", 1);
+			exit((char)status_n);
+		}
+		else
+		{
+			error_msg = ft_strjoin("bvsh: exit: ", status);
+			temp = error_msg;
+			error_msg = ft_strjoin(temp, ": numeric argument required");
+			ft_putstr_fd(error_msg, 2);
+			free(temp);
+			free(error_msg);
+			exit(255);
+		}
+	}
+}
+/**
+ * @return 1 for success, 0 for failure
+*/
+int	export_var(t_pipe *data, char *var)
 {
 	int i;
 	int len;
 
 	len = ft_strchr(var, '=') - var;
 	if (!len)
-		return (1);
+		return (0);
 	i = 0;
 	printf("len: %d\n", len);
 	while(data->envp[i])
@@ -46,13 +80,14 @@ unset() */
 			data->envp[i][2] = 'X';
 			data->envp[i][3] = 'X';
 			data->envp[i][4] = 'X';
+			printf("data->envp[i]: %s\n", data->envp[i]);
 			// free(data->envp[i]);
 			// data->envp[i] = ft_strdup(var);
 		}
 		i++;
 	}
-	return (0);
-} */
+	return (1);
+}
 /**
  * is_exported = 0 for env
  * is_exported = 1 for export without options or arguments
@@ -66,26 +101,45 @@ int	print_env_variables(t_pipe *data, int is_exported)
 	i = 0;
 	while(data->envp[++i])
 	{
-		printf("ENV\n");
+		// printf("ENV\n");
 		if (is_exported)
 			printf("declare -x ");
 		printf("%s\n", data->envp[i]);
 	}
 	return (1);
 }
-int builtins(char **cmd, t_pipe *data)
+int builtins(char **cmd, t_pipe *data, int	is_parent)
 {
 	int count;
 
 	count = get_string_array_size(cmd);
 	printf("count: %d\n", count);
-	if (ft_strncmp(cmd[0], "export", 7) == 0 && count == 1)
-		return print_env_variables(data, 1);
-	if (ft_strncmp(cmd[0], "env", 4) == 0 && count == 1)
-		return print_env_variables(data, 0);
-	if (ft_strncmp(cmd[0], "history", 8) == 0 && count == 1)
-		return history();
-	// if (ft_strncmp(cmd[0], "export", 7) == 0 && count == 2)
-	// 	return export_var(data, cmd[1]);
+	if (!is_parent)
+	{
+		if (ft_strncmp(cmd[0], "export", 7) == 0 && count == 1)
+			return print_env_variables(data, 1);
+		if (ft_strncmp(cmd[0], "env", 4) == 0 && count == 1)
+			return print_env_variables(data, 0);
+		if (ft_strncmp(cmd[0], "history", 8) == 0 && count == 1)
+			return history();
+		// if (ft_strncmp(cmd[0], "export", 7) == 0 && count == 2)
+		// 	return export_var(&data, cmd[1]);
+	}
+	else if (is_parent)
+	{
+		// printf("is_parent in builtins!\n");
+		// printf("cmd[0]: %s\n", cmd[0]);
+		// printf("ft_strncmp(cmd[0], \"exit\", 5): %d\n", ft_strncmp(cmd[0], "exit", 5));
+		if (ft_strncmp(cmd[0], "exit", 5) == 0 && count == 1)
+			exit(0);
+		if (ft_strncmp(cmd[0], "exit", 5) == 0 && count == 2)
+			exit_builtin(cmd[1]);
+		if (ft_strncmp(cmd[0], "exit", 5) == 0 && count > 3)
+		{
+			ft_putstr_fd("exit\nbvsh: exit: too many arguments", 2);
+			return (0);
+		}
+	}
+
 	return (0);
 }
