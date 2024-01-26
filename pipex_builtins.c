@@ -6,13 +6,13 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:50:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/27 01:20:57 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/27 01:36:05 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	echo(char **cmd, int count)
+static int	echo(char **cmd, int count)
 {
 	int	i;
 	int	n_flag;
@@ -32,45 +32,19 @@ int	echo(char **cmd, int count)
 	return (1);
 }
 
-/**
- * @brief getcwd() needs to know the whole buffer size in advance and
- * returns NULL if the path is shorter than size.\n
- * 
- * If any argument, pwd() does not process it and does not error.
- * 
- * @return 1 for success, 0 for failure.
-*/
-int pwd()
+static int	pwd(void)
 {
-	char *buff;
-	int	size;
-
-	size = 5;
-	buff = (char *)malloc(size);
-	if (!buff)
-		return (0); // this should be somehow handled in the outer functions up to where the builtins is called
-	while (!getcwd(buff, size))
-	{
-		size++;
-		free(buff);
-		buff = (char *)malloc(size);
-		if (!buff)
-			return (0); // this should be somehow handled in the outer functions up to where the builtins is called
-	}
-	free(buff);
-	printf("%s\n", buff);
+	getcwd(NULL, 0);
 	return (1);
 }
 
-
-int	print_env_variables(t_pipe *data, int is_exported)
+static int	print_env_variables(t_pipe *data, int is_exported)
 {
 	int	i;
 
 	i = 0;
-	while(data->envp[++i])
+	while (data->envp[++i])
 	{
-		// printf("ENV\n");
 		if (is_exported)
 			printf("declare -x ");
 		printf("%s\n", data->envp[i]);
@@ -89,8 +63,8 @@ int	child_builtins(char **cmd, t_pipe *data)
 		return (print_env_variables(data, 0));
 	if (ft_strncmp(cmd[0], "echo", 5) == 0)
 		return (echo(cmd, count));
-	if (ft_strncmp(cmd[0], "pwd", 4) == 0 && pwd())
-		return (1);
+	if (ft_strncmp(cmd[0], "pwd", 4) == 0)
+		return (pwd());
 	if (ft_strncmp(cmd[0], "export", 7) == 0)
 		return (1);
 	if (ft_strncmp(cmd[0], "exit", 5) == 0)

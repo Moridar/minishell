@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   minishell_prompt.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/26 13:27:06 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/27 01:28:24 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	prompt(t_pipe *data)
 			
 			cmd = split_shell_cmd(data->cmds[0]);
 			// export_var(data, "HELLO=heyhey");
-			if (!builtins(cmd, data, 1))
+			if (!builtins(cmd, data))
 				pipex(data);
 			free(line);
 		}
