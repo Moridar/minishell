@@ -11,19 +11,19 @@ READLINE_LIB = ~/.brew/opt/readline/lib
 READLINE_HEADER = ~/.brew/opt/readline/include
 #READLINE_LIB = /opt/homebrew/opt/readline/lib 
 #READLINE_HEADER = /opt/homebrew/opt/readline/include
-SRC = 	array_utils.c \
-		builtins.c \
-		env_variables.c \
-		history.c \
-		minishell.c \
-		prompt.c \
+SRC = 	minishell.c \
+		minishell_prompt.c \
+		minishell_history.c \
+		minishell_utils.c \
 		pipex.c \
-		pipex_utils.c \
 		pipex_execute.c \
 		pipex_redirect.c \
-		pipex_command_prepare.c \
 		pipex_interpret.c \
-		split_shell_cmd.c
+		pipex_env_variables.c \
+		pipex_command_prepare.c \
+		pipex_builtins.c \
+		pipex_utils.c \
+		pipex_split_shell_cmd.c
 
 OBJ = $(SRC:%.c=%.o)
 CC = cc
