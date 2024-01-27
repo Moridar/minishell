@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:50:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/27 01:36:05 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/27 02:01:03 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,13 @@ static int	echo(char **cmd, int count)
 
 static int	pwd(void)
 {
-	getcwd(NULL, 0);
+	char	*buff;
+
+	buff = getcwd(NULL, 0);
+	if (buff == NULL)
+		errormsg("pwd", 1);
+	ft_printf("%s\n", buff);
+	free(buff);
 	return (1);
 }
 
