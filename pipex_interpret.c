@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/27 19:18:29 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:37:51 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ char	*interpret(char *str)
 			len = len_next_meta_char(str + start + 1, "$\"'", 1) + 1;
 		else
 			len = len_next_meta_char(str + start, "$\"'", 1);
-		if (len == 0)
-			len = ft_strlen(str + start);
 		ret = interpret_and_join(ret, ft_substr(str, start, len));
 		start += len;
 	}

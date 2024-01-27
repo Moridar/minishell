@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/27 19:22:53 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:49:16 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	prompt(t_pipe *data)
             rl_replace_line("exit\n", 0);
             rl_redisplay();
 			printf("\n");
-			free(line);
+			//free(line);
 			exit(0);
 		}
 		if (line)

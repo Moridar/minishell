@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/27 18:44:22 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:57:45 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	copy_double_array(char **arr1, char ***arr2, int increase_size)
 	i = 0;
 	size = get_string_array_size(arr1);
 	*arr2 = (char **)ft_calloc((size + 1 + increase_size), sizeof(char *));
-	(*arr2)[size] = NULL;
 	while (i < size)
 	{
 		len = (ft_strlen(arr1[i]) + 1);
@@ -49,6 +48,28 @@ void	copy_double_array(char **arr1, char ***arr2, int increase_size)
 		ft_memmove((*arr2)[i], arr1[i], len);
 		i++;
 	}
+}
+
+char	**reallocate_arraylist(char **arr, int size)
+{
+	char	**new_arr;
+	int		i;
+	int		j;
+
+	new_arr = (char **)ft_calloc((size), sizeof(char *));
+	i = 0;
+	j = 0;
+	while (i < size - 1)
+	{
+		if (arr[i])
+		{
+			new_arr[j] = arr[i];
+			j++;
+		}
+		i++;
+	}
+	free(arr);
+	return (new_arr);
 }
 
 /* int	main(int argc, char *argv[], char *envp[])

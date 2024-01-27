@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/27 19:07:21 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 01:02:35 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,27 @@ void	exit_builtin(char *status)
 	}
 }
 
-int	unset(t_pipe *data, char *cmd)
+int	unset(t_pipe *data, char **cmd, int count)
 {
-	if (data && cmd)
-		return (2);
+	char	*tmp;
+	int		i;
+	int		size;
+
+	if (count < 2)
+		return (1);
+	size = get_string_array_size(data->envp);
+	tmp = ft_strjoin(cmd[1], "=");
+	i = -1;
+	while (data->envp[++i])
+	{
+		if (ft_strncmp(data->envp[i], tmp, ft_strlen(tmp)) == 0)
+		{
+			free(data->envp[i]);
+			data->envp[i] = NULL;
+			data->envp = reallocate_arraylist(data->envp, size);
+		}
+	}
+	free(tmp);
 	return (1);
 }
 
@@ -69,7 +86,7 @@ int	export(t_pipe *data, char *var)
 
 	keylen = len_next_meta_char(var, "=", 0);
 	key = ft_substr(var, 0, keylen);
-	if (!key || keylen == 0)
+	if (!key || keylen == (int) ft_strlen(var))
 		return (1);
 	i = -1;
 	while (data->envp[++i])
@@ -83,7 +100,9 @@ int	export(t_pipe *data, char *var)
 		}
 	}
 	copy_double_array(data->envp, &newenvp, 1);
+	free(data->envp);
 	newenvp[i] = ft_strdup(var);
+	data->envp = newenvp;
 	return (1);
 }
 
@@ -129,7 +148,7 @@ int	builtins(char **cmd, t_pipe *data)
 	if (ft_strncmp(cmd[0], "cd", 3) == 0)
 		return (cd(data, cmd, count));
 	if (ft_strncmp(cmd[0], "unset", 6) == 0)
-		return (unset(data, cmd[0]));
+		return (unset(data, cmd, count));
 	if (ft_strncmp(cmd[0], "exit", 5) == 0 && count == 1)
 		exit(0);
 	if (ft_strncmp(cmd[0], "exit", 5) == 0 && count == 2)
