@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/28 00:49:16 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 01:43:23 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,22 +102,23 @@ int	prompt(t_pipe *data)
 			//free(line);
 			exit(0);
 		}
-		if (line)
+		if (line && *line)
 		{
+			printf("line: %s\n", line);
 			add_history(line);
 			write_history_file(line);
 			replace_pipes(line);
 			data->cmds = ft_split(line, 31);
 			data->cmdc = get_string_array_size(data->cmds);
+			if (data->cmdc == 0)
+				continue ;
 			initialise(data);
 			cmd = split_shell_cmd(data->cmds[0]);
-			// export_var(data, "HELLO=heyhey");
 			if (!builtins(cmd, data))
 				pipex(data);
 			free(line);
 		}
 	}
-	// printf("%s", cmds[0]);
 	return (0);
 }
 
@@ -132,7 +133,6 @@ int	prompt(t_pipe *data)
 	printf("%s\n", data.envp[0]);
 	return (0);
 } */
-
 
 //bash -c "echo $SHELL\"helloworld\""
 //Output: |/bin/zshhelloworld|

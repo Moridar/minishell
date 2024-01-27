@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/28 01:02:35 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 01:24:13 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	exit_builtin(char *status)
 	}
 }
 
-int	unset(t_pipe *data, char **cmd, int count)
+static int	unset(t_pipe *data, char **cmd, int count)
 {
 	char	*tmp;
 	int		i;
@@ -77,7 +77,7 @@ int	unset(t_pipe *data, char **cmd, int count)
 /**
  * @return 1 for success, 0 for failure
 */
-int	export(t_pipe *data, char *var)
+static int	export(t_pipe *data, char *var)
 {
 	int		i;
 	char	*key;
@@ -106,29 +106,20 @@ int	export(t_pipe *data, char *var)
 	return (1);
 }
 
-int	cd(t_pipe *data, char **cmd, int count)
+static int	cd(t_pipe *data, char **cmd, int count)
 {
-	char	*buff;
 	char	*ptr;
 
-	if (count == 1)
+	if (count < 2)
+		ft_putstr_fd("bvsh: cd: too few arguments\n", 2);
+	else if (count > 2)
+		ft_putstr_fd("bvsh: cd: too many arguments\n", 2);
+	else if (chdir(cmd[1]) == 0)
 	{
-		buff = getcwd(NULL, 0);
-		if (buff == NULL)
-			errormsg("cd", 1);
-		ptr = ft_strrchr(buff, '/');
-		*ptr = 0;
-		chdir(buff);
-		ptr = ft_strjoin("PWD=", buff);
+		ptr = ft_strjoin("PWD=", getcwd(NULL, 0));
 		export(data, ptr);
-		free(buff);
 		free(ptr);
-		return (1);
 	}
-	chdir(cmd[1]);
-	ptr = ft_strjoin("PWD=", cmd[1]);
-	export(data, ptr);
-	free(ptr);
 	return (1);
 }
 
@@ -143,8 +134,6 @@ int	builtins(char **cmd, t_pipe *data)
 	count = get_string_array_size(cmd);
 	if (ft_strncmp(cmd[0], "export", 7) == 0 && count > 1)
 		return (export(data, cmd[1]));
-	if (ft_strncmp(cmd[0], "cd", 3) == 0 && count > 2)
-		return (printf("bsvh: cd: too many arguments\n"));
 	if (ft_strncmp(cmd[0], "cd", 3) == 0)
 		return (cd(data, cmd, count));
 	if (ft_strncmp(cmd[0], "unset", 6) == 0)

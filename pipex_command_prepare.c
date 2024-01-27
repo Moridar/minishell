@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/25 13:25:31 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 01:30:36 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	cmdnfound_exit(char *cmd)
 {
 	char	*errmsg;
 
-	errmsg = ft_strjoin("pipex: ", cmd);
+	errmsg = ft_strjoin("bvsh: ", cmd);
 	errmsg = ft_strjoin(errmsg, ": command not found\n");
 	write(2, errmsg, ft_strlen(errmsg));
 	exit(127);

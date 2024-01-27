@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:11:39 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/27 19:22:38 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 01:32:14 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	**split_shell_cmd(char	*cmd)
 {
 	char	*new_str;
 	char	**command;
-	int i;
+	int		i;
 
 	new_str = replace_spaces(cmd);
 	command = ft_split(new_str, 31);

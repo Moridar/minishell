@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/28 00:37:51 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 01:15:51 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ char	*interpret_and_join(char *ret, char *str)
 		free(ret);
 		return (tmp);
 	}
-	printf("str to interpret: |%s| --> |%s|\n", str, interpreted_str);
 	tmp = ft_strjoin(ret, interpreted_str);
 	free(str);
 	free(ret);
