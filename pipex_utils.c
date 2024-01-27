@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:33:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/25 13:23:54 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/27 18:01:05 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ int	len_next_meta_char(char *str, char *metachars, int space)
 			break ;
 		i++;
 	}
-	return (i);
+	if (str[i])
+		return (i);
+	return (0);
 }
 
 /**

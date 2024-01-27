@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/26 11:56:57 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/27 18:55:42 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	non_int_with_command(char *argv[], t_pipe *data)
 
 void	non_int_with_files(int argc, char *argv[], t_pipe *data)
 {
-	int 	i;
-	int 	fd;
+	int		i;
+	int		fd;
 	char	*line;
 
 	i = 1;
@@ -37,7 +37,7 @@ void	non_int_with_files(int argc, char *argv[], t_pipe *data)
 		if (fd < 0)
 			errormsg(argv[i], 1);
 		line = get_next_line(fd);
-		while(line)
+		while (line)
 		{
 			if (line[ft_strlen(line) - 1] == '\n')
 				line[ft_strlen(line) - 1] = 0;
@@ -57,10 +57,10 @@ void	non_int_with_files(int argc, char *argv[], t_pipe *data)
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	t_pipe 	data;
+	t_pipe	data;
 
 	data.envp = NULL;
-	copy_double_array(envp, &data.envp);
+	copy_double_array(envp, &data.envp, 0);
 	// Interactive mode
 	if (argc < 2)
 		prompt(&data);

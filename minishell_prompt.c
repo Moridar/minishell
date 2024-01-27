@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/27 01:28:24 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/27 19:22:53 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	prompt(t_pipe *data)
 	const char		*prompt_message;
 	char			*line;
 	struct termios	new_attr;
-	char	**cmd;
+	char			**cmd;
 
 	prompt_message = "bvsh-1.1$ ";
 
@@ -89,6 +89,7 @@ int	prompt(t_pipe *data)
 		/* Exit on ctrl + d */
 		if (line == NULL)
 		{
+			ft_printf("line == null\n");
 			// only works the right way with forbidden function
 /* 			rl_replace_line("exit3", 0);
 			rl_forced_update_display(); */
@@ -109,7 +110,6 @@ int	prompt(t_pipe *data)
 			data->cmds = ft_split(line, 31);
 			data->cmdc = get_string_array_size(data->cmds);
 			initialise(data);
-			
 			cmd = split_shell_cmd(data->cmds[0]);
 			// export_var(data, "HELLO=heyhey");
 			if (!builtins(cmd, data))
@@ -128,7 +128,7 @@ int	prompt(t_pipe *data)
 	(void)argc;
 	(void)argv;
 	printf("hello!");
-	copy_double_array(envp, &data.envp);
+	copy_double_array(envp, &data.envp, 0);
 	printf("%s\n", data.envp[0]);
 	return (0);
 } */

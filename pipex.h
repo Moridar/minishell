@@ -65,7 +65,7 @@ void	free_cmd_mem(char **command);
 
 // Array utils
 int		get_string_array_size(char **str);
-void	copy_double_array(char **arr1, char ***arr2);
+void	copy_double_array(char **arr1, char ***arr2, int increase_size);
 
 // History
 int		write_history_file(char *line);

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/27 01:19:30 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/27 19:07:21 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,58 +50,86 @@ void	exit_builtin(char *status)
 	}
 }
 
-//unset();
-//export();
-//cd();
+int	unset(t_pipe *data, char *cmd)
+{
+	if (data && cmd)
+		return (2);
+	return (1);
+}
 
 /**
  * @return 1 for success, 0 for failure
 */
-/* int	export_var(t_pipe *data, char *var)
+int	export(t_pipe *data, char *var)
 {
-	int i;
-	int len;
+	int		i;
+	char	*key;
+	int		keylen;
+	char	**newenvp;
 
-	len = ft_strchr(var, '=') - var;
-	if (!len)
-		return (0);
-	i = 0;
-	printf("len: %d\n", len);
-	while(data->envp[i])
+	keylen = len_next_meta_char(var, "=", 0);
+	key = ft_substr(var, 0, keylen);
+	if (!key || keylen == 0)
+		return (1);
+	i = -1;
+	while (data->envp[++i])
 	{
-		// data->envp[i] = ft_strdup("hello=hello");
-		if (!ft_strncmp(data->envp[i], var, len + 1))
+		if (ft_strncmp(data->envp[i], key, ft_strlen(key)) == 0)
 		{
-			printf("data->envp[i]: %s\n", data->envp[i]);
-			data->envp[i][0] = 'X';
-			data->envp[i][1] = 'X';
-			data->envp[i][2] = 'X';
-			data->envp[i][3] = 'X';
-			data->envp[i][4] = 'X';
-			printf("data->envp[i]: %s\n", data->envp[i]);
-			// free(data->envp[i]);
-			// data->envp[i] = ft_strdup(var);
+			free(data->envp[i]);
+			data->envp[i] = ft_strdup(var);
+			free(key);
+			return (1);
 		}
-		i++;
 	}
+	copy_double_array(data->envp, &newenvp, 1);
+	newenvp[i] = ft_strdup(var);
 	return (1);
-} */
-/**
- * is_exported = 0 for env
- * is_exported = 1 for export without options or arguments
- * 
- * @return 1 for success
-*/
+}
+
+int	cd(t_pipe *data, char **cmd, int count)
+{
+	char	*buff;
+	char	*ptr;
+
+	if (count == 1)
+	{
+		buff = getcwd(NULL, 0);
+		if (buff == NULL)
+			errormsg("cd", 1);
+		ptr = ft_strrchr(buff, '/');
+		*ptr = 0;
+		chdir(buff);
+		ptr = ft_strjoin("PWD=", buff);
+		export(data, ptr);
+		free(buff);
+		free(ptr);
+		return (1);
+	}
+	chdir(cmd[1]);
+	ptr = ft_strjoin("PWD=", cmd[1]);
+	export(data, ptr);
+	free(ptr);
+	return (1);
+}
+
 int	builtins(char **cmd, t_pipe *data)
 {
 	int	count;
 
 	if (!data)
 		printf("no data");
+	if (!cmd)
+		return (0);
 	count = get_string_array_size(cmd);
-	// printf("is_parent in builtins!\n");
-	// printf("cmd[0]: %s\n", cmd[0]);
-	// printf("ft_strncmp(cmd[0], \"exit\", 5): %d\n", ft_strncmp(cmd[0], "exit", 5));
+	if (ft_strncmp(cmd[0], "export", 7) == 0 && count > 1)
+		return (export(data, cmd[1]));
+	if (ft_strncmp(cmd[0], "cd", 3) == 0 && count > 2)
+		return (printf("bsvh: cd: too many arguments\n"));
+	if (ft_strncmp(cmd[0], "cd", 3) == 0)
+		return (cd(data, cmd, count));
+	if (ft_strncmp(cmd[0], "unset", 6) == 0)
+		return (unset(data, cmd[0]));
 	if (ft_strncmp(cmd[0], "exit", 5) == 0 && count == 1)
 		exit(0);
 	if (ft_strncmp(cmd[0], "exit", 5) == 0 && count == 2)
