@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_command_prepare.c                            :+:      :+:    :+:   */
+/*   pipex_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/28 02:44:00 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:52:05 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	cmdnfound_exit(char *cmd)
 	exit(127);
 }
 
-char	*ft_getpath(char *cmd, t_pipe *data)
+char	*get_path(char *cmd, t_pipe *data)
 {
 	int		i;
 	char	*cmdpath;

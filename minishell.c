@@ -6,13 +6,13 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/28 02:08:23 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:50:59 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	non_int_with_command(char *argv[], t_pipe *data)
+static void	non_int_with_command(char *argv[], t_pipe *data)
 {
 	char	*line;
 
@@ -20,11 +20,10 @@ void	non_int_with_command(char *argv[], t_pipe *data)
 	replace_pipes(line);
 	data->cmds = ft_split(line, 31);
 	data->cmdc = get_string_array_size(data->cmds);
-	initialise(data);
 	pipex(data);
 }
 
-void	non_int_with_files(int argc, char *argv[], t_pipe *data)
+static void	non_int_with_files(int argc, char *argv[], t_pipe *data)
 {
 	int		i;
 	int		fd;
@@ -44,7 +43,6 @@ void	non_int_with_files(int argc, char *argv[], t_pipe *data)
 			replace_pipes(line);
 			data->cmds = ft_split(line, 31);
 			data->cmdc = get_string_array_size(data->cmds);
-			initialise(data);
 			free(line);
 			pipex(data);
 			freeall(data->cmds);

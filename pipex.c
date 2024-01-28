@@ -6,13 +6,13 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:38:30 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/28 02:43:54 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:50:14 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	initialise(t_pipe *data)
+static void	initialise(t_pipe *data)
 {
 	data->status = 0;
 	data->pid = ft_calloc(sizeof(pid_t), data->cmdc);

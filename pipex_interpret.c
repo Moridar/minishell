@@ -6,21 +6,11 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/28 01:15:51 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:49:19 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-char	*interpret_and_join(char *ret, char *str);
-
-// static char	*interpret_simple(char *str)
-// {
-// 	char	*word;
-
-// 	word = expand_env_args(str);
-// 	return (word);
-// }
 
 static char	*interpret_double_quote(char *str)
 {

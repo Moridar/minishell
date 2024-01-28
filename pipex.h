@@ -40,33 +40,24 @@ void	closepipe(t_pipe *data);
 int		count_lead_chars(char *str, char c);
 int		get_quote_length(char *str, char quote);
 char	*interpret_quote(char *str, char quote);
-char	*interpret(char *str);
 int		len_next_meta_char(char *str, char *metachars, int space);
-char	**reallocate_arraylist(char **arr, int size);
-
-// Init
-char	**get_paths(t_pipe *data);
-void	initialise(t_pipe *data);
-
 void	replace_pipes(char *cmd);
 
 //Main functions
 int		prompt(t_pipe *data);
-void	execute(int i, t_pipe *data);
-void	set_direction(t_pipe *data, int i, int *fd);
-char	**make_args(char *arg);
-char	*ft_getpath(char *cmd, t_pipe *data);
-
 int		pipex(t_pipe	*data);
 
-char	*expand_env_args(char *str);
-void	pass_quotes(char *new_cmd, int *i, char quote);
+void	execute(int i, t_pipe *data);
+void	set_direction(t_pipe *data, int i, int *fd);
 char	**split_shell_cmd(char	*cmd);
-void	free_cmd_mem(char **command);
+char	*get_path(char *cmd, t_pipe *data);
+char	*interpret(char *str);
+char	*expand_env_args(char *str);
 
 // Array utils
 int		get_string_array_size(char **str);
 void	copy_double_array(char **arr1, char ***arr2, int increase_size);
+char	**reallocate_arraylist(char **arr, int size);
 
 // History
 int		write_history_file(char *line);
