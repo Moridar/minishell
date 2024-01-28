@@ -6,46 +6,45 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:38:30 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/27 01:47:31 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:33:16 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	set_paths(t_pipe *data)
+char	**get_paths(t_pipe *data)
 {
-	int	i;
+	int		i;
+	char	**paths;
 
 	i = 0;
 	while (data->envp && data->envp[i])
 	{
 		if (ft_strncmp(data->envp[i], "PATH=", 5) == 0)
-			data->paths = ft_split((data->envp[i]) + 5, ':');
+			paths = ft_split((data->envp[i]) + 5, ':');
 		i++;
 	}
-	if (!data->paths)
-		data->paths = ft_split("/usr/local/bin:/usr/bin:"
+	if (!paths)
+		paths = ft_split("/usr/local/bin:/usr/bin:"
 				"/bin:/usr/sbin:/sbin", ':');
+	return (paths);
 }
 
-/* void	initalise(int cmdc, char *cmds[], t_pipe *data, char *envp[])
+void	initialise(t_pipe *data)
 {
-	data->cmds = cmds;
-	data->cmdc = cmdc;
-	data->envp = envp;
 	data->status = 0;
-	set_paths(data);
-	data->pid = ft_calloc(sizeof(pid_t), cmdc);
+	data->pid = ft_calloc(sizeof(pid_t), data->cmdc);
 	data->fd[0][0] = -1;
 	data->fd[0][1] = -1;
 	data->fd[1][0] = -1;
 	data->fd[1][1] = -1;
-} */
+}
 
 int	pipex(t_pipe	*data)
 {
 	int		i;
 
+	initialise(data);
 	i = -1;
 	while (++i < data->cmdc)
 		execute(i, data);

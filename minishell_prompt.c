@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/28 01:43:23 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:16:22 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,6 @@ void	replace_pipes(char *cmd)
 	}
 }
 
-void	initialise(t_pipe *data)
-{
-	data->status = 0;
-	set_paths(data);
-	data->pid = ft_calloc(sizeof(pid_t), data->cmdc);
-	data->fd[0][0] = -1;
-	data->fd[0][1] = -1;
-	data->fd[1][0] = -1;
-	data->fd[1][1] = -1;
-}
-
 int	prompt(t_pipe *data)
 {
 	const char		*prompt_message;
@@ -104,18 +93,17 @@ int	prompt(t_pipe *data)
 		}
 		if (line && *line)
 		{
-			printf("line: %s\n", line);
 			add_history(line);
 			write_history_file(line);
 			replace_pipes(line);
 			data->cmds = ft_split(line, 31);
 			data->cmdc = get_string_array_size(data->cmds);
-			if (data->cmdc == 0)
-				continue ;
-			initialise(data);
 			cmd = split_shell_cmd(data->cmds[0]);
-			if (!builtins(cmd, data))
-				pipex(data);
+			if (cmd[0])
+				if (!builtins(cmd, data))
+					pipex(data);
+			freeall(data->cmds);
+			freeall(cmd);
 			free(line);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/28 01:33:18 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:24:03 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,14 @@
 
 void	closepipe(t_pipe *data)
 {
-	close(data->fd[0][0]);
-	close(data->fd[0][1]);
-	close(data->fd[1][0]);
-	close(data->fd[1][1]);
+	if (data->fd[0][0] >= 0)
+		close(data->fd[0][0]);
+	if (data->fd[0][1] >= 0)
+		close(data->fd[0][1]);
+	if (data->fd[1][0] >= 0)
+		close(data->fd[1][0]);
+	if (data->fd[1][1] >= 0)
+		close(data->fd[1][1]);
 }
 
 static void	child_execute(t_pipe *data, int i)
@@ -41,7 +45,7 @@ static void	child_execute(t_pipe *data, int i)
 	closepipe(data);
 	if (child_builtins(cmd, data))
 		exit(0);
-	path = ft_getpath(ft_strdup(cmd[0]), data->paths);
+	path = ft_getpath(ft_strdup(cmd[0]), data);
 	execve(path, cmd, data->envp);
 	exit(EXIT_FAILURE);
 }

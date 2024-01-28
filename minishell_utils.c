@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/28 00:57:45 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:09:43 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	**reallocate_arraylist(char **arr, int size)
 		}
 		i++;
 	}
-	free(arr);
+	freeall(arr);
 	return (new_arr);
 }
 

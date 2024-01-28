@@ -45,7 +45,7 @@ int		len_next_meta_char(char *str, char *metachars, int space);
 char	**reallocate_arraylist(char **arr, int size);
 
 // Init
-void	set_paths(t_pipe *data);
+char	**get_paths(t_pipe *data);
 void	initialise(t_pipe *data);
 
 void	replace_pipes(char *cmd);
@@ -55,7 +55,7 @@ int		prompt(t_pipe *data);
 void	execute(int i, t_pipe *data);
 void	set_direction(t_pipe *data, int i, int *fd);
 char	**make_args(char *arg);
-char	*ft_getpath(char *cmd, char **paths);
+char	*ft_getpath(char *cmd, t_pipe *data);
 
 int		pipex(t_pipe	*data);
 

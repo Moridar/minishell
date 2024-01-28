@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/28 01:30:36 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:34:52 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,25 @@
 static void	cmdnfound_exit(char *cmd)
 {
 	char	*errmsg;
+	char	*tmp;
 
-	errmsg = ft_strjoin("bvsh: ", cmd);
-	errmsg = ft_strjoin(errmsg, ": command not found\n");
+	tmp = ft_strjoin("bvsh: ", cmd);
+	errmsg = ft_strjoin(tmp, ": command not found\n");
 	write(2, errmsg, ft_strlen(errmsg));
+	free(tmp);
+	free(errmsg);
 	exit(127);
 }
 
-char	*ft_getpath(char *cmd, char **paths)
+char	*ft_getpath(char *cmd, t_pipe *data)
 {
 	int		i;
 	char	*cmdpath;
+	char	**paths;
 
 	if (access(cmd, F_OK) == 0)
 		return (cmd);
+	paths = get_paths(data);
 	cmdpath = cmd;
 	cmd = ft_strjoin("/", cmd);
 	free(cmdpath);
@@ -41,7 +46,7 @@ char	*ft_getpath(char *cmd, char **paths)
 		free(cmdpath);
 		cmdpath = NULL;
 	}
-	free(paths);
+	freeall(paths);
 	if (!cmdpath)
 		cmdnfound_exit(cmd + 1);
 	free(cmd);

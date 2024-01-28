@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/28 01:24:13 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:12:26 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,9 @@ static int	export(t_pipe *data, char *var)
 			return (1);
 		}
 	}
+	free(key);
 	copy_double_array(data->envp, &newenvp, 1);
-	free(data->envp);
+	freeall(data->envp);
 	newenvp[i] = ft_strdup(var);
 	data->envp = newenvp;
 	return (1);
