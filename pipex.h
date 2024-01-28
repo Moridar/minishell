@@ -56,7 +56,7 @@ char	*expand_env_args(char *str);
 
 // Array utils
 int		get_string_array_size(char **str);
-void	copy_double_array(char **arr1, char ***arr2, int increase_size);
+char	**copy_double_array(char **arr1, int increase_size);
 char	**reallocate_arraylist(char **arr, int size);
 
 // History

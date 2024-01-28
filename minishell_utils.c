@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/28 02:09:43 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 03:30:09 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,24 @@ int	get_string_array_size(char **str)
  * Used to copy double dimension array arr1 to arr2.
  * For example, envp.
 */
-void	copy_double_array(char **arr1, char ***arr2, int increase_size)
+char	**copy_double_array(char **arr1, int increase_size)
 {
-	int	size;
-	int	i;
-	int	len;
+	int		size;
+	int		i;
+	int		len;
+	char	**arr2;
 
 	i = 0;
 	size = get_string_array_size(arr1);
-	*arr2 = (char **)ft_calloc((size + 1 + increase_size), sizeof(char *));
+	arr2 = (char **)ft_calloc((size + 1 + increase_size), sizeof(char *));
 	while (i < size)
 	{
 		len = (ft_strlen(arr1[i]) + 1);
-		(*arr2)[i] = (char *)ft_calloc(len, sizeof(char));
-		ft_memmove((*arr2)[i], arr1[i], len);
+		arr2[i] = (char *)ft_calloc(len, sizeof(char));
+		ft_memmove(arr2[i], arr1[i], len);
 		i++;
 	}
+	return (arr2);
 }
 
 char	**reallocate_arraylist(char **arr, int size)
@@ -68,7 +70,8 @@ char	**reallocate_arraylist(char **arr, int size)
 		}
 		i++;
 	}
-	freeall(arr);
+	free(arr[i]);
+	free(arr);
 	return (new_arr);
 }
 

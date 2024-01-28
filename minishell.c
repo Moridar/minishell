@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/28 02:50:59 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 03:09:42 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipe	data;
 
-	data.envp = NULL;
-	copy_double_array(envp, &data.envp, 0);
+	data.envp = copy_double_array(envp, 0);
 	// Interactive mode
 	if (argc < 2)
 		prompt(&data);
