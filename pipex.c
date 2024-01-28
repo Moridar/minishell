@@ -6,29 +6,11 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:38:30 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/28 02:33:16 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:43:54 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-char	**get_paths(t_pipe *data)
-{
-	int		i;
-	char	**paths;
-
-	i = 0;
-	while (data->envp && data->envp[i])
-	{
-		if (ft_strncmp(data->envp[i], "PATH=", 5) == 0)
-			paths = ft_split((data->envp[i]) + 5, ':');
-		i++;
-	}
-	if (!paths)
-		paths = ft_split("/usr/local/bin:/usr/bin:"
-				"/bin:/usr/sbin:/sbin", ':');
-	return (paths);
-}
 
 void	initialise(t_pipe *data)
 {
@@ -49,7 +31,6 @@ int	pipex(t_pipe	*data)
 	while (++i < data->cmdc)
 		execute(i, data);
 	free(data->pid);
-	freeall(data->paths);
 	return (WEXITSTATUS(data->status));
 }
 

@@ -6,11 +6,29 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/28 02:34:52 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:44:00 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+static char	**get_paths(t_pipe *data)
+{
+	int		i;
+	char	**paths;
+
+	i = 0;
+	while (data->envp && data->envp[i])
+	{
+		if (ft_strncmp(data->envp[i], "PATH=", 5) == 0)
+			paths = ft_split((data->envp[i]) + 5, ':');
+		i++;
+	}
+	if (!paths)
+		paths = ft_split("/usr/local/bin:/usr/bin:"
+				"/bin:/usr/sbin:/sbin", ':');
+	return (paths);
+}
 
 static void	cmdnfound_exit(char *cmd)
 {
@@ -51,59 +69,4 @@ char	*ft_getpath(char *cmd, t_pipe *data)
 		cmdnfound_exit(cmd + 1);
 	free(cmd);
 	return (cmdpath);
-}
-
-char	*remove_quote(char *arg, char c)
-{
-	char	*str;
-	char	*strend;
-	int		i;
-
-	str = ft_strchr(arg, c) + 1;
-	strend = str;
-	i = ft_strlen(str);
-	while (i >= 0)
-	{
-		if (str[i] == '\\')
-			str[i] = 32;
-		if (str[i - 1] == '\\')
-			i--;
-		i--;
-	}
-	while (1)
-	{
-		strend = ft_strchr(strend + 1, c);
-		if (!strend)
-			return (NULL);
-		if (*(strend - 1) != '\\')
-			break ;
-	}
-	*strend = 0;
-	return (str);
-}
-
-char	**make_args(char *arg)
-{
-	char	**args;
-	int		i;
-	char	c;
-
-	if (access(arg, F_OK) == 0)
-		return (ft_split(arg, 0));
-	args = ft_split(arg, ' ');
-	if (!args)
-		exit(1);
-	c = 0;
-	if (args[1] && (*args[1] == '\'' || *args[1] == '"'))
-		c = *args[1];
-	if (c)
-	{
-		free(args[1]);
-		args[1] = remove_quote(arg, c);
-		i = 2;
-		while (args[i])
-			free(args[i++]);
-		args[2] = 0;
-	}
-	return (args);
 }

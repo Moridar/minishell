@@ -21,10 +21,10 @@ SRC = 	minishell.c \
 		pipex_redirect.c \
 		pipex_interpret.c \
 		pipex_env_variables.c \
-		pipex_command_prepare.c \
+		pipex_path.c \
 		pipex_builtins.c \
 		pipex_utils.c \
-		pipex_split_shell_cmd.c
+		pipex_command.c
 
 OBJ = $(SRC:%.c=%.o)
 CC = cc
