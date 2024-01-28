@@ -1,16 +1,16 @@
-# Makefile for pipex
+# Makefile for minishell
 # Auother: Bobbie Syvasalmi
 # Version 1.0
-# Date: 07/12/2023
+# Date: 01/28/2024
 
-NAME = pipex
+NAME = minishell
 
 LIB = libft/libft.a
 LIBDIR = ./libft
-READLINE_LIB = ~/.brew/opt/readline/lib
-READLINE_HEADER = ~/.brew/opt/readline/include
-#READLINE_LIB = /opt/homebrew/opt/readline/lib 
-#READLINE_HEADER = /opt/homebrew/opt/readline/include
+# READLINE_LIB = ~/.brew/opt/readline/lib
+# READLINE_HEADER = ~/.brew/opt/readline/include
+READLINE_LIB = /opt/homebrew/opt/readline/lib 
+READLINE_HEADER = /opt/homebrew/opt/readline/include
 SRC = 	minishell.c \
 		minishell_prompt.c \
 		minishell_history.c \

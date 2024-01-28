@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   minishell_history.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:32:14 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/26 00:35:23 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/28 16:09:05 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 */
 int	write_history_file(char *line)
 {
-	int fd;
+	int	fd;
 
 	if (!line || line[0] == '\0')
 		return (0);
@@ -50,7 +50,7 @@ int	read_history_file(void)
 		return (1);
 	}
 	line = get_next_line(fd);
-	while(line)
+	while (line)
 	{
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
@@ -79,7 +79,7 @@ int	history(void)
 	}
 	line = get_next_line(fd);
 	i = 0;
-	while(line)
+	while (line)
 	{
 		i++;
 		printf("%5d  %s", i, line);

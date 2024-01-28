@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_builtins.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/28 03:16:47 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 16:55:02 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,28 @@
 */
 void	exit_builtin(char *status)
 {
-	char	*status_converted;
+	char	*status_conv;
 	int		status_n;
 	char	*error_msg;
 	char	*temp;
-	
+
 	if (status)
 	{
 		status_n = ft_atoi(status);
-		status_converted = ft_itoa(status_n);
-/* 		if (!status_converted) // this should be somehow handled in the outer functions up to where the builtins is called
-			return (0); */
+		status_conv = ft_itoa(status_n);
+		// if (!status_conv)
+		// 	return (2);
 		if (status[0] == '+')
 			status = status + 1;
-		if (ft_strncmp(status, status_converted, ft_strlen(status_converted) + 1) == 0)
+		if (ft_strncmp(status, status_conv, ft_strlen(status_conv) + 1) == 0)
 		{
-			free(status_converted);
+			free(status_conv);
 			ft_putstr_fd("exit\n", 1);
 			exit((char)status_n);
 		}
 		else
 		{
-			free(status_converted);
+			free(status_conv);
 			error_msg = ft_strjoin("bvsh: exit: ", status);
 			temp = error_msg;
 			error_msg = ft_strjoin(temp, ": numeric argument required");
@@ -48,6 +48,7 @@ void	exit_builtin(char *status)
 			exit(255);
 		}
 	}
+	exit(1);
 }
 
 static int	unset(t_pipe *data, char **cmd, int count)
@@ -60,6 +61,8 @@ static int	unset(t_pipe *data, char **cmd, int count)
 		return (1);
 	size = get_string_array_size(data->envp);
 	tmp = ft_strjoin(cmd[1], "=");
+	if (!tmp)
+		return (2);
 	i = -1;
 	while (data->envp[++i])
 	{
@@ -88,6 +91,8 @@ static int	export(t_pipe *data, char *var)
 	if (keylen == (int) ft_strlen(var))
 		return (1);
 	key = ft_substr(var, 0, keylen);
+	if (!key)
+		return (2);
 	i = -1;
 	while (data->envp[++i])
 	{
@@ -117,6 +122,8 @@ static int	cd(t_pipe *data, char **cmd, int count)
 	else if (chdir(cmd[1]) == 0)
 	{
 		ptr = ft_strjoin("PWD=", getcwd(NULL, 0));
+		if (!ptr)
+			return (2);
 		export(data, ptr);
 		free(ptr);
 	}

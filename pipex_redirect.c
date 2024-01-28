@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/25 10:45:45 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 16:13:25 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void	set_direction(t_pipe *data, int i, int *fd)
 // 	filename = NULL;
 // 	// str = ft_strdup("<$SHELL\"s\"'Mak'e'fi\"l\"e'>out echo helo world > output");
 // 	// str = ft_strdup("<$SHELL\"s\"'Mak'e'fi\"l\"e'>out echo helo world > output");
-	
+
 // 	/*CHECK THE FOLLOWING TESTS*/
 // 	// str = ft_strdup("<$SHELL > output"); // works!
 // 	// str = ft_strdup("<\"$SHELL\" > output"); // works!

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/28 03:09:42 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 16:11:44 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static void	non_int_with_files(int argc, char *argv[], t_pipe *data)
 	int		fd;
 	char	*line;
 
-	i = 1;
-	while (i < argc)
+	i = 0;
+	while (++i < argc)
 	{
 		fd = open(argv[i], O_RDONLY);
 		if (fd < 0)
@@ -49,7 +49,6 @@ static void	non_int_with_files(int argc, char *argv[], t_pipe *data)
 			line = get_next_line(fd);
 		}
 		close(fd);
-		i++;
 	}
 }
 
@@ -58,15 +57,11 @@ int	main(int argc, char *argv[], char *envp[])
 	t_pipe	data;
 
 	data.envp = copy_double_array(envp, 0);
-	// Interactive mode
 	if (argc < 2)
 		prompt(&data);
-	// Non-interactive mode
 	else if (ft_strnstr(argv[1], "-c", 2))
-	{
 		non_int_with_command(argv, &data);
-	}
-	else // handles scrip1.sh script2.sh. // works for several files but still not working for several lines in one .sh file
+	else
 		non_int_with_files(argc, argv, &data);
 	return (0);
 }

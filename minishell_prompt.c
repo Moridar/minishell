@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_prompt.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/28 02:16:22 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 16:44:28 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,61 +51,60 @@ void	replace_pipes(char *cmd)
 	}
 }
 
+/* Exit on ctrl + d */
+void	handle_ctrl_d(void)
+{
+	ft_printf("line == null\n");
+	rl_on_new_line();
+	rl_replace_line("exit\n", 0);
+	rl_redisplay();
+	printf("\n");
+	exit(0);
+}
+
+void	process_prompt_line(char *line, t_pipe *data)
+{
+	char	**cmd;
+	int		builtins_res;
+
+	builtins_res = -1;
+	add_history(line);
+	write_history_file(line);
+	replace_pipes(line);
+	data->cmds = ft_split(line, 31);
+	data->cmdc = get_string_array_size(data->cmds);
+	cmd = split_shell_cmd(data->cmds[0]);
+	if (cmd[0])
+	{
+		builtins_res = builtins(cmd, data) == 1;
+		if (builtins_res == 0)
+			pipex(data);
+	}
+	freeall(data->cmds);
+	freeall(cmd);
+	free(line);
+	if (builtins_res == 2)
+		exit(1);
+}
+
 int	prompt(t_pipe *data)
 {
-	const char		*prompt_message;
 	char			*line;
 	struct termios	new_attr;
-	char			**cmd;
 
-	prompt_message = "bvsh-1.1$ ";
-
-	/* Reading history*/
 	read_history_file();
-	
-	/* Disabling echoing of input characters */
 	tcgetattr(STDIN_FILENO, &new_attr);
 	new_attr.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &new_attr);
-
-	/* Listening to ctrl + c (interuption of the process)*/
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, signal_handler);
-
 	while (1)
 	{
-		line = readline(prompt_message);
-		/* Exit on ctrl + d */
+		line = readline("bvsh-1.1$ ");
 		if (line == NULL)
-		{
-			ft_printf("line == null\n");
-			// only works the right way with forbidden function
-/* 			rl_replace_line("exit3", 0);
-			rl_forced_update_display(); */
-
-			//creates a new prompt line:
- 			rl_on_new_line();
-            rl_replace_line("exit\n", 0);
-            rl_redisplay();
-			printf("\n");
-			//free(line);
-			exit(0);
-		}
+			handle_ctrl_d();
 		if (line && *line)
-		{
-			add_history(line);
-			write_history_file(line);
-			replace_pipes(line);
-			data->cmds = ft_split(line, 31);
-			data->cmdc = get_string_array_size(data->cmds);
-			cmd = split_shell_cmd(data->cmds[0]);
-			if (cmd[0])
-				if (!builtins(cmd, data))
-					pipex(data);
-			freeall(data->cmds);
-			freeall(cmd);
-			free(line);
-		}
+			process_prompt_line(line, data);
 	}
 	return (0);
 }

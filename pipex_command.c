@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_split_shell_cmd.c                            :+:      :+:    :+:   */
+/*   pipex_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:11:39 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/28 01:32:14 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/28 16:12:25 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,45 +88,44 @@ char	**split_shell_cmd(char	*cmd)
 		free(new_str);
 		i++;
 	}
-	// trim_expand_flag_quotes(command);
 	return (command);
 }
 
-/* int	main(void)
-{
-	char	*cmd;
-	char	**command;
-	int i;
+// int	main(void)
+// {
+// 	char	*cmd;
+// 	char	**command;
+// 	int i;
 
-	// cmd = "    	  echo 	   \" \'  \' word \' hello 	 $SHELL  $MAIL \"       \'h world $SHELL \" h\'   $MAIL $MAIL $NOT_EXISTS  ";
-	// cmd = "echo \' something should happen here\"\"";
-	// cmd = "\"hello\"";
-	// cmd = "    	  echo 	   \" \'  \' word \' hello 	 $SHELL  $MAIL \"       \'h world $SHELL \" h\'   $MAIL $MAIL $NOT_EXISTS  ";
-	// cmd = "'";
-	// cmd = "echo $SHELL\"HEY\" $SHELL' hey' \"$SHELL 'HEY' HEY$SHELL\" \'hey\' \"hello\" \"' hey hey '\"";
+// 	// cmd = "    	  echo 	   \" \'  \' word \' hello 	 $SHELL  $MAIL \"       \'h world $SHELL \" h\'   $MAIL $MAIL $NOT_EXISTS  ";
+// 	// cmd = "echo \' something should happen here\"\"";
+// 	// cmd = "\"hello\"";
+// 	// cmd = "    	  echo 	   \" \'  \' word \' hello 	 $SHELL  $MAIL \"       \'h world $SHELL \" h\'   $MAIL $MAIL $NOT_EXISTS  ";
+// 	// cmd = "'";
+// 	// cmd = "echo $SHELL\"HEY\" $SHELL' hey' \"$SHELL 'HEY' HEY$SHELL\" \'hey\' \"hello\" \"' hey hey '\"";
 	
-	// cmd = "echo \"$SHELL\""; // works!
-	// cmd = "echo \"$SHELL\" "; // works!
-	// cmd = "echo \"$SHELL \""; // gives an empty string
-	cmd = "echo \"$SHELL \"\"\""; // gives an empty string
-	// cmd = "echo \"$SHELL \"\'\'"; // gives an empty string
-	// cmd = "echo \"$SHELL 'HEY'\""; // gives an empty string
-	// cmd = "echo \"$SHELL 'HEY' HEY$SHELL\""; // gives an empty string
+// 	// cmd = "echo \"$SHELL\""; // works!
+// 	// cmd = "echo \"$SHELL\" "; // works!
+// 	// cmd = "echo \"$SHELL \""; // gives an empty string
+// 	cmd = "echo \"$SHELL \"\"\""; // gives an empty string
+// 	// cmd = "echo \"$SHELL \"\'\'"; // gives an empty string
+// 	// cmd = "echo \"$SHELL 'HEY'\""; // gives an empty string
+// 	// cmd = "echo \"$SHELL 'HEY' HEY$SHELL\""; // gives an empty string
 	
-	// printf("cmd: %s\n", cmd);
+// 	// printf("cmd: %s\n", cmd);
 
-	// in bash:
-	//     	  echo 	   " '  ' word ' hello 	 $SHELL  $MAIL "       'h world $SHELL " h'   $MAIL $MAIL $NOT_EXISTS  
+// 	// in bash:
+// 	//     	  echo 	   " '  ' word ' hello 	 $SHELL  $MAIL "       'h world $SHELL " h'   $MAIL $MAIL $NOT_EXISTS  
 	
-	command = split_shell_cmd(cmd);
-	printf("Array elements:\n");
-	i = 0;
-	while(command[i])
-	{
-		printf("|%s|\n", command[i]);
-		i++;
-	}
-	freeall(command);
+// 	command = split_shell_cmd(cmd);
+// 	printf("Array elements:\n");
+// 	i = 0;
+// 	while(command[i])
+// 	{
+// 		printf("|%s|\n", command[i]);
+// 		i++;
+// 	}
+// 	freeall(command);
 
-	return (0);
-} */
+// 	return (0);
+// }
