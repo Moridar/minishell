@@ -6,50 +6,11 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/28 16:55:02 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/28 22:19:07 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-/**
- * @param return status
-*/
-void	exit_builtin(char *status)
-{
-	char	*status_conv;
-	int		status_n;
-	char	*error_msg;
-	char	*temp;
-
-	if (status)
-	{
-		status_n = ft_atoi(status);
-		status_conv = ft_itoa(status_n);
-		// if (!status_conv)
-		// 	return (2);
-		if (status[0] == '+')
-			status = status + 1;
-		if (ft_strncmp(status, status_conv, ft_strlen(status_conv) + 1) == 0)
-		{
-			free(status_conv);
-			ft_putstr_fd("exit\n", 1);
-			exit((char)status_n);
-		}
-		else
-		{
-			free(status_conv);
-			error_msg = ft_strjoin("bvsh: exit: ", status);
-			temp = error_msg;
-			error_msg = ft_strjoin(temp, ": numeric argument required");
-			ft_putstr_fd(error_msg, 2);
-			free(temp);
-			free(error_msg);
-			exit(255);
-		}
-	}
-	exit(1);
-}
 
 static int	unset(t_pipe *data, char **cmd, int count)
 {
@@ -71,14 +32,21 @@ static int	unset(t_pipe *data, char **cmd, int count)
 			free(data->envp[i]);
 			data->envp[i] = NULL;
 			data->envp = reallocate_arraylist(data->envp, size);
+			if (!data->envp)
+			{
+				free(tmp);
+				return (2);
+			}
 		}
 	}
 	free(tmp);
 	return (1);
 }
 
+
+
 /**
- * @return 1 for success, 0 for failure
+ * @return 1 for success, 2 if malloc failed
 */
 static int	export(t_pipe *data, char *var)
 {
@@ -100,12 +68,25 @@ static int	export(t_pipe *data, char *var)
 			continue ;
 		free(data->envp[i]);
 		data->envp[i] = ft_strdup(var);
+		if (!data->envp[i])
+		{
+			free_double_arr(data->envp, i);
+			free(key);
+			return (2);
+		}
 		free(key);
 		return (1);
 	}
 	free(key);
 	newenvp = copy_double_array(data->envp, 1);
+	if (!newenvp)
+		return (2);
 	newenvp[i] = ft_strdup(var);
+	if (!newenvp[i])
+	{
+		free_double_arr(data->envp, i);
+		return (2);
+	}
 	freeall(data->envp);
 	data->envp = newenvp;
 	return (1);
@@ -130,7 +111,12 @@ static int	cd(t_pipe *data, char **cmd, int count)
 	return (1);
 }
 
-int	builtins(char **cmd, t_pipe *data)
+/**
+ * @return 2 if memory allocation in one of the builtins failed.
+ * 1 for successfully running builtin command.
+ * 0 if the builtin has not run.
+*/
+int	builtins(char **cmd, t_pipe *data, char *line)
 {
 	int	count;
 
@@ -148,7 +134,7 @@ int	builtins(char **cmd, t_pipe *data)
 	if (ft_strncmp(cmd[0], "exit", 5) == 0 && count == 1)
 		exit(0);
 	if (ft_strncmp(cmd[0], "exit", 5) == 0 && count == 2)
-		exit_builtin(cmd[1]);
+		return (exit_builtin(cmd[1], data, cmd, line));
 	if (ft_strncmp(cmd[0], "exit", 5) == 0 && count > 2)
 	{
 		ft_putstr_fd("exit\nbvsh: exit: too many arguments\n", 2);

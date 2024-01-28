@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/28 16:44:28 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/28 21:22:20 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	process_prompt_line(char *line, t_pipe *data)
 	cmd = split_shell_cmd(data->cmds[0]);
 	if (cmd[0])
 	{
-		builtins_res = builtins(cmd, data) == 1;
+		builtins_res = builtins(cmd, data, line);
 		if (builtins_res == 0)
 			pipex(data);
 	}

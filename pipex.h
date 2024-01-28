@@ -56,6 +56,7 @@ char	*expand_env_args(char *str);
 
 // Array utils
 int		get_string_array_size(char **str);
+char	**free_double_arr(char **arr, int i);
 char	**copy_double_array(char **arr1, int increase_size);
 char	**reallocate_arraylist(char **arr, int size);
 
@@ -67,8 +68,9 @@ int		history(void);
 // Builtins
 // void	exit_builtin(int status);
 void	env(t_pipe *data);
-int 	builtins(char **cmd, t_pipe *data);
+int		builtins(char **cmd, t_pipe *data, char *line);
 int		child_builtins(char **cmd, t_pipe *data);
 int		export_var(t_pipe *data, char *var);
+int		exit_builtin(char *status, t_pipe *data, char **cmd, char *line);
 
 #endif
