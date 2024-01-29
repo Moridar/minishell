@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/28 21:24:58 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/29 14:43:25 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +70,22 @@ char	**copy_double_array(char **arr1, int increase_size)
 	}
 	return (arr2);
 }
-
-char	**reallocate_arraylist(char **arr, int size)
+/**
+ * Reallocates the arraylist when some elements are deleted
+ * @param newsize is the size of the new array
+*/
+char	**reallocate_arraylist(char **arr, int newsize)
 {
 	char	**new_arr;
 	int		i;
 	int		j;
 
-	new_arr = (char **)ft_calloc((size), sizeof(char *));
+	new_arr = (char **)ft_calloc((newsize + 1), sizeof(char *));
 	if (!new_arr)
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (i < size - 1)
+	while (j < newsize)
 	{
 		if (arr[i])
 		{

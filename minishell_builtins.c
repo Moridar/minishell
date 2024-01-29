@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_builtins.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/28 22:19:07 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/29 15:22:18 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,15 @@ static int	unset(t_pipe *data, char **cmd, int count)
 		{
 			free(data->envp[i]);
 			data->envp[i] = NULL;
-			data->envp = reallocate_arraylist(data->envp, size);
-			if (!data->envp)
-			{
-				free(tmp);
-				return (2);
-			}
+			data->envp = reallocate_arraylist(data->envp, size - 1);
+			break ;
 		}
 	}
 	free(tmp);
+	if (!data->envp)
+		return (2);
 	return (1);
 }
-
-
 
 /**
  * @return 1 for success, 2 if malloc failed
@@ -66,15 +62,12 @@ static int	export(t_pipe *data, char *var)
 	{
 		if (ft_strncmp(data->envp[i], key, ft_strlen(key)) != 0)
 			continue ;
-		free(data->envp[i]);
-		data->envp[i] = ft_strdup(var);
-		if (!data->envp[i])
-		{
-			free_double_arr(data->envp, i);
-			free(key);
-			return (2);
-		}
 		free(key);
+		key = ft_strdup(var);
+		if (!key)
+			return (2);
+		free(data->envp[i]);
+		data->envp[i] = key;
 		return (1);
 	}
 	free(key);
