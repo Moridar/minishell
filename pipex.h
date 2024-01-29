@@ -42,6 +42,8 @@ int		get_quote_length(char *str, char quote);
 char	*interpret_quote(char *str, char quote);
 int		len_next_meta_char(char *str, char *metachars, int space);
 void	replace_pipes(char *cmd);
+void	free_env_exit(t_pipe *data, int exitno);
+int		free_return(void *ptr, int returnvalue);
 
 //Main functions
 int		prompt(t_pipe *data);

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/29 15:22:18 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:18:36 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,39 +47,27 @@ static int	unset(t_pipe *data, char **cmd, int count)
 static int	export(t_pipe *data, char *var)
 {
 	int		i;
-	char	*key;
 	int		keylen;
 	char	**newenvp;
 
-	keylen = len_next_meta_char(var, "=", 0);
-	if (keylen == (int) ft_strlen(var))
-		return (1);
-	key = ft_substr(var, 0, keylen);
-	if (!key)
+	if (!var)
 		return (2);
+	keylen = len_next_meta_char(var, "=", 0) + 1;
+	if (keylen > (int) ft_strlen(var))
+		return (free_return(var, 1));
 	i = -1;
 	while (data->envp[++i])
 	{
-		if (ft_strncmp(data->envp[i], key, ft_strlen(key)) != 0)
+		if (ft_strncmp(data->envp[i], var, keylen) != 0)
 			continue ;
-		free(key);
-		key = ft_strdup(var);
-		if (!key)
-			return (2);
 		free(data->envp[i]);
-		data->envp[i] = key;
+		data->envp[i] = var;
 		return (1);
 	}
-	free(key);
 	newenvp = copy_double_array(data->envp, 1);
 	if (!newenvp)
-		return (2);
-	newenvp[i] = ft_strdup(var);
-	if (!newenvp[i])
-	{
-		free_double_arr(data->envp, i);
-		return (2);
-	}
+		return (free_return(var, 2));
+	newenvp[i] = var;
 	freeall(data->envp);
 	data->envp = newenvp;
 	return (1);
@@ -119,7 +107,7 @@ int	builtins(char **cmd, t_pipe *data, char *line)
 		return (0);
 	count = get_string_array_size(cmd);
 	if (ft_strncmp(cmd[0], "export", 7) == 0 && count > 1)
-		return (export(data, cmd[1]));
+		return (export(data, ft_strdup(cmd[1])));
 	if (ft_strncmp(cmd[0], "cd", 3) == 0)
 		return (cd(data, cmd, count));
 	if (ft_strncmp(cmd[0], "unset", 6) == 0)

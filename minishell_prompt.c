@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_prompt.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/28 21:22:20 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:09:09 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	process_prompt_line(char *line, t_pipe *data)
 	freeall(cmd);
 	free(line);
 	if (builtins_res == 2)
-		exit(1);
+		free_env_exit(data, 1);
 }
 
 int	prompt(t_pipe *data)

@@ -6,11 +6,23 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/29 14:43:25 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:21:45 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+int	free_return(void *ptr, int returnvalue)
+{
+	free(ptr);
+	return (returnvalue);
+}
+
+void	free_env_exit(t_pipe *data, int exitno)
+{
+	freeall(data->envp);
+	exit(exitno);
+}
 
 /**
  * @return size of the double dimension string array, for example,
@@ -26,21 +38,6 @@ int	get_string_array_size(char **str)
 		j++;
 	}
 	return (j);
-}
-
-/**
- * Frees all previous allocated elements of the array and array pointer.
- * Used on failed memory allocation of array element.
-*/
-char	**free_double_arr(char **arr, int i)
-{
-	while (i >= 0)
-	{
-		free(arr[i]);
-		i--;
-	}
-	free(arr);
-	return (NULL);
 }
 
 /**
@@ -64,7 +61,10 @@ char	**copy_double_array(char **arr1, int increase_size)
 		len = (ft_strlen(arr1[i]) + 1);
 		arr2[i] = (char *)ft_calloc(len, sizeof(char));
 		if (!arr2[i])
-			return (free_double_arr(arr2, i));
+		{
+			freeall(arr2);
+			return (NULL);
+		}
 		ft_memmove(arr2[i], arr1[i], len);
 		i++;
 	}
