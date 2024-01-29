@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:11:39 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/28 16:12:25 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:38:56 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,28 +37,6 @@ char	*replace_spaces(char *cmd)
 		i++;
 	}
 	return (new_cmd);
-}
-
-/**
- * Takes double array of splitted command and trims quotes and double quotes
- * from each element while expanding the environment variables.
-*/
-void	trim_expand_flag_quotes(char **command)
-{
-	char	*temp;
-	int		i;
-
-	i = 0;
-	while (command[i])
-	{
-		temp = command[i];
-		command[i] = expand_env_args(temp);
-		free(temp);
-		temp = command[i];
-		command[i] = ft_strtrim(temp, (char []){'\'', '"'});
-		free(temp);
-		i++;
-	}
 }
 
 /**
