@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/28 16:11:44 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/29 15:34:36 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	non_int_with_command(char *argv[], t_pipe *data)
 	replace_pipes(line);
 	data->cmds = ft_split(line, 31);
 	data->cmdc = get_string_array_size(data->cmds);
-	pipex(data);
+	g_exit_status = pipex(data);
 }
 
 static void	non_int_with_files(int argc, char *argv[], t_pipe *data)
@@ -44,7 +44,7 @@ static void	non_int_with_files(int argc, char *argv[], t_pipe *data)
 			data->cmds = ft_split(line, 31);
 			data->cmdc = get_string_array_size(data->cmds);
 			free(line);
-			pipex(data);
+			g_exit_status = pipex(data);
 			freeall(data->cmds);
 			line = get_next_line(fd);
 		}

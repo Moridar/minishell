@@ -21,6 +21,8 @@
 # include <readline/history.h>
 # include <termios.h>
 
+extern unsigned char	g_exit_status;
+
 typedef struct s_pipe
 {
 	int		status;

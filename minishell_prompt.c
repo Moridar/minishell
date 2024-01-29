@@ -6,11 +6,13 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/28 21:22:20 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/29 15:48:23 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+unsigned char g_exit_status;
 
 /**
  *  if signo == SIGINT handles ctrl + C
@@ -20,6 +22,7 @@ static void	signal_handler(int signo)
 {
 	if (signo == SIGINT)
 	{
+		g_exit_status = 1;
 		rl_replace_line("", 0);
 		printf("\n");
 		rl_on_new_line();
@@ -54,7 +57,7 @@ void	replace_pipes(char *cmd)
 /* Exit on ctrl + d */
 void	handle_ctrl_d(void)
 {
-	ft_printf("line == null\n");
+	// ft_printf("line == null\n");
 	rl_on_new_line();
 	rl_replace_line("exit\n", 0);
 	rl_redisplay();
@@ -78,7 +81,7 @@ void	process_prompt_line(char *line, t_pipe *data)
 	{
 		builtins_res = builtins(cmd, data, line);
 		if (builtins_res == 0)
-			pipex(data);
+			g_exit_status = pipex(data);
 	}
 	freeall(data->cmds);
 	freeall(cmd);
@@ -92,6 +95,7 @@ int	prompt(t_pipe *data)
 	char			*line;
 	struct termios	new_attr;
 
+	g_exit_status = 0;
 	read_history_file();
 	tcgetattr(STDIN_FILENO, &new_attr);
 	new_attr.c_lflag &= ~ECHOCTL;

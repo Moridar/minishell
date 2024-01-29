@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/28 22:17:17 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:06:41 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	clean_memory(t_pipe *data, char **cmd, char *line)
 {
 	freeall(data->cmds);
 	freeall(cmd);
+	freall(data->envp);
 	free(line);
 }
 
