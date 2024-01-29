@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:12:21 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/28 16:13:04 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/29 15:40:35 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,9 @@ char	*expand_simple_var(char *start)
 	char	*res;
 	char	*temp;
 
-	if (getenv(start + 1))
+	if ((start + 1)[0] == '?')
+		res = ft_itoa(g_exit_status);
+	else if (getenv(start + 1))
 	{
 		res = ft_strdup(getenv(start + 1));
 		temp = res;
