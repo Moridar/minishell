@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_prompt.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/29 16:57:11 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:56:47 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	process_prompt_line(char *line, t_pipe *data)
 	replace_pipes(line);
 	data->cmds = ft_split(line, 31);
 	data->cmdc = get_string_array_size(data->cmds);
-	cmd = split_shell_cmd(data->cmds[0]);
+	cmd = split_shell_cmd(data->cmds[0], data);
 	if (cmd[0])
 	{
 		builtins_res = builtins(cmd, data, line);

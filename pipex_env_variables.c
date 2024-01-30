@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_env_variables.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:12:21 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/29 15:40:35 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:02:57 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,21 +80,27 @@ char	*shift_replace_spaces(char *str)
  * @return new allocated expanded env variable or empty string if env variable
  * not found.
  */
-char	*expand_simple_var(char *start)
+char	*expand_simple_var(char *start, t_pipe *data)
 {
 	char	*res;
 	char	*temp;
+	int		i;
 
-	if ((start + 1)[0] == '?')
+	res = NULL;
+	if (start[1] == '?')
 		res = ft_itoa(g_exit_status);
-	else if (getenv(start + 1))
+	i = -1;
+	while (!res && data->envp[++i])
 	{
-		res = ft_strdup(getenv(start + 1));
-		temp = res;
-		res = shift_replace_spaces(temp);
-		free(temp);
+		if (ft_strncmp(data->envp[i], start + 1, ft_strlen(start + 1)) == 0)
+		{
+			res = ft_strdup(data->envp[i] + ft_strlen(start + 1) + 1);
+			temp = res;
+			res = shift_replace_spaces(temp);
+			free(temp);
+		}
 	}
-	else
+	if (!res)
 		res = ft_strdup("");
 	return (res);
 }
@@ -109,7 +115,7 @@ char	*expand_simple_var(char *start)
  * @param str argument string after the shell command is split.
  * @return a new allocated string even if there is nothing to expand.
  */
-char	*expand_env_args(char *str)
+char	*expand_env_args(char *str, t_pipe *data)
 {
 	char	*start;
 	char	*res;
@@ -127,7 +133,7 @@ char	*expand_env_args(char *str)
 	if (res == start)
 	{
 		temp = res;
-		res = expand_simple_var(start);
+		res = expand_simple_var(start, data);
 		free(temp);
 	}
 	return (res);

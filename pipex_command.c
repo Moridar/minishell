@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:11:39 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/29 17:38:56 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:56:43 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*replace_spaces(char *cmd)
  * 
  * @return double dimension array of command and it's flags
 */
-char	**split_shell_cmd(char	*cmd)
+char	**split_shell_cmd(char	*cmd, t_pipe *data)
 {
 	char	*new_str;
 	char	**command;
@@ -62,7 +62,7 @@ char	**split_shell_cmd(char	*cmd)
 	while (command[i])
 	{
 		new_str = command[i];
-		command[i] = interpret(new_str);
+		command[i] = interpret(new_str, data);
 		free(new_str);
 		i++;
 	}

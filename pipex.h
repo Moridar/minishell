@@ -41,7 +41,7 @@ void	errormsg(char *msg, int exits);
 void	closepipe(t_pipe *data);
 int		count_lead_chars(char *str, char c);
 int		get_quote_length(char *str, char quote);
-char	*interpret_quote(char *str, char quote);
+char	*interpret_quote(char *str, char quote, t_pipe *data);
 int		len_next_meta_char(char *str, char *metachars, int space);
 void	replace_pipes(char *cmd);
 void	free_env_exit(t_pipe *data, int exitno);
@@ -53,10 +53,10 @@ int		pipex(t_pipe	*data);
 
 void	execute(int i, t_pipe *data);
 void	set_direction(t_pipe *data, int i, int *fd);
-char	**split_shell_cmd(char	*cmd);
+char	**split_shell_cmd(char	*cmd, t_pipe *data);
 char	*get_path(char *cmd, t_pipe *data);
-char	*interpret(char *str);
-char	*expand_env_args(char *str);
+char	*interpret(char *str, t_pipe *data);
+char	*expand_env_args(char *str, t_pipe *data);
 
 // Array utils
 int		get_string_array_size(char **str);

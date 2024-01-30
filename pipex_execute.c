@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/28 02:54:38 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:03:14 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	child_execute(t_pipe *data, int i)
 	int		fd[2];
 
 	set_direction(data, i, fd);
-	cmd = split_shell_cmd(data->cmds[i]);
+	cmd = split_shell_cmd(data->cmds[i], data);
 	if (fd[0] != STDERR_FILENO)
 	{
 		dup2(fd[0], STDIN_FILENO);

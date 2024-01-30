@@ -6,13 +6,13 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/28 02:49:19 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:54:28 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static char	*interpret_double_quote(char *str)
+static char	*interpret_double_quote(char *str, t_pipe *data)
 {
 	char	*ret;
 	char	*tmp;
@@ -29,7 +29,7 @@ static char	*interpret_double_quote(char *str)
 			len = len_next_meta_char(str + start + 1, "$'", 1) + 1;
 		else
 			len = len_next_meta_char(str + start, "$", 0);
-		substr = expand_env_args(ft_substr(str, start, len));
+		substr = expand_env_args(ft_substr(str, start, len), data);
 		tmp = ft_strjoin(ret, substr);
 		free(ret);
 		free(substr);
@@ -39,7 +39,7 @@ static char	*interpret_double_quote(char *str)
 	return (ret);
 }
 
-char	*interpret_quote(char *str, char quote)
+char	*interpret_quote(char *str, char quote, t_pipe *data)
 {
 	char	*word;
 	char	*tmp;
@@ -48,21 +48,21 @@ char	*interpret_quote(char *str, char quote)
 	if (quote == '"')
 	{
 		tmp = word;
-		word = interpret_double_quote(word);
+		word = interpret_double_quote(word, data);
 		free(tmp);
 	}
 	return (word);
 }
 
-char	*interpret_and_join(char *ret, char *str)
+char	*interpret_and_join(char *ret, char *str, t_pipe *data)
 {
 	char	*interpreted_str;
 	char	*tmp;
 
 	if (*str == '"' || *str == '\'')
-		interpreted_str = interpret_quote(str, *str);
+		interpreted_str = interpret_quote(str, *str, data);
 	else if (*str == '$')
-		interpreted_str = expand_env_args(str);
+		interpreted_str = expand_env_args(str, data);
 	else
 	{
 		tmp = ft_strjoin(ret, str);
@@ -77,7 +77,7 @@ char	*interpret_and_join(char *ret, char *str)
 	return (tmp);
 }
 
-char	*interpret(char *str)
+char	*interpret(char *str, t_pipe *data)
 {
 	char	*ret;
 	int		start;
@@ -94,7 +94,7 @@ char	*interpret(char *str)
 			len = len_next_meta_char(str + start + 1, "$\"'", 1) + 1;
 		else
 			len = len_next_meta_char(str + start, "$\"'", 1);
-		ret = interpret_and_join(ret, ft_substr(str, start, len));
+		ret = interpret_and_join(ret, ft_substr(str, start, len), data);
 		start += len;
 	}
 	return (ret);
