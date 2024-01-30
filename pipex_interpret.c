@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/30 12:54:28 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:43:57 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ static char	*interpret_double_quote(char *str, t_pipe *data)
 	while (str[start])
 	{
 		len = 0;
-		if (str[start] == '$')
+		if (str[start] == '$' && str[start + 1] == '?')
+			len = 2;
+		else if (str[start] == '$')
 			len = len_next_meta_char(str + start + 1, "$'", 1) + 1;
 		else
 			len = len_next_meta_char(str + start, "$", 0);
@@ -90,6 +92,8 @@ char	*interpret(char *str, t_pipe *data)
 		len = 0;
 		if (str[start] == '\'' || str[start] == '"')
 			len = get_quote_length(str + start, str[start]);
+		else if (str[start] == '$' && str[start + 1] == '?')
+			len = 2;
 		else if (str[start] == '$')
 			len = len_next_meta_char(str + start + 1, "$\"'", 1) + 1;
 		else
