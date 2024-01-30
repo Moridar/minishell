@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/30 22:10:21 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/30 23:39:06 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	child_execute(t_pipe *data, int i)
 	char	*path;
 	int		fd[2];
 
-	toggle_carret_c(1);
+	toggle_carret(1);
 	set_direction(data, i, fd);
 	cmd = split_shell_cmd(data->cmds[i], data);
 	if (fd[0] != STDERR_FILENO)

@@ -52,7 +52,7 @@ int		free_return(void *ptr, int returnvalue);
 int		minishell_prompt(t_pipe *data);
 int		pipex(t_pipe	*data);
 
-void	toggle_carret_c(int is_on);
+void	toggle_carret(int is_on);
 void	execute(int i, t_pipe *data);
 void	set_direction(t_pipe *data, int i, int *fd);
 char	**split_shell_cmd(char	*cmd, t_pipe *data);
