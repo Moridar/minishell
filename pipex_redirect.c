@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/30 13:55:42 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:07:43 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void	set_direction(t_pipe *data, int i, int *fd)
 	outfilename = NULL;
 	fd[0] = get_fd('<', i, data, &infilename);
 	if (fd[0] < 0)
-		errormsg(infilename, 0);
+		errormsg(infilename, 1);
 	fd[1] = get_fd('>', i, data, &outfilename);
 	if (fd[1] < 0)
 		errormsg("output file", 1);
