@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/30 13:51:41 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:52:06 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,17 @@ void	process_prompt_line(char *line, t_pipe *data)
 	char	**cmd;
 	int		builtins_res;
 
-	builtins_res = -1;
+	builtins_res = 0;
 	add_history(line);
 	write_history_file(line);
 	replace_pipes(line);
 	data->cmds = ft_split(line, 31);
 	data->cmdc = get_string_array_size(data->cmds);
 	cmd = split_shell_cmd(data->cmds[0], data);
-	if (cmd[0])
-	{
+	if (cmd[0] && data->cmdc == 1)
 		builtins_res = builtins(cmd, data, line);
-		if (builtins_res == 0)
-			g_exit_status = pipex(data);
-	}
+	if (builtins_res == 0)
+		g_exit_status = pipex(data);
 	freeall(data->cmds);
 	freeall(cmd);
 	free(line);
