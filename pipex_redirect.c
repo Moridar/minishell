@@ -3,10 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/30 15:07:43 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:20:40 by vshchuki         ###   ########.fr       */
+
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +18,11 @@ static int	here_doc(char *delimiter)
 	int		heredoc_fd[2];
 	char	*buffer;
 
+	if (!delimiter || ft_strlen(delimiter) == 0)
+	{
+		ft_putstr_fd("bvsh: syntax error near unexpected token 'newline'\n", 2);
+		exit(2);
+	}
 	if (pipe(heredoc_fd) < 0)
 		errormsg("pipe", 1);
 	while (1)
