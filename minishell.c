@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/29 15:34:36 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:51:02 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	non_int_with_command(char *argv[], t_pipe *data)
+static void	minishell_command(char *argv[], t_pipe *data)
 {
 	char	*line;
 
@@ -23,7 +23,7 @@ static void	non_int_with_command(char *argv[], t_pipe *data)
 	g_exit_status = pipex(data);
 }
 
-static void	non_int_with_files(int argc, char *argv[], t_pipe *data)
+static void	minishell_files(int argc, char *argv[], t_pipe *data)
 {
 	int		i;
 	int		fd;
@@ -58,10 +58,10 @@ int	main(int argc, char *argv[], char *envp[])
 
 	data.envp = copy_double_array(envp, 0);
 	if (argc < 2)
-		prompt(&data);
+		minishell_prompt(&data);
 	else if (ft_strnstr(argv[1], "-c", 2))
-		non_int_with_command(argv, &data);
+		minishell_command(argv, &data);
 	else
-		non_int_with_files(argc, argv, &data);
+		minishell_files(argc, argv, &data);
 	return (0);
 }

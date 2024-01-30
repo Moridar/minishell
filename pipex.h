@@ -48,7 +48,7 @@ void	free_env_exit(t_pipe *data, int exitno);
 int		free_return(void *ptr, int returnvalue);
 
 //Main functions
-int		prompt(t_pipe *data);
+int		minishell_prompt(t_pipe *data);
 int		pipex(t_pipe	*data);
 
 void	execute(int i, t_pipe *data);

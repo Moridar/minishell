@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/30 13:18:38 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:55:42 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	here_doc(char *delimiter)
 	{
 		buffer = readline("> ");
 		if (!buffer)
-			errormsg("heredoc", 1);
+			break ;
 		if (ft_strncmp(buffer, delimiter, ft_strlen(delimiter) + 1) == 0)
 			break ;
 		write(heredoc_fd[1], buffer, ft_strlen(buffer));
@@ -57,7 +57,6 @@ static char	*cut_filename(char *str, char symbol, t_pipe *data)
 			i++;
 	}
 	tmp = ft_substr(str, start, i - start);
-	printf("!tmp: |%s|\n", tmp);
 	filename = interpret(tmp, data);
 	free(tmp);
 	ft_memset(str, ' ', i);

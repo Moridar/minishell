@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/30 12:56:47 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:51:41 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	process_prompt_line(char *line, t_pipe *data)
 		free_env_exit(data, 1);
 }
 
-int	prompt(t_pipe *data)
+int	minishell_prompt(t_pipe *data)
 {
 	char			*line;
 	struct termios	new_attr;
