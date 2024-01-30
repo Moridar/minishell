@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/28 16:13:25 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:18:38 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	here_doc(char *delimiter)
 	return (heredoc_fd[0]);
 }
 
-static char	*cut_filename(char *str, char symbol)
+static char	*cut_filename(char *str, char symbol, t_pipe *data)
 {
 	int		i;
 	int		start;
@@ -58,13 +58,13 @@ static char	*cut_filename(char *str, char symbol)
 	}
 	tmp = ft_substr(str, start, i - start);
 	printf("!tmp: |%s|\n", tmp);
-	filename = interpret(tmp);
+	filename = interpret(tmp, data);
 	free(tmp);
 	ft_memset(str, ' ', i);
 	return (filename);
 }
 
-static int	get_filename(char *cmd, char symbol, char **filename)
+static int	get_filename(char *cmd, char symbol, char **filename, t_pipe *data)
 {
 	int		i;
 	int		type;
@@ -82,7 +82,7 @@ static int	get_filename(char *cmd, char symbol, char **filename)
 			lasttype = type;
 			if (*filename)
 				free(*filename);
-			*filename = cut_filename(cmd + i, symbol);
+			*filename = cut_filename(cmd + i, symbol, data);
 		}
 		if (type >= 3)
 			errormsg("syntax error near unexpected token `<'", 1);
@@ -102,7 +102,7 @@ static int	get_fd(char symbol, int i, t_pipe *data, char **filename)
 {
 	int		type;
 
-	type = get_filename(data->cmds[i], symbol, filename);
+	type = get_filename(data->cmds[i], symbol, filename, data);
 	if (symbol == '<' && type == 0 && i == 0)
 		return (STDIN_FILENO);
 	if (symbol == '<' && type == 0)
