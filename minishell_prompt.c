@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_prompt.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/30 14:52:06 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/30 22:23:40 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,13 @@ static void	signal_handler(int signo)
 	if (signo == SIGINT)
 	{
 		g_exit_status = 1;
-		rl_replace_line("", 0);
 		printf("\n");
+		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 	}
 	else
-	{
 		rl_redisplay();
-	}
 }
 
 /**
@@ -87,20 +85,37 @@ void	process_prompt_line(char *line, t_pipe *data)
 		free_env_exit(data, 1);
 }
 
+/**
+ * Toggles carret character (^C, ^D, ^\) which are shown by default when
+ * ctrl+c, ctrl+d, ctrl+\ are pressed.
+ * is_on = 0 for prompt
+ * is_on = 1 during the command execution
+ * @param is_on 1 for removing carret characters from displayin in the shell
+ * 0 to hide carret characters from shell
+*/
+void	toggle_carret(int is_on)
+{
+	struct termios	new_attr;
+
+	tcgetattr(STDIN_FILENO, &new_attr);
+	if (!is_on)
+		new_attr.c_lflag &= ~ECHOCTL;
+	else
+		new_attr.c_lflag |= ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &new_attr);
+}
+
 int	minishell_prompt(t_pipe *data)
 {
 	char			*line;
-	struct termios	new_attr;
 
 	g_exit_status = 0;
 	read_history_file();
-	tcgetattr(STDIN_FILENO, &new_attr);
-	new_attr.c_lflag &= ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &new_attr);
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, signal_handler);
 	while (1)
 	{
+		toggle_carret(0);
 		line = readline("bvsh-1.1$ ");
 		if (line == NULL)
 			handle_ctrl_d();

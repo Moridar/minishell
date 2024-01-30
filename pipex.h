@@ -20,6 +20,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <termios.h>
+# include <signal.h>
 
 extern unsigned char	g_exit_status;
 
@@ -51,6 +52,7 @@ int		free_return(void *ptr, int returnvalue);
 int		minishell_prompt(t_pipe *data);
 int		pipex(t_pipe	*data);
 
+void	toggle_carret_c(int is_on);
 void	execute(int i, t_pipe *data);
 void	set_direction(t_pipe *data, int i, int *fd);
 char	**split_shell_cmd(char	*cmd, t_pipe *data);
@@ -70,7 +72,6 @@ int		read_history_file(void);
 int		history(void);
 
 // Builtins
-// void	exit_builtin(int status);
 void	env(t_pipe *data);
 int		builtins(char **cmd, t_pipe *data, char *line);
 int		child_builtins(char **cmd, t_pipe *data);

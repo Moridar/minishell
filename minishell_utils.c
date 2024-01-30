@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/29 16:21:45 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/30 22:21:31 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char	**copy_double_array(char **arr1, int increase_size)
 	}
 	return (arr2);
 }
+
 /**
  * Reallocates the arraylist when some elements are deleted
  * @param newsize is the size of the new array
