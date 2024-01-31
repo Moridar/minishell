@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/31 19:30:52 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/31 19:58:48 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,26 @@ static int	unset(t_pipe *data, char **cmd, int count)
 static int	validate_key(int keylen, char *key)
 {
 	int	i;
+	int	err;
 
+	err = 0;
 	i = 0;
-	while (i < keylen)
-	{
+	if (ft_isalpha(key[i]) == 0)
+		err = 1;
+	while (!err && i < keylen - 1)
 		if (ft_isalnum(key[i++]) == 0)
-		{
-			printf("bvsh: export: `%s': not a valid identifier\n", key);
-			g_exit_status = 1;
-			return (0);
-		}
-	}
-	if (keylen > (int) ft_strlen(key))
+			err = 1;
+	if (!err && keylen > (int) ft_strlen(key))
 		return (0);
-	return (1);
+	if (keylen == 1 || key[keylen - 1] != '=')
+		err = 1;
+	if (!err)
+		return (1);
+	ft_putstr_fd("bvsh: export: `", 2);
+	ft_putstr_fd(key, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+	g_exit_status = 1;
+	return (0);
 }
 
 /**
