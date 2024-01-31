@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_execute.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/30 23:39:06 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/01/31 15:37:03 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	interrupt(int sig)
+{
+	if (sig == SIGINT)
+		exit(130);
+}
 
 void	closepipe(t_pipe *data)
 {
@@ -58,8 +64,10 @@ static void	execute_fork(int i, t_pipe *data)
 	pid = fork();
 	if (pid == -1)
 		errormsg("fork", 1);
+	signal(SIGINT, SIG_IGN);
 	if (pid == 0)
 	{
+		signal(SIGINT, interrupt);
 		child_execute(data, i);
 		exit(EXIT_FAILURE);
 	}
