@@ -6,42 +6,11 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:12:21 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/31 19:06:08 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/31 19:16:10 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-/**
- * Expands first found env variable in an argument string
- * @param start a pointer to $ of env variable
- * @return
- */
-char	*expand_double_quoted(char *str, char *start)
-{
-	char	*temp;
-	char	*before_var;
-	char	*after_var;
-	char	*res;
-	int		len;
-
-	printf("double quote $$ ever used\n");
-	start++;
-	len = 0;
-	while (start[len] && !ft_isspace(start[len])
-		&& start[len] != '\n' && start[len] != '\"')
-		len++;
-	temp = ft_substr(str, start - str, len);
-	before_var = ft_substr(str, 0, start - str - 1);
-	res = ft_strjoin(before_var, getenv(temp));
-	free(before_var);
-	free(temp);
-	after_var = start + len;
-	temp = res;
-	res = ft_strjoin(temp, after_var);
-	free(temp);
-	return (res);
-}
 
 /**
  * Replaces all consecutive whitespaces to a space char ' '(32).
@@ -81,7 +50,7 @@ char	*shift_replace_spaces(char *str)
  * @return new allocated expanded env variable or empty string if env variable
  * not found.
  */
-char	*expand_simple_var(char *start, t_pipe *data)
+static char	*expand_simple_var(char *start, t_pipe *data)
 {
 	char	*res;
 	char	*temp;
@@ -116,14 +85,13 @@ char	*expand_simple_var(char *start, t_pipe *data)
  */
 char	*expand_env_args(char *str, t_pipe *data)
 {
-	char	*ret;
-
+	if (*str != '$')
+		return (ft_strdup(str));
 	if (str[1] == 0)
-		return (str);
+		return (ft_strdup(str));
 	if (str[1] == '?')
 		return (ft_itoa(g_exit_status));
-	ret = expand_simple_var(str, data);
-	return (ret);
+	return (expand_simple_var(str, data));
 }
 
 // char	*expand_env_args(char *str, t_pipe *data)

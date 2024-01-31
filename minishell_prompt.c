@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/31 15:34:09 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/31 19:18:46 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	handle_ctrl_d(void)
 	rl_replace_line("exit\n", 0);
 	rl_redisplay();
 	printf("\n");
-	exit(0);
+	exit(g_exit_status);
 }
 
 void	process_prompt_line(char *line, t_pipe *data)

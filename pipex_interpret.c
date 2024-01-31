@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/31 18:45:23 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/31 19:13:08 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*interpret_and_join(char *ret, char *str, t_pipe *data)
 
 	if (*str == '"' || *str == '\'')
 		interpreted_str = interpret_quote(str, *str, data);
-	else if (*str == '$' && str[1])
+	else if (*str == '$')
 		interpreted_str = expand_env_args(str, data);
 	else
 	{

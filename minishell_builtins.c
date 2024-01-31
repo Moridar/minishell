@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/29 16:18:36 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/31 19:30:52 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,26 @@ static int	unset(t_pipe *data, char **cmd, int count)
 	return (1);
 }
 
+
+static int	validate_key(int keylen, char *key)
+{
+	int	i;
+
+	i = 0;
+	while (i < keylen)
+	{
+		if (ft_isalnum(key[i++]) == 0)
+		{
+			printf("bvsh: export: `%s': not a valid identifier\n", key);
+			g_exit_status = 1;
+			return (0);
+		}
+	}
+	if (keylen > (int) ft_strlen(key))
+		return (0);
+	return (1);
+}
+
 /**
  * @return 1 for success, 2 if malloc failed
 */
@@ -53,7 +73,7 @@ static int	export(t_pipe *data, char *var)
 	if (!var)
 		return (2);
 	keylen = len_next_meta_char(var, "=", 0) + 1;
-	if (keylen > (int) ft_strlen(var))
+	if (validate_key(keylen, var) == 0)
 		return (free_return(var, 1));
 	i = -1;
 	while (data->envp[++i])
