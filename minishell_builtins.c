@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/31 19:58:48 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/31 20:06:37 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ static int	cd(t_pipe *data, char **cmd, int count)
 {
 	char	*ptr;
 
+	if (count != 2)
+		g_exit_status = 1;
 	if (count < 2)
 		ft_putstr_fd("bvsh: cd: too few arguments\n", 2);
 	else if (count > 2)
@@ -114,6 +116,12 @@ static int	cd(t_pipe *data, char **cmd, int count)
 			return (2);
 		export(data, ptr);
 		free(ptr);
+	}
+	else
+	{
+		g_exit_status = 1;
+		ft_putstr_fd("bvsh: cd: ", 2);
+		perror(cmd[1]);
 	}
 	return (1);
 }
