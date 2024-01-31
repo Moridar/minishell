@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:12:21 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/30 13:02:57 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/01/31 19:06:08 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char	*expand_double_quoted(char *str, char *start)
 	char	*res;
 	int		len;
 
+	printf("double quote $$ ever used\n");
 	start++;
 	len = 0;
 	while (start[len] && !ft_isspace(start[len])
@@ -87,8 +88,6 @@ char	*expand_simple_var(char *start, t_pipe *data)
 	int		i;
 
 	res = NULL;
-	if (start[1] == '?')
-		res = ft_itoa(g_exit_status);
 	i = -1;
 	while (!res && data->envp[++i])
 	{
@@ -101,7 +100,7 @@ char	*expand_simple_var(char *start, t_pipe *data)
 		}
 	}
 	if (!res)
-		res = ft_strdup("");
+		return (NULL);
 	return (res);
 }
 
@@ -117,27 +116,39 @@ char	*expand_simple_var(char *start, t_pipe *data)
  */
 char	*expand_env_args(char *str, t_pipe *data)
 {
-	char	*start;
-	char	*res;
-	char	*temp;
+	char	*ret;
 
-	res = ft_strdup(str);
-	start = ft_strchr(res, '$');
-	while (res && res[0] == '"' && res[ft_strlen(res) - 1] == '"' && start)
-	{
-		temp = res;
-		res = expand_double_quoted(temp, start);
-		free(temp);
-		start = ft_strchr(res, '$');
-	}
-	if (res == start)
-	{
-		temp = res;
-		res = expand_simple_var(start, data);
-		free(temp);
-	}
-	return (res);
+	if (str[1] == 0)
+		return (str);
+	if (str[1] == '?')
+		return (ft_itoa(g_exit_status));
+	ret = expand_simple_var(str, data);
+	return (ret);
 }
+
+// char	*expand_env_args(char *str, t_pipe *data)
+// {
+// 	char	*start;
+// 	char	*res;
+// 	char	*temp;
+
+// 	res = ft_strdup(str);
+// 	start = ft_strchr(res, '$');
+// 	while (res && res[0] == '"' && res[ft_strlen(res) - 1] == '"' && start)
+// 	{
+// 		temp = res;
+// 		res = expand_double_quoted(temp, start);
+// 		free(temp);
+// 		start = ft_strchr(res, '$');
+// 	}
+// 	if (res == start)
+// 	{
+// 		temp = res;
+// 		res = expand_simple_var(start, data);
+// 		free(temp);
+// 	}
+// 	return (res);
+// }
 
 // when the string is glued: "hello"$SHELL'hey'
 // another test case: "$SHELL's'"$SHELL
