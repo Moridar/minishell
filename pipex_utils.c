@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:33:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/28 01:31:26 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/01 19:14:49 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,19 +65,10 @@ void	freeall(char **strarray)
 	}
 }
 
-/**
- * @brief Print error message and exits
- * @brief Msg will be formatted: 'pipex: @msg: @stderrmsg. 
- * @brief Exits if not set 0.
- * @param msg and exits
-*/
-void	errormsg(char *msg, int exits)
+void	freeall_exit(char **strarray, int exitno)
 {
-	msg = ft_strjoin("bvsh: ", msg);
-	perror(msg);
-	free(msg);
-	if (exits)
-		exit(errno);
+	freeall(strarray);
+	exit(exitno);
 }
 
 /**

@@ -90,7 +90,10 @@ static int	get_filename(char *cmd, char symbol, char **filename, t_pipe *data)
 			*filename = cut_filename(cmd + i, symbol, data);
 		}
 		if (type >= 3)
-			errormsg("syntax error near unexpected token `<'", 1);
+		{
+			ft_printf("bsvh: syntax error near unexpected token `%c'\n", symbol);
+			exit(2);
+		}			
 	}
 	return (lasttype);
 }

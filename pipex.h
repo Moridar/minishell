@@ -21,6 +21,7 @@
 # include <readline/history.h>
 # include <termios.h>
 # include <signal.h>
+# include <dirent.h>
 
 extern unsigned char	g_exit_status;
 
@@ -47,6 +48,8 @@ int		len_next_meta_char(char *str, char *metachars, int space);
 void	replace_pipes(char *cmd);
 void	free_env_exit(t_pipe *data, int exitno);
 int		free_return(void *ptr, int returnvalue);
+void	freeall_exit(char **strarray, int exitno);
+void	closepipe(t_pipe *data);
 
 //Main functions
 int		minishell_prompt(t_pipe *data);
