@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/02 00:43:16 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/02 01:00:58 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,10 @@ static int	cd(t_pipe *data, char **cmd, int count)
 	if (count < 2)
 		ft_putstr_fd("bvsh: cd: too few arguments\n", 2);
 	else if (count > 2)
-		ft_putstr_fd("bvsh: cd: too many arguments\n", 2);
+	{
+		// ft_putstr_fd("bvsh: cd: too many arguments\n", 2);
+		g_exit_status = 0;
+	}
 	else if (chdir(cmd[1]) == 0)
 	{
 		ptr = ft_strjoin("PWD=", getcwd(NULL, 0));
