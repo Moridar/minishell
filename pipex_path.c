@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/01 22:04:06 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/01 22:26:34 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,18 @@ static char	**get_paths(t_pipe *data)
 	return (paths);
 }
 
-static void	cmdnfound_exit(char *cmd)
+static void	cmdnfound_exit(char *cmd, char **cmds)
 {
 	char	*errmsg;
 	char	*tmp;
 
+	freeall(cmds);
 	tmp = ft_strjoin("bvsh: ", cmd);
 	errmsg = ft_strjoin(tmp, ": command not found\n");
 	write(2, errmsg, ft_strlen(errmsg));
 	free(tmp);
 	free(errmsg);
+	exit(127);
 }
 
 /**
@@ -100,8 +102,9 @@ char	*check_cmdpath(char *cmd, t_pipe *data, char **cmds)
 	char	*cmdpath;
 	int		is_dir;
 
+	cmdpath = NULL;
 	if (access(cmd, X_OK) == 0)
-		cmdpath = cmd;
+		cmdpath = ft_strdup(cmd);
 	else if (ft_strchr(cmd, '/') == NULL)
 		cmdpath = get_path(cmd, data);
 	else
@@ -110,16 +113,14 @@ char	*check_cmdpath(char *cmd, t_pipe *data, char **cmds)
 		write(2, "bvsh: No such file or directory\n", 33);
 		exit(127);
 	}
-	is_dir = 0;
-	if (cmdpath)
-		is_dir = is_directory(cmdpath);
+	if (!cmdpath)
+		cmdnfound_exit(cmd, cmds);
+	is_dir = is_directory(cmdpath);
+	if (is_dir == 0)
+		return (cmdpath);
+	free(cmdpath);
 	if (is_dir == 1)
 		freeall_exit(cmds, 126);
-	if (is_dir == 2 || !cmdpath)
-	{
-		cmdnfound_exit(cmd);
-		freeall(cmds);
-		exit(127);
-	}
-	return (cmdpath);
+	cmdnfound_exit(cmd, cmds);
+	return (NULL);
 }
