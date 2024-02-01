@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/29 16:49:19 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/02 00:49:26 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	handle_wrong_arg(char *status)
 	error_msg = ft_strjoin(temp, ": numeric argument required\n");
 	if (!error_msg)
 		return (2);
-	ft_putstr_fd("exit\n", 2);
+	// ft_putstr_fd("exit\n", 2);
 	ft_putstr_fd(error_msg, 2);
 	free(temp);
 	free(error_msg);
@@ -56,7 +56,7 @@ int	exit_builtin(char *status, t_pipe *data, char **cmd, char *line)
 	if (ft_strncmp(status, status_conv, ft_strlen(status_conv) + 1) == 0)
 	{
 		free(status_conv);
-		ft_putstr_fd("exit\n", 1);
+		// ft_putstr_fd("exit\n", 1);
 		clean_memory(data, cmd, line);
 		exit((char)status_n);
 	}
