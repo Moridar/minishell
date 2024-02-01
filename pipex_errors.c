@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:13:28 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/01 19:40:29 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/02 01:40:10 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,18 @@ void	closepipe(t_pipe *data)
  * @brief Msg will be formatted: 'pipex: @msg: @stderrmsg. 
  * @brief Exits if not set 0.
  * @param msg and exits
+ * @param exit_status allows to pass custom exit status. If set to -1 errormsg() will
+ * be equal to errno.
 */
-void	errormsg(char *msg, int exits)
+void	errormsg(char *msg, int exits, int exit_status)
 {
+	if (exit_status == -1)
+		exit_status = errno;
 	msg = ft_strjoin("bvsh: ", msg);
 	perror(msg);
 	free(msg);
 	if (exits)
-		exit(errno);
+		exit(exit_status);
 }
 /**
  * @brief Free the double string array

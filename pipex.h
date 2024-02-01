@@ -39,7 +39,7 @@ typedef struct s_pipe
 
 //Helper functions
 void	freeall(char **strarray);
-void	errormsg(char *msg, int exits);
+void	errormsg(char *msg, int exits, int exit_status);
 void	closepipe(t_pipe *data);
 int		count_lead_chars(char *str, char c);
 int		get_quote_length(char *str, char quote);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:50:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/27 02:01:03 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/02 01:32:28 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	pwd(void)
 
 	buff = getcwd(NULL, 0);
 	if (buff == NULL)
-		errormsg("pwd", 1);
+		errormsg("pwd", 1, -1);
 	ft_printf("%s\n", buff);
 	free(buff);
 	return (1);

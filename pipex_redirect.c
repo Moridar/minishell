@@ -24,7 +24,7 @@ static int	here_doc(char *delimiter)
 		exit(2);
 	}
 	if (pipe(heredoc_fd) < 0)
-		errormsg("pipe", 1);
+		errormsg("pipe", 1, -1);
 	while (1)
 	{
 		buffer = readline("> ");
@@ -90,10 +90,7 @@ static int	get_filename(char *cmd, char symbol, char **filename, t_pipe *data)
 			*filename = cut_filename(cmd + i, symbol, data);
 		}
 		if (type >= 3)
-		{
-			ft_printf("bsvh: syntax error near unexpected token `%c'\n", symbol);
-			exit(2);
-		}			
+			errormsg("syntax error near unexpected token `<'", 1, -1);
 	}
 	return (lasttype);
 }
@@ -139,12 +136,18 @@ void	set_direction(t_pipe *data, int i, int *fd)
 
 	infilename = NULL;
 	outfilename = NULL;
+	// ft_putstr_fd("child executes2\n", 2);
 	fd[0] = get_fd('<', i, data, &infilename);
+	// ft_putstr_fd("child executes2\n",3);
 	if (fd[0] < 0)
-		errormsg(infilename, 1);
+	{
+		errormsg(infilename, 1, 1);
+		// g_exit_status = 1;
+		// exit(1);
+	}
 	fd[1] = get_fd('>', i, data, &outfilename);
 	if (fd[1] < 0)
-		errormsg("output file", 1);
+		errormsg("output file", 1, 1);
 	if (infilename && outfilename
 		&& ft_strncmp(infilename, outfilename, ft_strlen(infilename) + 1) == 0)
 	{

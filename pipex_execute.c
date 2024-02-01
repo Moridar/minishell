@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_execute.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/01 20:26:16 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/02 01:36:56 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	execute_fork(int i, t_pipe *data)
 
 	pid = fork();
 	if (pid == -1)
-		errormsg("fork", 1);
+		errormsg("fork", 1, -1);
 	signal(SIGINT, SIG_IGN);
 	if (pid == 0)
 	{
@@ -57,7 +57,7 @@ static void	execute_fork(int i, t_pipe *data)
 static void	execute_pipe(int i, t_pipe *data)
 {
 	if (pipe(data->fd[i % 2]) == -1)
-		errormsg("pipe", 1);
+		errormsg("pipe", 1, -1);
 	if (i == 0)
 		execute_fork(i, data);
 	else
