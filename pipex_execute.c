@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/01 19:16:09 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/01 20:26:16 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,11 @@ static void	child_execute(t_pipe *data, int i)
 	toggle_carret(1);
 	set_direction(data, i, fd);
 	cmd = split_shell_cmd(data->cmds[i], data);
-	if (fd[0] != STDERR_FILENO)
-	{
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-	}
-	if (fd[1] != STDOUT_FILENO)
-	{
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-	}
+	dup_and_close_fds(fd);
 	closepipe(data);
 	if (child_builtins(cmd, data))
 		freeall_exit(cmd, 0);
-	path = get_path(ft_strdup(cmd[0]), data);
-	if (path == NULL)
-		freeall_exit(cmd, 126);
+	path = check_cmdpath(cmd[0], data, cmd);
 	execve(path, cmd, data->envp);
 	exit(EXIT_FAILURE);
 }

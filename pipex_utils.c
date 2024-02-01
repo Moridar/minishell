@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:33:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/01 19:14:49 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/01 19:39:12 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,28 +48,6 @@ int	len_next_meta_char(char *str, char *metachars, int space)
 	return (i);
 }
 
-/**
- * @brief Free the double string array
- * @param **char strarray
-*/
-void	freeall(char **strarray)
-{
-	int	i;
-
-	if (strarray)
-	{
-		i = -1;
-		while (strarray[++i])
-			free(strarray[i]);
-		free(strarray);
-	}
-}
-
-void	freeall_exit(char **strarray, int exitno)
-{
-	freeall(strarray);
-	exit(exitno);
-}
 
 /**
  * Count the number of char c leading the string.

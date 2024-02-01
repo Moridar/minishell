@@ -6,11 +6,25 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:13:28 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/01 19:14:07 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/01 19:40:29 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	dup_and_close_fds(int fd[2])
+{
+	if (fd[0] != STDERR_FILENO)
+	{
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
+	}
+	if (fd[1] != STDOUT_FILENO)
+	{
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+	}
+}
 
 void	closepipe(t_pipe *data)
 {
@@ -37,4 +51,26 @@ void	errormsg(char *msg, int exits)
 	free(msg);
 	if (exits)
 		exit(errno);
+}
+/**
+ * @brief Free the double string array
+ * @param **char strarray
+*/
+void	freeall(char **strarray)
+{
+	int	i;
+
+	if (strarray)
+	{
+		i = -1;
+		while (strarray[++i])
+			free(strarray[i]);
+		free(strarray);
+	}
+}
+
+void	freeall_exit(char **strarray, int exitno)
+{
+	freeall(strarray);
+	exit(exitno);
 }

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/01 19:20:45 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/01 22:04:06 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,38 +43,44 @@ static void	cmdnfound_exit(char *cmd)
 	write(2, errmsg, ft_strlen(errmsg));
 	free(tmp);
 	free(errmsg);
-	exit(127);
 }
 
-static char	*is_not_directory(char *path)
+/**
+ * returns 1 if directory
+ * returns 0 if existing file
+ * exits if non-existing 
+*/
+static int	is_directory(char *path)
 {
 	DIR	*dir;
 
+	if (!path)
+		return (0);
 	dir = opendir(path);
-	if (dir)
+	if (dir && ft_strchr(path, '/') != NULL)
 	{
 		closedir(dir);
 		write(2, "bvsh: ", 6);
 		write(2, path, ft_strlen(path));
-		write(2, " is a directory\n", 16);
-		free(path);
-		return (NULL);
+		write(2, " Is a directory\n", 16);
+		return (1);
 	}
-	return (path);
+	if (dir)
+	{
+		closedir(dir);
+		return (2);
+	}
+	return (0);
 }
 
-char	*get_path(char *cmd, t_pipe *data)
+static char	*get_path(char *cmd, t_pipe *data)
 {
 	int		i;
 	char	*cmdpath;
 	char	**paths;
 
-	if (access(cmd, F_OK) == 0)
-		return (is_not_directory(cmd));
 	paths = get_paths(data);
-	cmdpath = cmd;
 	cmd = ft_strjoin("/", cmd);
-	free(cmdpath);
 	i = -1;
 	while (paths[++i])
 	{
@@ -85,8 +91,35 @@ char	*get_path(char *cmd, t_pipe *data)
 		cmdpath = NULL;
 	}
 	freeall(paths);
-	if (!cmdpath)
-		cmdnfound_exit(cmd + 1);
 	free(cmd);
-	return (is_not_directory(cmdpath));
+	return (cmdpath);
+}
+
+char	*check_cmdpath(char *cmd, t_pipe *data, char **cmds)
+{
+	char	*cmdpath;
+	int		is_dir;
+
+	if (access(cmd, X_OK) == 0)
+		cmdpath = cmd;
+	else if (ft_strchr(cmd, '/') == NULL)
+		cmdpath = get_path(cmd, data);
+	else
+	{
+		freeall(cmds);
+		write(2, "bvsh: No such file or directory\n", 33);
+		exit(127);
+	}
+	is_dir = 0;
+	if (cmdpath)
+		is_dir = is_directory(cmdpath);
+	if (is_dir == 1)
+		freeall_exit(cmds, 126);
+	if (is_dir == 2 || !cmdpath)
+	{
+		cmdnfound_exit(cmd);
+		freeall(cmds);
+		exit(127);
+	}
+	return (cmdpath);
 }

@@ -50,6 +50,7 @@ void	free_env_exit(t_pipe *data, int exitno);
 int		free_return(void *ptr, int returnvalue);
 void	freeall_exit(char **strarray, int exitno);
 void	closepipe(t_pipe *data);
+void	dup_and_close_fds(int fd[2]);
 
 //Main functions
 int		minishell_prompt(t_pipe *data);
@@ -59,7 +60,7 @@ void	toggle_carret(int is_on);
 void	execute(int i, t_pipe *data);
 void	set_direction(t_pipe *data, int i, int *fd);
 char	**split_shell_cmd(char	*cmd, t_pipe *data);
-char	*get_path(char *cmd, t_pipe *data);
+char	*check_cmdpath(char *cmd, t_pipe *data, char **cmds);
 char	*interpret(char *str, t_pipe *data);
 char	*expand_env_args(char *str, t_pipe *data);
 
