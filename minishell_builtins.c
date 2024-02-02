@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/02 12:25:20 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/02 13:37:33 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,10 @@ static int	cd(t_pipe *data, char **cmd, int count)
 {
 	char	*ptr;
 
-	if (count != 2)
-		g_exit_status = 1;
 	if (count < 2)
-		ft_putstr_fd("bvsh: cd: too few arguments\n", 2);
-	else if (count > 2)
 	{
-		// ft_putstr_fd("bvsh: cd: too many arguments\n", 2);
-		g_exit_status = 0;
+		g_exit_status = 1;
+		ft_putstr_fd("bvsh: cd: too few arguments\n", 2);
 	}
 	else if (chdir(cmd[1]) == 0)
 	{
@@ -154,7 +150,6 @@ int	builtins(char **cmd, t_pipe *data, char *line)
 		return (exit_builtin(cmd[1], data, cmd, line));
 	if (ft_strncmp(cmd[0], "exit", 5) == 0 && count > 2)
 	{
-		// ft_putstr_fd("exit\nbvsh: exit: too many arguments\n", 2);
 		ft_putstr_fd("bvsh: exit: too many arguments\n", 2);
 		g_exit_status = 1;
 		return (1);

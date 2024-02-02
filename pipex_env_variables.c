@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_env_variables.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:12:21 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/02 03:08:28 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/02 13:40:02 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,55 +94,3 @@ char	*expand_env_args(char *str, t_pipe *data)
 		return (ft_itoa(g_exit_status));
 	return (expand_simple_var(str, data));
 }
-
-// char	*expand_env_args(char *str, t_pipe *data)
-// {
-// 	char	*start;
-// 	char	*res;
-// 	char	*temp;
-
-// 	res = ft_strdup(str);
-// 	start = ft_strchr(res, '$');
-// 	while (res && res[0] == '"' && res[ft_strlen(res) - 1] == '"' && start)
-// 	{
-// 		temp = res;
-// 		res = expand_double_quoted(temp, start);
-// 		free(temp);
-// 		start = ft_strchr(res, '$');
-// 	}
-// 	if (res == start)
-// 	{
-// 		temp = res;
-// 		res = expand_simple_var(start, data);
-// 		free(temp);
-// 	}
-// 	return (res);
-// }
-
-// when the string is glued: "hello"$SHELL'hey'
-// another test case: "$SHELL's'"$SHELL
-// 's' will be not expanded, $SHELL will be expanded.
-// 1. expand simple variables (in loop expand variable => check if it hits ' or "" or the end of string, then expand)
-// 2. expand "quotes" (trim "" and expand env variables). Insided "quotes" expand env vars but not 'singles'
-// 3. expand 'singles' that are not inside (trim and join)
-
-/* int	main(void)
-{
-	char	*str1;
-	// char	*str2;
-	char*new_str;
-	str1 = "\"$USER start $SHELL end $USER\"";
-	// str1 = "\"\"";
-	// str1 = "$SHELL";
-	// str1 = "$HELLO";
-	// str1 = "$SHELLs";
-	// str1 = "'$SHELL'";
-
-	// char *new_str;
-	// expand_env_arg(str);
-	new_str = expand_env_args(str1);
-	printf("%s\n", new_str);
-	free(new_str);
-
-	return (0);
-} */

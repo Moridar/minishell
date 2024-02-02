@@ -6,19 +6,24 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:13:28 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/02 12:49:58 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/02 13:44:36 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	free_env_exit(t_pipe *data, int exitno)
+{
+	freeall(data->envp);
+	exit(exitno);
+}
 
 /**
  * @brief Print error message and exits
  * @brief Msg will be formatted: 'pipex: @msg: @stderrmsg. 
  * @brief Exits if not set 0.
  * @param msg and exits
- * @param exit_status allows to pass custom exit status. If set to -1 errormsg() will
- * be equal to errno.
+ * @param exit_status If set to -1 will get the errno.
 */
 void	errormsg(char *msg, int exits, int exit_status)
 {

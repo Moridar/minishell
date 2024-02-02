@@ -6,13 +6,13 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/31 19:18:46 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/02 13:42:35 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-unsigned char g_exit_status;
+unsigned char	g_exit_status;
 
 /**
  *  if signo == SIGINT handles ctrl + C
@@ -83,26 +83,6 @@ void	process_prompt_line(char *line, t_pipe *data)
 	free(line);
 	if (builtins_res == 2)
 		free_env_exit(data, 1);
-}
-
-/**
- * Toggles carret character (^C, ^D, ^\) which are shown by default when
- * ctrl+c, ctrl+d, ctrl+\ are pressed.
- * is_on = 0 for prompt
- * is_on = 1 during the command execution
- * @param is_on 1 for removing carret characters from displayin in the shell
- * 0 to hide carret characters from shell
-*/
-void	toggle_carret(int is_on)
-{
-	struct termios	new_attr;
-
-	tcgetattr(STDIN_FILENO, &new_attr);
-	if (!is_on)
-		new_attr.c_lflag &= ~ECHOCTL;
-	else
-		new_attr.c_lflag |= ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &new_attr);
 }
 
 int	minishell_prompt(t_pipe *data)

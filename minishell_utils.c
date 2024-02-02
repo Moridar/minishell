@@ -3,25 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/30 22:21:31 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/02 13:42:23 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+/**
+ * Toggles carret character (^C, ^D, ^\) which are shown by default when
+ * ctrl+c, ctrl+d, ctrl+\ are pressed.
+ * is_on = 0 for prompt
+ * is_on = 1 during the command execution
+ * @param is_on 1 for removing carret characters from displayin in the shell
+ * 0 to hide carret characters from shell
+*/
+void	toggle_carret(int is_on)
+{
+	struct termios	new_attr;
+
+	tcgetattr(STDIN_FILENO, &new_attr);
+	if (!is_on)
+		new_attr.c_lflag &= ~ECHOCTL;
+	else
+		new_attr.c_lflag |= ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &new_attr);
+}
+
 int	free_return(void *ptr, int returnvalue)
 {
 	free(ptr);
 	return (returnvalue);
-}
-
-void	free_env_exit(t_pipe *data, int exitno)
-{
-	freeall(data->envp);
-	exit(exitno);
 }
 
 /**

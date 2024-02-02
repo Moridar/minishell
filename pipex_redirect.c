@@ -7,7 +7,7 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
 /*   Updated: 2024/01/30 15:20:40 by vshchuki         ###   ########.fr       */
-
+/*																			  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,52 +163,3 @@ void	set_direction(t_pipe *data, int i, int *fd)
 	if (outfilename)
 		free(outfilename);
 }
-
-// int	main(void)
-// {
-// 	// char	*str = "he\"ll\"o_$SHELL";
-// 	// char	*str = "$SHELL_hello";
-// 	// char	*str = "$SHELL\"_hello\"";
-// 	// char	*str = "$SHELL'_hello'";
-// 	// printf("|%s|\n", interpret(str));
-// 	char *str;
-// 	char *filename;
-
-// 	filename = NULL;
-// 	// str = ft_strdup("<$SHELL\"s\"'Mak'e'fi\"l\"e'>out echo helo world > output");
-// 	// str = ft_strdup("<$SHELL\"s\"'Mak'e'fi\"l\"e'>out echo helo world > output");
-
-// 	/*CHECK THE FOLLOWING TESTS*/
-// 	// str = ft_strdup("<$SHELL > output"); // works!
-// 	// str = ft_strdup("<\"$SHELL\" > output"); // works!
-
-// 	// str = ft_strdup("<\"$SHELL \" > output"); // \"$SHELL \" gives an empty string but should be |/bin/zsh |
-// 	// str = ft_strdup("<\"$SHELL'HEY'\" > output"); // \"$SHELL'HEY'\" gives an empty string but should be |/bin/zsh'HEY'|
-	
-
-// 	// str = ft_strdup("<\"$SHELLs\" > output"); // works! Returns empty string as it should be!
-// 	// str = ft_strdup("<\" $SHELL\" > output"); // \" $SHELL\" gives | $SHELL| but should be | /bin/zsh|
-// 	// str = ft_strdup("<\"'HEY'$SHELL\" > output"); // \"'HEY'$SHELL\" gives |'HEY'$SHELL| but should be |'HEY'/bin/zsh|
-// 	// str = ft_strdup("<\"'HEY'$SHELL\" > output"); // \"'HEY'$SHELL\" gives |'HEY'$SHELL| but should be |'HEY'/bin/zsh|
-// 	// str = ft_strdup("<\"'HEY' $SHELL\" > output"); // \"'HEY' $SHELL\" gives |'HEY' $SHELL| but should be |'HEY' /bin/zsh|
-// 	// str = ft_strdup("<\"'HEY' $SHELL \" > output"); // \"'HEY' $SHELL \" gives |'HEY' $SHELL | but should be |'HEY' /bin/zsh |
-
-// 	str = ft_strdup("<\"\'$SHELL\'\" > output"); // works! Singles in doubles
-// 	// str = ft_strdup("<\"\"$SHELL\"\" > output"); // works! Doubles in doubles
-
-// 	//str = ft_strdup("<\"hello$SHELLworld\" > output"); // gives |hello$SHELLworld| but should be |hello|
-// 	// str = ft_strdup("<\"hello$SHELL\"world > output"); // gives |hello$SHELLworld| but should be |hello/bin/zshworld|
-
-// 	printf("|%s|\n", str);
-// 	filename = cut_filename(str, '<');
-// 	printf("infile: |%s|\n", filename);
-// 	free(filename);
-// 	filename = NULL;
-// 	printf("|%s|\n", str);
-// 	get_filename(str, '>', &filename);
-// 	printf("outfile: |%s|\n", filename);
-// 	printf("|%s|\n", str);
-// 	free(filename);
-// 	free(str);
-// 	return (0);
-// }

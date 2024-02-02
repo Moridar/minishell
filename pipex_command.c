@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:11:39 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/02 13:32:09 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/02 13:39:49 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,42 +73,3 @@ char	**split_shell_cmd(char	*cmd, t_pipe *data)
 		command = reallocate_arraylist(command, new_size);
 	return (command);
 }
-
-// int	main(void)
-// {
-// 	char	*cmd;
-// 	char	**command;
-// 	int i;
-
-// 	// cmd = "    	  echo 	   \" \'  \' word \' hello 	 $SHELL  $MAIL \"       \'h world $SHELL \" h\'   $MAIL $MAIL $NOT_EXISTS  ";
-// 	// cmd = "echo \' something should happen here\"\"";
-// 	// cmd = "\"hello\"";
-// 	// cmd = "    	  echo 	   \" \'  \' word \' hello 	 $SHELL  $MAIL \"       \'h world $SHELL \" h\'   $MAIL $MAIL $NOT_EXISTS  ";
-// 	// cmd = "'";
-// 	// cmd = "echo $SHELL\"HEY\" $SHELL' hey' \"$SHELL 'HEY' HEY$SHELL\" \'hey\' \"hello\" \"' hey hey '\"";
-	
-// 	// cmd = "echo \"$SHELL\""; // works!
-// 	// cmd = "echo \"$SHELL\" "; // works!
-// 	// cmd = "echo \"$SHELL \""; // gives an empty string
-// 	cmd = "echo \"$SHELL \"\"\""; // gives an empty string
-// 	// cmd = "echo \"$SHELL \"\'\'"; // gives an empty string
-// 	// cmd = "echo \"$SHELL 'HEY'\""; // gives an empty string
-// 	// cmd = "echo \"$SHELL 'HEY' HEY$SHELL\""; // gives an empty string
-	
-// 	// printf("cmd: %s\n", cmd);
-
-// 	// in bash:
-// 	//     	  echo 	   " '  ' word ' hello 	 $SHELL  $MAIL "       'h world $SHELL " h'   $MAIL $MAIL $NOT_EXISTS  
-	
-// 	command = split_shell_cmd(cmd);
-// 	printf("Array elements:\n");
-// 	i = 0;
-// 	while(command[i])
-// 	{
-// 		printf("|%s|\n", command[i]);
-// 		i++;
-// 	}
-// 	freeall(command);
-
-// 	return (0);
-// }
