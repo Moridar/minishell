@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:11:39 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/30 12:56:43 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/02 13:32:09 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,23 @@ char	**split_shell_cmd(char	*cmd, t_pipe *data)
 	char	*new_str;
 	char	**command;
 	int		i;
+	int		new_size;
 
 	new_str = replace_spaces(cmd);
 	command = ft_split(new_str, 31);
 	free(new_str);
 	i = 0;
+	new_size = 0;
 	while (command[i])
 	{
-		new_str = command[i];
-		command[i] = interpret(new_str, data);
-		free(new_str);
-		i++;
+		new_str = interpret(command[i], data);
+		free(command[i]);
+		command[i] = new_str;
+		if (command[i++])
+			new_size++;
 	}
+	if (new_size != i)
+		command = reallocate_arraylist(command, new_size);
 	return (command);
 }
 
