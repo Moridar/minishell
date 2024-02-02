@@ -3,40 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:13:28 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/02 01:40:10 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/02 12:49:58 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	dup_and_close_fds(int fd[2])
-{
-	if (fd[0] != STDERR_FILENO)
-	{
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-	}
-	if (fd[1] != STDOUT_FILENO)
-	{
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-	}
-}
-
-void	closepipe(t_pipe *data)
-{
-	if (data->fd[0][0] >= 0)
-		close(data->fd[0][0]);
-	if (data->fd[0][1] >= 0)
-		close(data->fd[0][1]);
-	if (data->fd[1][0] >= 0)
-		close(data->fd[1][0]);
-	if (data->fd[1][1] >= 0)
-		close(data->fd[1][1]);
-}
 
 /**
  * @brief Print error message and exits
@@ -56,6 +30,7 @@ void	errormsg(char *msg, int exits, int exit_status)
 	if (exits)
 		exit(exit_status);
 }
+
 /**
  * @brief Free the double string array
  * @param **char strarray
@@ -76,5 +51,12 @@ void	freeall(char **strarray)
 void	freeall_exit(char **strarray, int exitno)
 {
 	freeall(strarray);
+	exit(exitno);
+}
+
+void	msg_freeall_exit(char *msg, char **strarray, int exitno)
+{
+	freeall(strarray);
+	ft_putstr_fd(msg, 2);
 	exit(exitno);
 }

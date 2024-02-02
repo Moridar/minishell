@@ -6,11 +6,37 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:33:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/01 19:39:12 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/02 12:47:43 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	dup_and_close_fds(int fd[2])
+{
+	if (fd[0] != STDERR_FILENO)
+	{
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
+	}
+	if (fd[1] != STDOUT_FILENO)
+	{
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+	}
+}
+
+void	closepipe(t_pipe *data)
+{
+	if (data->fd[0][0] >= 0)
+		close(data->fd[0][0]);
+	if (data->fd[0][1] >= 0)
+		close(data->fd[0][1]);
+	if (data->fd[1][0] >= 0)
+		close(data->fd[1][0]);
+	if (data->fd[1][1] >= 0)
+		close(data->fd[1][1]);
+}
 
 /**
  * @brief Returns the length of a quote, including the quote itself.
@@ -47,7 +73,6 @@ int	len_next_meta_char(char *str, char *metachars, int space)
 	}
 	return (i);
 }
-
 
 /**
  * Count the number of char c leading the string.

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/01 22:26:34 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/02 13:05:48 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ static void	cmdnfound_exit(char *cmd, char **cmds)
 	char	*errmsg;
 	char	*tmp;
 
-	freeall(cmds);
 	tmp = ft_strjoin("bvsh: ", cmd);
 	errmsg = ft_strjoin(tmp, ": command not found\n");
 	write(2, errmsg, ft_strlen(errmsg));
+	freeall(cmds);
 	free(tmp);
 	free(errmsg);
 	exit(127);
@@ -52,27 +52,25 @@ static void	cmdnfound_exit(char *cmd, char **cmds)
  * returns 0 if existing file
  * exits if non-existing 
 */
-static int	is_directory(char *path)
+static char	*is_directory(char *path, char **cmds)
 {
 	DIR	*dir;
 
 	if (!path)
-		return (0);
+		return (NULL);
 	dir = opendir(path);
-	if (dir && ft_strchr(path, '/') != NULL)
+	if (!dir)
+		return (path);
+	closedir(dir);
+	if (ft_strchr(path, '/') != NULL)
 	{
-		closedir(dir);
 		write(2, "bvsh: ", 6);
 		write(2, path, ft_strlen(path));
 		write(2, " Is a directory\n", 16);
-		return (1);
+		freeall_exit(cmds, 126);
 	}
-	if (dir)
-	{
-		closedir(dir);
-		return (2);
-	}
-	return (0);
+	cmdnfound_exit(path, cmds);
+	return (NULL);
 }
 
 static char	*get_path(char *cmd, t_pipe *data)
@@ -100,27 +98,19 @@ static char	*get_path(char *cmd, t_pipe *data)
 char	*check_cmdpath(char *cmd, t_pipe *data, char **cmds)
 {
 	char	*cmdpath;
-	int		is_dir;
 
 	cmdpath = NULL;
-	if (access(cmd, X_OK) == 0)
-		cmdpath = ft_strdup(cmd);
-	else if (ft_strchr(cmd, '/') == NULL)
+	if (ft_strchr(cmd, '/') == NULL)
 		cmdpath = get_path(cmd, data);
-	else
+	else if (access(cmd, F_OK) == 0)
 	{
-		freeall(cmds);
-		write(2, "bvsh: No such file or directory\n", 33);
-		exit(127);
+		if (access(cmd, X_OK) == -1)
+			msg_freeall_exit("bvsh: Permission denied\n", cmds, 126);
+		cmdpath = ft_strdup(cmd);
 	}
+	else
+		msg_freeall_exit("bvsh: No such file or directory\n", cmds, 127);
 	if (!cmdpath)
 		cmdnfound_exit(cmd, cmds);
-	is_dir = is_directory(cmdpath);
-	if (is_dir == 0)
-		return (cmdpath);
-	free(cmdpath);
-	if (is_dir == 1)
-		freeall_exit(cmds, 126);
-	cmdnfound_exit(cmd, cmds);
-	return (NULL);
+	return (is_directory(cmdpath, cmds));
 }

@@ -38,17 +38,19 @@ typedef struct s_pipe
 }	t_pipe;
 
 //Helper functions
-void	freeall(char **strarray);
-void	errormsg(char *msg, int exits, int exit_status);
-void	closepipe(t_pipe *data);
 int		count_lead_chars(char *str, char c);
 int		get_quote_length(char *str, char quote);
 char	*interpret_quote(char *str, char quote, t_pipe *data);
 int		len_next_meta_char(char *str, char *metachars, int space);
 void	replace_pipes(char *cmd);
-void	free_env_exit(t_pipe *data, int exitno);
-int		free_return(void *ptr, int returnvalue);
+
+//Error and exit handling
+void	freeall(char **strarray);
 void	freeall_exit(char **strarray, int exitno);
+void	msg_freeall_exit(char *msg, char **strarray, int exitno);
+int		free_return(void *ptr, int returnvalue);
+void	free_env_exit(t_pipe *data, int exitno);
+void	errormsg(char *msg, int exits, int exit_status);
 void	closepipe(t_pipe *data);
 void	dup_and_close_fds(int fd[2]);
 
