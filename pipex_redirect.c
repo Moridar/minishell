@@ -74,6 +74,7 @@ static int	get_filename(char *cmd, char symbol, char **filename, t_pipe *data)
 	int		i;
 	int		type;
 	int		lasttype;
+	int		fd;
 
 	i = -1;
 	lasttype = 0;
@@ -88,6 +89,12 @@ static int	get_filename(char *cmd, char symbol, char **filename, t_pipe *data)
 			if (*filename)
 				free(*filename);
 			*filename = cut_filename(cmd + i, symbol, data);
+			// Check permission of the file and stop redirect if there is no permission
+			if (access(*filename, F_OK) != -1 && access(*filename, R_OK) == -1)
+				break ;
+			// Create file for each filename in redirect
+			fd = open(*filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			close(fd);
 		}
 		if (type >= 3)
 			errormsg("syntax error near unexpected token `<'", 1, -1);
@@ -136,15 +143,9 @@ void	set_direction(t_pipe *data, int i, int *fd)
 
 	infilename = NULL;
 	outfilename = NULL;
-	// ft_putstr_fd("child executes2\n", 2);
 	fd[0] = get_fd('<', i, data, &infilename);
-	// ft_putstr_fd("child executes2\n",3);
 	if (fd[0] < 0)
-	{
 		errormsg(infilename, 1, 1);
-		// g_exit_status = 1;
-		// exit(1);
-	}
 	fd[1] = get_fd('>', i, data, &outfilename);
 	if (fd[1] < 0)
 		errormsg("output file", 1, 1);
