@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_env_variables.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:12:21 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/01/31 19:16:10 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/02 03:08:28 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ static char	*expand_simple_var(char *start, t_pipe *data)
 	i = -1;
 	while (!res && data->envp[++i])
 	{
-		if (ft_strncmp(data->envp[i], start + 1, ft_strlen(start + 1)) == 0)
+		if (ft_strncmp(data->envp[i], start + 1, ft_strlen(start + 1)) == 0
+			&& (data->envp[i])[ft_strlen(start + 1)] == '=' )
 		{
 			res = ft_strdup(data->envp[i] + ft_strlen(start + 1) + 1);
 			temp = res;
