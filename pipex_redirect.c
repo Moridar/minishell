@@ -69,26 +69,6 @@ static char	*cut_filename(char *str, char symbol, t_pipe *data)
 	return (filename);
 }
 
-/**
- * Checks permission of the file and stop redirect if there is no permission
- * Creates file for each filename in redirect
- * 
- * @return -1 if file exist but has no read permission, 0 if file exist and
- * and can be read or was created if it did not exist before.
-*/
-int	check_file_perm_exist(char *filename)
-{
-	int		fd;
-
-	if (access(filename, F_OK) != -1 && access(filename, R_OK) == -1)
-		return (-1);
-	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd < 0)
-		errormsg(filename, 1, -1);
-	close(fd);
-	return (0);
-}
-
 static int	get_filename(char *cmd, char symbol, char **filename, t_pipe *data)
 {
 	int		i;
@@ -149,36 +129,6 @@ static int	get_fd(char symbol, int i, t_pipe *data, char **filename)
 	return (-1);
 }
 
-static void	free_filenames(char *infilename, char *outfilename)
-{
-	if (infilename)
-		free(infilename);
-	if (outfilename)
-		free(outfilename);
-}
-
-static void check_error(char *errorexit, int *fd, t_pipe *data)
-{
-	if (errorexit)
-	{
-		ft_putstr_fd("bvsh: ", 2);
-		ft_putstr_fd(errorexit, 2);
-		if (errno)
-		{
-			ft_putstr_fd(": ", 2);
-			ft_putstr_fd(strerror(errno), 2);
-		}
-		ft_putstr_fd("\n", 2);
-		if (fd[1] >= 2)
-			close(fd[1]);
-		if (fd[0] >= 2)
-			close(fd[0]);
-		closepipe(data);
-		freeall(data->envp);
-		freeall(data->cmds);
-		exit(1);
-	}
-}
 //fd[0] = input (generally pipe, but can be file/heredoc)
 //fd[1] = output (generally pipe, but can be file/stdout)
 void	set_direction(t_pipe *data, int i, int *fd)
@@ -191,14 +141,14 @@ void	set_direction(t_pipe *data, int i, int *fd)
 	errorexit = NULL;
 	fd[0] = get_fd('<', i, data, &(filename[0]));
 	if (fd[0] < 0)
-		errorexit = "input file";
+		errorexit = ft_strdup(filename[0]);
 	if (errorexit == NULL)
 		fd[1] = get_fd('>', i, data, &filename[1]);
 	if (fd[1] < 0)
-		errorexit = "output file";
+		errorexit = ft_strdup(filename[1]);
 	if (!errorexit && filename[0] && filename[1] && ft_strncmp(filename[0],
 			filename[1], ft_strlen(filename[0]) + 1) == 0)
-		errorexit = "cat: -: input file is output file";
+		errorexit = ft_strdup("cat: -: input file is output file");
 	free_filenames(filename[0], filename[1]);
-	check_error(errorexit, fd, data);
+	redirect_check_error(errorexit, fd, data);
 }

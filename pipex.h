@@ -43,6 +43,11 @@ char	*interpret_quote(char *str, char quote, t_pipe *data);
 int		len_next_meta_char(char *str, char *metachars, int space);
 void	replace_pipes(char *cmd);
 
+//Redirection helpers
+int		check_file_perm_exist(char *filename);
+void	redirect_check_error(char *errmsg, int *fd, t_pipe *data);
+void	free_filenames(char *infilename, char *outfilename);
+
 //Error and exit handling
 void	freeall(char **strarray);
 void	freeall_exit(char **strarray, int exitno);

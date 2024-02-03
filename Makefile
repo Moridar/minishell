@@ -20,6 +20,7 @@ SRC = 	minishell.c \
 		pipex.c \
 		pipex_execute.c \
 		pipex_redirect.c \
+		pipex_redirect_utils.c \
 		pipex_interpret.c \
 		pipex_env_variables.c \
 		pipex_path.c \
