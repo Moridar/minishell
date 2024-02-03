@@ -69,12 +69,34 @@ static char	*cut_filename(char *str, char symbol, t_pipe *data)
 	return (filename);
 }
 
+/**
+ * Checks permission of the file and stop redirect if there is no permission
+ * Creates file for each filename in redirect
+ * 
+ * @return -1 if file exist but has no read permission, 0 if file exist and
+ * and can be read or was created if it did not exist before.
+*/
+int	check_file_perm_exist(char *filename)
+{
+	int		fd;
+
+	if (access(filename, F_OK) != -1 && access(filename, R_OK) == -1)
+		return (-1);
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		free(filename);
+		errormsg(filename, 1, -1);
+	}
+	close(fd);
+	return (0);
+}
+
 static int	get_filename(char *cmd, char symbol, char **filename, t_pipe *data)
 {
 	int		i;
 	int		type;
 	int		lasttype;
-	int		fd;
 
 	i = -1;
 	lasttype = 0;
@@ -89,12 +111,8 @@ static int	get_filename(char *cmd, char symbol, char **filename, t_pipe *data)
 			if (*filename)
 				free(*filename);
 			*filename = cut_filename(cmd + i, symbol, data);
-			// Check permission of the file and stop redirect if there is no permission
-			if (access(*filename, F_OK) != -1 && access(*filename, R_OK) == -1)
+			if (check_file_perm_exist(*filename) == -1)
 				break ;
-			// Create file for each filename in redirect
-			fd = open(*filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			close(fd);
 		}
 		if (type >= 3)
 			errormsg("syntax error near unexpected token `<'", 1, -1);
