@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/02 13:05:48 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/03 14:51:21 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static char	*is_directory(char *path, char **cmds)
 	{
 		write(2, "bvsh: ", 6);
 		write(2, path, ft_strlen(path));
-		write(2, " Is a directory\n", 16);
+		write(2, ": is a directory\n", 16);
 		freeall_exit(cmds, 126);
 	}
 	cmdnfound_exit(path, cmds);
