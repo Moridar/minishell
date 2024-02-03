@@ -84,10 +84,7 @@ int	check_file_perm_exist(char *filename)
 		return (-1);
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
-	{
-		free(filename);
 		errormsg(filename, 1, -1);
-	}
 	close(fd);
 	return (0);
 }
