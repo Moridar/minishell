@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/03 15:58:37 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/03 16:15:37 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ int	builtins(char **cmd, t_pipe *data, char *line)
 		return (exit_builtin(cmd[1], data, cmd, line));
 	if (ft_strncmp(cmd[0], "exit", 5) == 0 && count > 2)
 	{
+		ft_putstr_fd("exit\n", 1);
 		ft_putstr_fd("bvsh: exit: too many arguments\n", 2);
 		g_exit_status = 1;
 		return (1);
