@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_execute.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/02 01:36:56 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/03 21:48:26 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ static void	child_execute(t_pipe *data, int i)
 	toggle_carret(1);
 	set_direction(data, i, fd);
 	cmd = split_shell_cmd(data->cmds[i], data);
+	freeall(data->cmds);
 	dup_and_close_fds(fd);
 	closepipe(data);
 	if (child_builtins(cmd, data))
 		freeall_exit(cmd, 0);
 	path = check_cmdpath(cmd[0], data, cmd);
 	execve(path, cmd, data->envp);
-	exit(EXIT_FAILURE);
 }
 
 static void	execute_fork(int i, t_pipe *data)
@@ -47,8 +47,10 @@ static void	execute_fork(int i, t_pipe *data)
 	signal(SIGINT, SIG_IGN);
 	if (pid == 0)
 	{
+		free(data->pid);
 		signal(SIGINT, interrupt);
 		child_execute(data, i);
+		freeall(data->envp);
 		exit(EXIT_FAILURE);
 	}
 	data->pid[i] = pid;

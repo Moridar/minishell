@@ -33,7 +33,6 @@ typedef struct s_pipe
 	int		cmdc;
 	int		append;
 	char	**envp;
-	char	**paths;
 	char	**cmds;
 }	t_pipe;
 

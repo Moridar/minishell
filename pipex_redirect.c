@@ -160,7 +160,7 @@ void	set_direction(t_pipe *data, int i, int *fd)
 	outfilename = NULL;
 	fd[0] = get_fd('<', i, data, &infilename);
 	if (fd[0] < 0)
-		errormsg(infilename, 1, 1);
+		errormsg("input file", 1, 1);
 	fd[1] = get_fd('>', i, data, &outfilename);
 	if (fd[1] < 0)
 		errormsg("output file", 1, 1);

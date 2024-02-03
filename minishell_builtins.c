@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_builtins.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/03 16:15:37 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/03 21:41:47 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,26 +100,26 @@ static int	export(t_pipe *data, char *var)
 
 static int	cd(t_pipe *data, char **cmd, int count)
 {
-	char	*ptr;
+	char	*key;
+	char	*path;
 
+	g_exit_status = 1;
 	if (count < 2)
-	{
-		g_exit_status = 1;
 		ft_putstr_fd("bvsh: cd: too few arguments\n", 2);
-	}
-	else if (ft_strncmp(cmd[1], getcwd(NULL, 0), ft_strlen(cmd[1])) == 0)
-		return (1);
 	else if (chdir(cmd[1]) == 0)
 	{
-		ptr = ft_strjoin("PWD=", getcwd(NULL, 0));
-		if (!ptr)
+		path = getcwd(NULL, 0);
+		if (!path)
 			return (2);
-		export(data, ptr);
-		free(ptr);
+		key = ft_strjoin("PWD=", path);
+		free(path);
+		if (!key)
+			return (2);
+		g_exit_status = 0;
+		return (export(data, key));
 	}
 	else
 	{
-		g_exit_status = 1;
 		ft_putstr_fd("bvsh: cd: ", 2);
 		perror(cmd[1]);
 	}
