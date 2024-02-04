@@ -88,7 +88,7 @@ static int	get_filename(char *cmd, char symbol, char **filename, t_pipe *data)
 			if (*filename)
 				free(*filename);
 			*filename = cut_filename(cmd + i, symbol, data);
-			if (check_file_perm_exist(*filename) == -1)
+			if (symbol == '>' && check_file_perm_exist(*filename) == -1)
 				break ;
 		}
 		if (type >= 3)
