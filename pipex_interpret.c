@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_interpret.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/05 02:36:15 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/05 11:38:00 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,24 +59,18 @@ char	*interpret_quote(char *str, char quote, t_pipe *data)
 char	*interpret_and_join(char *ret, char *str, t_pipe *data)
 {
 	char	*interpreted_str;
-	char	*tmp;
 
 	if (*str == '"' || *str == '\'')
 		interpreted_str = interpret_quote(str, *str, data);
-	else if (*str == '$')
+	else if (*str == '$' || (*str == '~' && ft_strlen(str) == 1))
 		interpreted_str = expand_env_args(str, data);
 	else
-	{
-		tmp = ft_strjoin(ret, str);
-		free(str);
-		free(ret);
-		return (tmp);
-	}
-	tmp = ft_strjoin(ret, interpreted_str);
+		interpreted_str = ft_strdup(str);
 	free(str);
-	free(ret);
+	str = ft_strjoin(ret, interpreted_str);
 	free(interpreted_str);
-	return (tmp);
+	free(ret);
+	return (str);
 }
 
 char	*interpret(char *str, t_pipe *data)
@@ -96,6 +90,9 @@ char	*interpret(char *str, t_pipe *data)
 			len = 2;
 		else if (str[start] == '$')
 			len = len_next_meta_char(str + start + 1, "$?\"'/", 1) + 1;
+		else if (str[start] == '~' && (str[start + 1] == '/'
+				|| !str[start + 1] || ft_isspace(str[start + 1])))
+			len = 1;
 		else
 			len = len_next_meta_char(str + start, "$\"'", 1);
 		ret = interpret_and_join(ret, ft_substr(str, start, len), data);

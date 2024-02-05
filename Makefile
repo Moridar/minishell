@@ -8,17 +8,16 @@ HEADER = minishell.h
 
 LIB = libft/libft.a
 LIBDIR = ./libft
-# READLINE_LIB = ~/.brew/opt/readline/lib
-# READLINE_HEADER = ~/.brew/opt/readline/include
-READLINE_LIB = /opt/homebrew/opt/readline/lib 
-READLINE_HEADER = /opt/homebrew/opt/readline/include
+READLINE_LIB = ~/.brew/opt/readline/lib
+READLINE_HEADER = ~/.brew/opt/readline/include
+# READLINE_LIB = /opt/homebrew/opt/readline/lib 
+# READLINE_HEADER = /opt/homebrew/opt/readline/include
 SRC = 	minishell.c \
 		minishell_prompt.c \
 		minishell_history.c \
 		minishell_utils.c \
 		minishell_builtins.c \
 		minishell_builtins_exit.c \
-		minishell_builtins_utils.c \
 		pipex.c \
 		pipex_execute.c \
 		pipex_redirect.c \
@@ -34,6 +33,7 @@ SRC = 	minishell.c \
 OBJ = $(SRC:%.c=%.o)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+# DEBUG_FLAGS = -g -fsanitize=address,undefined,integer
 # CFLAGS = 
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -I$(HEADER) -L$(LIBDIR) -lft -L $(READLINE_LIB) -I $(READLINE_HEADER) -lreadline -o $(NAME)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/05 04:16:09 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/05 11:41:02 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ static char	*is_directory(char *path, char **cmds, t_pipe *data)
 	DIR		*dir;
 	char	*interpreted_path;
 
+	printf("path: %s\n", path);
 	interpreted_path = interpret(path, data);
+	printf("interpreted_path: %s\n", interpreted_path);
 	if (!interpreted_path)
 		return (NULL);
 	dir = opendir(interpreted_path);

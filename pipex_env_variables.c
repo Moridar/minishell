@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_env_variables.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:12:21 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/05 02:36:15 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/05 10:21:20 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ static char	*expand_simple_var(char *start, t_pipe *data)
  */
 char	*expand_env_args(char *str, t_pipe *data)
 {
+	if (*str == '~')
+		return (expand_simple_var("$HOME", data));
 	if (*str != '$')
 		return (ft_strdup(str));
 	if (str[1] == 0)

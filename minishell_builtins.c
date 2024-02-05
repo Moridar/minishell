@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_builtins.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/05 04:02:38 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/05 10:18:58 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ static int	cd(t_pipe *data, char **cmd, int count)
 	g_exit_status = 1;
 	if (count < 2)
 		ft_putstr_fd("bvsh: cd: too few arguments\n", 2);
-	else if (change_directory(data, cmd) == 0)
+	else if (chdir(cmd[1]) == 0)
 	{
 		path = getcwd(NULL, 0);
 		if (!path)
