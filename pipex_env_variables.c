@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_env_variables.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:12:21 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/02 13:40:02 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/05 02:36:15 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "minishell.h"
 
 /**
  * Replaces all consecutive whitespaces to a space char ' '(32).

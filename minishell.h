@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                      :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/08 13:59:48 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/16 13:31:16 by bsyvasal         ###   ########.fr       */
+/*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
+/*   Updated: 2024/02/05 02:37:10 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 # include "libft/libft.h"
 # include <stdio.h>
 # include <fcntl.h>
@@ -72,7 +72,6 @@ char	*expand_env_args(char *str, t_pipe *data);
 
 // Array utils
 int		get_string_array_size(char **str);
-char	**free_double_arr(char **arr, int i);
 char	**copy_double_array(char **arr1, int increase_size);
 char	**reallocate_arraylist(char **arr, int size);
 

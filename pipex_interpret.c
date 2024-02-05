@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_interpret.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/31 19:13:08 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/05 02:36:15 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "minishell.h"
 
 static char	*interpret_double_quote(char *str, t_pipe *data)
 {
@@ -28,7 +28,7 @@ static char	*interpret_double_quote(char *str, t_pipe *data)
 		if (str[start] == '$' && str[start + 1] == '?')
 			len = 2;
 		else if (str[start] == '$')
-			len = len_next_meta_char(str + start + 1, "$?'", 1) + 1;
+			len = len_next_meta_char(str + start + 1, "$?'/", 1) + 1;
 		else
 			len = len_next_meta_char(str + start, "$", 0);
 		substr = expand_env_args(ft_substr(str, start, len), data);
@@ -95,7 +95,7 @@ char	*interpret(char *str, t_pipe *data)
 		else if (str[start] == '$' && str[start + 1] == '?')
 			len = 2;
 		else if (str[start] == '$')
-			len = len_next_meta_char(str + start + 1, "$?\"'", 1) + 1;
+			len = len_next_meta_char(str + start + 1, "$?\"'/", 1) + 1;
 		else
 			len = len_next_meta_char(str + start, "$\"'", 1);
 		ret = interpret_and_join(ret, ft_substr(str, start, len), data);

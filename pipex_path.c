@@ -6,11 +6,11 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/03 14:51:21 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/05 02:36:15 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "minishell.h"
 
 static char	**get_paths(t_pipe *data)
 {
@@ -52,24 +52,26 @@ static void	cmdnfound_exit(char *cmd, char **cmds)
  * returns 0 if existing file
  * exits if non-existing 
 */
-static char	*is_directory(char *path, char **cmds)
+static char	*is_directory(char *path, char **cmds, t_pipe *data)
 {
 	DIR	*dir;
+	char	*interpreted_path;
 
-	if (!path)
+	interpreted_path = interpret(path, data);
+	if (!interpreted_path)
 		return (NULL);
-	dir = opendir(path);
+	dir = opendir(interpreted_path);
 	if (!dir)
-		return (path);
+		return (interpreted_path);
 	closedir(dir);
-	if (ft_strchr(path, '/') != NULL)
+	if (ft_strchr(interpreted_path, '/') != NULL)
 	{
-		write(2, "bvsh: ", 6);
-		write(2, path, ft_strlen(path));
-		write(2, ": is a directory\n", 16);
+		ft_putstr_fd("bvsh: ", 2);
+		ft_putstr_fd(interpreted_path, 2);
+		ft_putstr_fd(": is a directory\n", 2);
 		freeall_exit(cmds, 126);
 	}
-	cmdnfound_exit(path, cmds);
+	cmdnfound_exit(interpreted_path, cmds);
 	return (NULL);
 }
 
@@ -112,5 +114,5 @@ char	*check_cmdpath(char *cmd, t_pipe *data, char **cmds)
 		msg_freeall_exit("bvsh: No such file or directory\n", cmds, 127);
 	if (!cmdpath)
 		cmdnfound_exit(cmd, cmds);
-	return (is_directory(cmdpath, cmds));
+	return (is_directory(cmdpath, cmds, data));
 }
