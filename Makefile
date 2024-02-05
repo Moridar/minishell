@@ -4,6 +4,7 @@
 # Date: 01/28/2024
 
 NAME = minishell
+HEADER = minishell.h
 
 LIB = libft/libft.a
 LIBDIR = ./libft
@@ -17,6 +18,7 @@ SRC = 	minishell.c \
 		minishell_utils.c \
 		minishell_builtins.c \
 		minishell_builtins_exit.c \
+		minishell_builtins_utils.c \
 		pipex.c \
 		pipex_execute.c \
 		pipex_redirect.c \
@@ -34,7 +36,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 # CFLAGS = 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -L$(LIBDIR) -lft -L $(READLINE_LIB) -I $(READLINE_HEADER) -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) -I$(HEADER) -L$(LIBDIR) -lft -L $(READLINE_LIB) -I $(READLINE_HEADER) -lreadline -o $(NAME)
 
 .phony: all
 all: $(NAME)
@@ -46,7 +48,7 @@ all: $(NAME)
 # 	@touch .bonus
 
 %.o: %.c $(LIB)
-	$(CC) $(CFLAGS) -I $(READLINE_HEADER) $< -c
+	$(CC) $(CFLAGS) -I$(HEADER) -I $(READLINE_HEADER) $< -c
 	
 
 $(LIB):

@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/05 02:37:10 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/05 04:03:16 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,6 @@ int		builtins(char **cmd, t_pipe *data, char *line);
 int		child_builtins(char **cmd, t_pipe *data);
 int		export_var(t_pipe *data, char *var);
 int		exit_builtin(char *status, t_pipe *data, char **cmd, char *line);
+int		change_directory(t_pipe *data, char **cmd);
 
 #endif
