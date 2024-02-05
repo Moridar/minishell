@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/05 02:36:15 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/05 04:16:09 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	cmdnfound_exit(char *cmd, char **cmds)
 */
 static char	*is_directory(char *path, char **cmds, t_pipe *data)
 {
-	DIR	*dir;
+	DIR		*dir;
 	char	*interpreted_path;
 
 	interpreted_path = interpret(path, data);

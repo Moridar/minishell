@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 03:16:28 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/05 04:10:12 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/05 04:15:56 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,3 @@ int	change_directory(t_pipe *data, char **cmd)
 	result = chdir(path);
 	return (result);
 }
-
