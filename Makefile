@@ -4,14 +4,14 @@
 # Date: 01/28/2024
 
 NAME = minishell
-HEADER = minishell.h
+# HEADER = minishell.h
 
 LIB = libft/libft.a
 LIBDIR = ./libft
-READLINE_LIB = ~/.brew/opt/readline/lib
-READLINE_HEADER = ~/.brew/opt/readline/include
-# READLINE_LIB = /opt/homebrew/opt/readline/lib 
-# READLINE_HEADER = /opt/homebrew/opt/readline/include
+# READLINE_LIB = ~/.brew/opt/readline/lib
+# READLINE_HEADER = ~/.brew/opt/readline/include
+READLINE_LIB = /opt/homebrew/opt/readline/lib 
+READLINE_HEADER = /opt/homebrew/opt/readline/include
 SRC = 	minishell.c \
 		minishell_prompt.c \
 		minishell_history.c \
@@ -31,12 +31,12 @@ SRC = 	minishell.c \
 		pipex_errors.c 
 
 OBJ = $(SRC:%.c=%.o)
-CC = cc
+CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 DEBUG_FLAGS = -g -fsanitize=address,undefined,integer
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -I$(HEADER) -L$(LIBDIR) -lft -L $(READLINE_LIB) -I $(READLINE_HEADER) -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) -I. -L$(LIBDIR) -lft -L $(READLINE_LIB) -I $(READLINE_HEADER) -lreadline -o $(NAME)
 
 .phony: all
 all: $(NAME)
@@ -48,7 +48,7 @@ all: $(NAME)
 # 	@touch .bonus
 
 %.o: %.c $(LIB)
-	$(CC) $(CFLAGS) -I$(HEADER) -I $(READLINE_HEADER) $< -c
+	$(CC) $(CFLAGS) -I. -I $(READLINE_HEADER) $< -c
 	
 
 $(LIB):

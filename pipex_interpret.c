@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_interpret.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/05 17:10:56 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/06 01:38:17 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ char	*interpret_quote(char *str, char quote, t_pipe *data)
 	{
 		tmp = word;
 		word = interpret_double_quote(word, data, 0);
+		if (!word)
+			return (tmp);
 		free(tmp);
 	}
 	return (word);
