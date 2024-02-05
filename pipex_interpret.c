@@ -6,32 +6,31 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/05 11:38:00 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/05 17:10:56 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*interpret_double_quote(char *str, t_pipe *data)
+static char	*interpret_double_quote(char *str, t_pipe *data, int start)
 {
 	char	*ret;
 	char	*tmp;
 	char	*substr;
-	int		start;
 	int		len;
 
 	ret = NULL;
-	start = 0;
 	while (str[start])
 	{
-		len = 0;
 		if (str[start] == '$' && str[start + 1] == '?')
 			len = 2;
 		else if (str[start] == '$')
 			len = len_next_meta_char(str + start + 1, "$?'/", 1) + 1;
 		else
 			len = len_next_meta_char(str + start, "$", 0);
-		substr = expand_env_args(ft_substr(str, start, len), data);
+		tmp = ft_substr(str, start, len);
+		substr = expand_env_args(tmp, data);
+		free(tmp);
 		tmp = ft_strjoin(ret, substr);
 		free(ret);
 		free(substr);
@@ -50,7 +49,7 @@ char	*interpret_quote(char *str, char quote, t_pipe *data)
 	if (quote == '"')
 	{
 		tmp = word;
-		word = interpret_double_quote(word, data);
+		word = interpret_double_quote(word, data, 0);
 		free(tmp);
 	}
 	return (word);

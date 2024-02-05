@@ -33,8 +33,8 @@ SRC = 	minishell.c \
 OBJ = $(SRC:%.c=%.o)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-# DEBUG_FLAGS = -g -fsanitize=address,undefined,integer
-# CFLAGS = 
+DEBUG_FLAGS = -g -fsanitize=address,undefined,integer
+
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -I$(HEADER) -L$(LIBDIR) -lft -L $(READLINE_LIB) -I $(READLINE_HEADER) -lreadline -o $(NAME)
 

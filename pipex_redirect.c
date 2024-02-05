@@ -80,7 +80,7 @@ static int	get_filename(char *cmd, char symbol, char **filename, t_pipe *data)
 	while (cmd[++i])
 	{
 		if (cmd[i] == '\'' || cmd[i] == '"')
-			i += get_quote_length(cmd + i, cmd[i]);
+			i += get_quote_length(cmd + i, cmd[i]) - 1;
 		type = count_lead_chars(cmd + i, symbol);
 		if (type == 1 || type == 2)
 		{
