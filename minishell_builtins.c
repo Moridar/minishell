@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_builtins.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/05 10:18:58 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/05 14:24:00 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ static int	cd(t_pipe *data, char **cmd, int count)
 	}
 	else
 	{
-		ft_putstr_fd("bvsh: cd1: ", 2);
+		ft_putstr_fd("bvsh: cd: ", 2);
 		perror(cmd[1]);
 	}
 	return (1);

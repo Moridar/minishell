@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/05 11:41:02 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/05 14:26:22 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,28 +52,24 @@ static void	cmdnfound_exit(char *cmd, char **cmds)
  * returns 0 if existing file
  * exits if non-existing 
 */
-static char	*is_directory(char *path, char **cmds, t_pipe *data)
+static char	*is_directory(char *path, char **cmds)
 {
 	DIR		*dir;
-	char	*interpreted_path;
 
-	printf("path: %s\n", path);
-	interpreted_path = interpret(path, data);
-	printf("interpreted_path: %s\n", interpreted_path);
-	if (!interpreted_path)
+	if (!path)
 		return (NULL);
-	dir = opendir(interpreted_path);
+	dir = opendir(path);
 	if (!dir)
-		return (interpreted_path);
+		return (path);
 	closedir(dir);
-	if (ft_strchr(interpreted_path, '/') != NULL)
+	if (ft_strchr(path, '/') != NULL)
 	{
 		ft_putstr_fd("bvsh: ", 2);
-		ft_putstr_fd(interpreted_path, 2);
+		ft_putstr_fd(path, 2);
 		ft_putstr_fd(": is a directory\n", 2);
 		freeall_exit(cmds, 126);
 	}
-	cmdnfound_exit(interpreted_path, cmds);
+	cmdnfound_exit(path, cmds);
 	return (NULL);
 }
 
@@ -116,5 +112,5 @@ char	*check_cmdpath(char *cmd, t_pipe *data, char **cmds)
 		msg_freeall_exit("bvsh: No such file or directory\n", cmds, 127);
 	if (!cmdpath)
 		cmdnfound_exit(cmd, cmds);
-	return (is_directory(cmdpath, cmds, data));
+	return (is_directory(cmdpath, cmds));
 }
