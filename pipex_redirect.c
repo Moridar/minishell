@@ -41,7 +41,7 @@ static int	here_doc(char *delimiter)
 	return (heredoc_fd[0]);
 }
 
-static char	*cut_filename(char *str, char symbol, t_pipe *data)
+char	*cut_filename(char *str, char symbol, t_pipe *data)
 {
 	int		i;
 	int		start;
@@ -87,10 +87,7 @@ static int	get_filename(char *cmd, char symbol, char **filename, t_pipe *data)
 			if (lasttype > 2)
 				close(lasttype);
 			lasttype = type;
-			if (*filename)
-				free(*filename);
-			*filename = cut_filename(cmd + i, symbol, data);
-			if (symbol == '>' && check_file_perm_exist(*filename) == -1)
+			if (handle_file(cmd + i, symbol, filename, data) == -1)
 				break ;
 			if (symbol == '<' && type == 2)
 				lasttype = here_doc(*filename);

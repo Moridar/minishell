@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 23:28:16 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/05 17:14:00 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/06 16:20:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @return -1 if file exist but has no read permission, 0 if file exist and
  * and can be read or was created if it did not exist before.
 */
-int	check_file_perm_exist(char *filename)
+static int	check_file_perm_exist(char *filename)
 {
 	int		fd;
 
@@ -29,6 +29,16 @@ int	check_file_perm_exist(char *filename)
 	if (fd < 0)
 		errormsg(filename, 1, -1);
 	close(fd);
+	return (0);
+}
+
+int	handle_file(char *cmd, char symbol, char **filename, t_pipe *data)
+{
+	if (*filename)
+		free(*filename);
+	*filename = cut_filename(cmd, symbol, data);
+	if (symbol == '>' && check_file_perm_exist(*filename) == -1)
+		return (-1);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/06 12:10:16 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/06 16:20:17 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,10 @@ int		len_next_meta_char(char *str, char *metachars, int space);
 void	replace_pipes(char *cmd);
 
 //Redirection helpers
-int		check_file_perm_exist(char *filename);
+char	*cut_filename(char *str, char symbol, t_pipe *data);
 void	redirect_check_error(char *errmsg, int *fd, t_pipe *data);
 void	free_filenames(char *infilename, char *outfilename);
+int		handle_file(char *cmd, char symbol, char **filename, t_pipe *data);
 
 //Error and exit handling
 void	freeall(char **strarray);
