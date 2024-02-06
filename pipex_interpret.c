@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/06 10:55:25 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/06 12:04:15 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*interpret_double_quote(char *str, t_pipe *data, int start)
 	return (ret);
 }
 
-char	*interpret_quote(char *str, char quote, t_pipe *data)
+static char	*interpret_quote(char *str, char quote, t_pipe *data)
 {
 	char	*word;
 	char	*tmp;
