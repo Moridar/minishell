@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/06 03:17:27 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/06 03:42:17 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,21 +107,22 @@ int	minishell_prompt(t_pipe *data)
 	g_exit_status = 0;
 	read_history_file();
 	signal(SIGQUIT, signal_handler);
-	ft_putstr_fd("bvsh-1.1$ ", 1);
+	// ft_putstr_fd("bvsh-1.1$ ", 1);
 	while (1)
 	{
 		signal(SIGINT, signal_handler);
 		toggle_carret(0);
-		line = readline(NULL);
+		line = readline("bvsh-1.1$ ");
 		if (line && *line)
 			process_prompt_line(line, data);
 		ft_putstr_fd("bvsh-1.1$ ", 1);
 		if (line == NULL)
 		{
 			// handle_ctrl_d();
-			ft_putstr_fd("exit", 1);
+			ft_putstr_fd("exit\n", 1);
 			exit(g_exit_status);
 		}
+		ft_putstr_fd("\b\b\b\b\b\b\b\b\b\b", 1);
 	}
 	return (0);
 }
