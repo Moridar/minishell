@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:12:21 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/05 10:21:20 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/06 11:31:10 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ char	*shift_replace_spaces(char *str)
 	int		i;
 	char	*res;
 	int		len;
+	char	*set;
 
-	res = ft_strtrim(str, (char []){9, 10, 11, 12, 13, 32});
+	set = ft_strdup("\t\n\v\f\r ");
+	res = ft_strtrim(str, set);
+	free(set);
 	i = 0;
 	while (res[i])
 	{
