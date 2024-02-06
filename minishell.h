@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/05 04:03:16 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/06 10:50:11 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	dup_and_close_fds(int fd[2]);
 
 //Main functions
 int		minishell_prompt(t_pipe *data);
-int		pipex(t_pipe	*data);
+int		pipex(t_pipe *data);
 
 void	toggle_carret(int is_on);
 void	execute(int i, t_pipe *data);
@@ -81,11 +81,8 @@ int		read_history_file(void);
 int		history(void);
 
 // Builtins
-void	env(t_pipe *data);
 int		builtins(char **cmd, t_pipe *data, char *line);
 int		child_builtins(char **cmd, t_pipe *data);
-int		export_var(t_pipe *data, char *var);
 int		exit_builtin(char *status, t_pipe *data, char **cmd, char *line);
-int		change_directory(t_pipe *data, char **cmd);
 
 #endif

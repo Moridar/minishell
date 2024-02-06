@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_interpret.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/06 01:38:17 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/06 10:55:25 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*interpret_double_quote(char *str, t_pipe *data, int start)
 {
 	char	*ret;
 	char	*tmp;
-	char	*substr;
+	char	*interpreted_str;
 	int		len;
 
 	ret = NULL;
@@ -29,11 +29,11 @@ static char	*interpret_double_quote(char *str, t_pipe *data, int start)
 		else
 			len = len_next_meta_char(str + start, "$", 0);
 		tmp = ft_substr(str, start, len);
-		substr = expand_env_args(tmp, data);
+		interpreted_str = expand_env_args(tmp, data);
 		free(tmp);
-		tmp = ft_strjoin(ret, substr);
+		tmp = ft_strjoin(ret, interpreted_str);
 		free(ret);
-		free(substr);
+		free(interpreted_str);
 		ret = tmp;
 		start += len;
 	}
@@ -101,16 +101,3 @@ char	*interpret(char *str, t_pipe *data)
 	}
 	return (ret);
 }
-
-/* int	main(void)
-{
-	char	*str = "he\"ll\"o_\"$SH'E'LL\"$SHELL";
-//char	*str = "\'hey hey\'$SHELL\"some $SHELL some\"";
-	// char	*str = "$SHELL_hello";
-	//char	*str = "$SHELL\"_hello\"";
-	//char	*str = "$SH\"E\"LL'_hello'";
-	printf("|%s|\n|%s|\n", str, interpret(str));
-	//printf("|%s|\n", cut_filename("< Makefile>out echo helo world > output"));
-
-	return (0);
-}  */
