@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_history.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:32:14 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/05 02:36:15 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/06 12:01:14 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,32 +60,4 @@ int	read_history_file(void)
 	}
 	close(fd);
 	return (0);
-}
-
-/**
- * Prints all the history commands with lines numbered
- * @return 1 for success
-*/
-int	history(void)
-{
-	int		fd;
-	char	*line;
-	int		i;
-
-	fd = open(".bvsh_history", O_RDWR | O_CREAT | O_APPEND, 0644);
-	if (fd == -1)
-	{
-		errormsg(".bvsh_history", 1, -1);
-	}
-	line = get_next_line(fd);
-	i = 0;
-	while (line)
-	{
-		i++;
-		printf("%5d  %s", i, line);
-		free(line);
-		line = get_next_line(fd);
-	}
-	close(fd);
-	return (1);
 }

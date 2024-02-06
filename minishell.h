@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/06 10:50:11 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/06 11:59:19 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ char	**reallocate_arraylist(char **arr, int size);
 // History
 int		write_history_file(char *line);
 int		read_history_file(void);
-int		history(void);
 
 // Builtins
 int		builtins(char **cmd, t_pipe *data, char *line);

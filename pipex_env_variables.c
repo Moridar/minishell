@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:12:21 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/06 11:36:14 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/06 11:57:16 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ char	*shift_replace_spaces(char *str)
 static char	*expand_simple_var(char *start, t_pipe *data)
 {
 	char	*res;
-	char	*temp;
 	int		i;
 
 	res = NULL;
