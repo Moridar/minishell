@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/05 02:36:15 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/06 03:17:27 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,30 @@ void	replace_pipes(char *cmd)
 	}
 }
 
-/* Exit on ctrl + d */
-void	handle_ctrl_d(void)
-{
-	rl_on_new_line();
-	rl_replace_line("exit\n", 0);
-	rl_redisplay();
-	printf("\n");
-	exit(g_exit_status);
-}
+// /* Exit on ctrl + d */
+// void	handle_ctrl_d()
+// {
+// /* 	// rl_on_new_line();
+// 	rl_replace_line("exit\n", 0);
+// 	// rl_redisplay();
+// 	// printf("\n"); */
+
+
+// /*     // Initialize termcap
+//     char term_buffer[2048];
+//     char *termtype = getenv("TERM");
+//     tgetent(term_buffer, termtype);
+
+//     // Get the "cursor up" capability
+//     char *cursor_up = tgetstr("ku", NULL);
+
+//     // Use tputs to move the cursor up
+//     tputs(cursor_up, 1, putchar); */
+
+
+// 	ft_putstr_fd("exit", 1);
+// 	exit(g_exit_status);
+// }
 
 void	process_prompt_line(char *line, t_pipe *data)
 {
@@ -92,15 +107,21 @@ int	minishell_prompt(t_pipe *data)
 	g_exit_status = 0;
 	read_history_file();
 	signal(SIGQUIT, signal_handler);
+	ft_putstr_fd("bvsh-1.1$ ", 1);
 	while (1)
 	{
 		signal(SIGINT, signal_handler);
 		toggle_carret(0);
-		line = readline("bvsh-1.1$ ");
-		if (line == NULL)
-			handle_ctrl_d();
+		line = readline(NULL);
 		if (line && *line)
 			process_prompt_line(line, data);
+		ft_putstr_fd("bvsh-1.1$ ", 1);
+		if (line == NULL)
+		{
+			// handle_ctrl_d();
+			ft_putstr_fd("exit", 1);
+			exit(g_exit_status);
+		}
 	}
 	return (0);
 }

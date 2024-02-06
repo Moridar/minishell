@@ -38,6 +38,9 @@ DEBUG_FLAGS = -g -fsanitize=address,undefined,integer
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -I. -L$(LIBDIR) -lft -L $(READLINE_LIB) -I $(READLINE_HEADER) -lreadline -o $(NAME)
 
+# remove later:
+# $(CC) $(CFLAGS) $(OBJ) -I. -L$(LIBDIR) -lft -L $(READLINE_LIB) -I $(READLINE_HEADER) -lreadline -ltermcap -o $(NAME)
+
 .phony: all
 all: $(NAME)
 

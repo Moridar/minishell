@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/05 04:03:16 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/06 03:16:07 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <termios.h>
 # include <signal.h>
 # include <dirent.h>
+// # include <termcap.h>
 
 extern unsigned char	g_exit_status;
 
