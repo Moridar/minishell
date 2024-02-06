@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:12:21 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/06 11:33:13 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/06 11:36:14 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char	*shift_replace_spaces(char *str)
 	int		len;
 
 	res = ft_strtrim(str, "\t\n\v\f\r ");
+	free(str);
 	i = 0;
 	while (res[i])
 	{
@@ -64,13 +65,9 @@ static char	*expand_simple_var(char *start, t_pipe *data)
 			&& (data->envp[i])[ft_strlen(start + 1)] == '=' )
 		{
 			res = ft_strdup(data->envp[i] + ft_strlen(start + 1) + 1);
-			temp = res;
-			res = shift_replace_spaces(temp);
-			free(temp);
+			res = shift_replace_spaces(res);
 		}
 	}
-	if (!res)
-		return (NULL);
 	return (res);
 }
 
