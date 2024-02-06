@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 10:39:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/06 01:41:38 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/06 03:54:39 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,7 @@ static char	*ft_strjoin_and_free(char *s1, char *s2)
 	if (!s1)
 		return (ft_substr(s2, 0, ft_strlen(s2)));
 	if (!s2)
-	{
-		// free(s1);
-		// return (ft_substr(s1, 0, ft_strlen(s1)));
 		return (s1);
-	}
 	s1len = ft_strlen(s1);
 	s2len = ft_strlen(s2);
 	str = malloc (s1len + s2len + 1);
