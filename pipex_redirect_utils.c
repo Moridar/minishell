@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_redirect_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 23:28:16 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/07 15:22:11 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/07 16:07:29 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,11 @@ static int	here_doc(char *delimiter)
  * @return -1 if file exist but has no read permission, 0 if file exist and
  * and can be read or was created if it did not exist before.
 */
-int	openfile(char *filename, t_pipe *data, char symbol, int type)
+int	openfile(char *filename, char symbol, int type)
 {
 	int	fd;
 
 	fd = 0;
-	if (!data)
-		ft_printf("no data");
 	//if (access(filename, F_OK) != -1 && access(filename, R_OK) == -1)
 	//	return (-1);
 	if (symbol == '<' && type == 1)
