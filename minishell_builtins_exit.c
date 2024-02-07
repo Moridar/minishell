@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_builtins_exit.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/05 02:36:15 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/07 13:36:18 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	handle_wrong_arg(char *status)
 /**
  * @param status
 */
-int	exit_builtin(char *status, t_pipe *data, char **cmd, char *line)
+static int	exit_status(char *status, t_pipe *data, char **cmd, char *line)
 {
 	char	*status_conv;
 	int		status_n;
@@ -66,6 +66,26 @@ int	exit_builtin(char *status, t_pipe *data, char **cmd, char *line)
 		handle_wrong_arg(status);
 		clean_memory(data, cmd, line);
 		exit(255);
+	}
+	return (1);
+}
+
+int	exit_builtin(char **cmd, t_pipe *data, char *line, int argc)
+{
+	if (argc == 1)
+	{
+		ft_putstr_fd("exit\n", 1);
+		clean_memory(data, cmd, line);
+		exit(0);
+	}
+	if (argc == 2)
+		return (exit_status(cmd[1], data, cmd, line));
+	if (argc > 2)
+	{
+		ft_putstr_fd("exit\n", 1);
+		ft_putstr_fd("bvsh: exit: too many arguments\n", 2);
+		g_exit_status = 1;
+		return (1);
 	}
 	return (1);
 }

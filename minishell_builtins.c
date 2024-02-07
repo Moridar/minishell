@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_builtins.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/06 16:40:34 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/07 13:18:52 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,19 +141,7 @@ int	builtins(char **cmd, t_pipe *data, char *line, int count)
 		return (cd(data, cmd, count));
 	if (ft_strncmp(cmd[0], "unset", 6) == 0)
 		return (unset(data, cmd, count));
-	if (ft_strncmp(cmd[0], "exit", 5) == 0 && count == 1)
-	{
-		ft_putstr_fd("exit\n", 1);
-		exit(1);
-	}
-	if (ft_strncmp(cmd[0], "exit", 5) == 0 && count == 2)
-		return (exit_builtin(cmd[1], data, cmd, line));
-	if (ft_strncmp(cmd[0], "exit", 5) == 0 && count > 2)
-	{
-		ft_putstr_fd("exit\n", 1);
-		ft_putstr_fd("bvsh: exit: too many arguments\n", 2);
-		g_exit_status = 1;
-		return (1);
-	}
+	if (ft_strncmp(cmd[0], "exit", 5) == 0)
+		return (exit_builtin(cmd, data, line, count));
 	return (0);
 }
