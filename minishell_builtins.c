@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/07 13:18:52 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/07 13:48:34 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,10 +131,13 @@ static int	cd(t_pipe *data, char **cmd, int count)
  * 1 for successfully running builtin command.
  * 0 if the builtin has not run.
 */
-int	builtins(char **cmd, t_pipe *data, char *line, int count)
+int	builtins(char **cmd, t_pipe *data)
 {
+	int	count;
+
 	if (!data || !cmd)
 		return (0);
+	count = get_string_array_size(cmd);
 	if (ft_strncmp(cmd[0], "export", 7) == 0 && count > 1)
 		return (export(data, ft_strdup(cmd[1])));
 	if (ft_strncmp(cmd[0], "cd", 3) == 0)
@@ -142,6 +145,6 @@ int	builtins(char **cmd, t_pipe *data, char *line, int count)
 	if (ft_strncmp(cmd[0], "unset", 6) == 0)
 		return (unset(data, cmd, count));
 	if (ft_strncmp(cmd[0], "exit", 5) == 0)
-		return (exit_builtin(cmd, data, line, count));
+		return (exit_builtin(cmd, data, count));
 	return (0);
 }

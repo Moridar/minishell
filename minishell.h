@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/07 13:45:19 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/07 13:50:03 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct s_pipe
 	int		fd[2][2];
 	pid_t	*pid;
 	int		cmdc;
-	int		append;
 	char	**envp;
 	char	**cmds;
 }	t_pipe;
@@ -80,7 +79,7 @@ int		write_history_file(char *line);
 int		read_history_file(void);
 
 // Builtins
-int		builtins(char **cmd, t_pipe *data, int count);
+int		builtins(char **cmd, t_pipe *data);
 int		child_builtins(char **cmd, t_pipe *data);
 int		exit_builtin(char **cmd, t_pipe *data, int argc);
 
