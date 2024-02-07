@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_interpret.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/06 12:04:15 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/07 16:20:30 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,13 @@ static char	*interpret_double_quote(char *str, t_pipe *data, int start)
 		else
 			len = len_next_meta_char(str + start, "$", 0);
 		tmp = ft_substr(str, start, len);
+		if (!tmp)
+			exit (EXIT_FAILURE);
 		interpreted_str = expand_env_args(tmp, data);
 		free(tmp);
 		tmp = ft_strjoin(ret, interpreted_str);
+		if (!tmp)
+			exit(EXIT_FAILURE);
 		free(ret);
 		free(interpreted_str);
 		ret = tmp;
@@ -46,6 +50,8 @@ static char	*interpret_quote(char *str, char quote, t_pipe *data)
 	char	*tmp;
 
 	word = ft_substr(str, 1, ft_strlen(str) - 2);
+	if (!word)
+		exit(EXIT_FAILURE);
 	if (quote == '"')
 	{
 		tmp = word;
@@ -66,9 +72,15 @@ char	*interpret_and_join(char *ret, char *str, t_pipe *data)
 	else if (*str == '$' || (*str == '~' && ft_strlen(str) == 1))
 		interpreted_str = expand_env_args(str, data);
 	else
+	{
 		interpreted_str = ft_strdup(str);
+		if (!interpreted_str)
+			exit(EXIT_FAILURE);
+	}
 	free(str);
 	str = ft_strjoin(ret, interpreted_str);
+	if (!str)
+		exit(EXIT_FAILURE);
 	free(interpreted_str);
 	free(ret);
 	return (str);

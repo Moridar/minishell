@@ -61,7 +61,7 @@ static int	get_filename(char *cmd, char symbol, char **filename, t_pipe *data)
 			if (*filename)
 				free(*filename);
 			*filename = cut_filename(cmd + i, symbol, data);
-			lasttype = openfile(*filename, symbol, type);
+			lasttype = openfile(*filename, symbol, type, data);
 		}
 		if (type >= 3)
 			errormsg("syntax error near unexpected token `<'", 1, -1);

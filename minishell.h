@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/07 16:10:15 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/07 16:22:21 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	replace_pipes(char *cmd);
 //Redirection helpers
 void	redirect_check_error(char *errmsg, int *fd, t_pipe *data);
 void	free_filenames(char *infilename, char *outfilename);
-int		openfile(char *filename, char symbol, int type);
+int		openfile(char *filename, char symbol, int type, t_pipe *data);
 
 //Error and exit handling
 void	freeall(char **strarray);
