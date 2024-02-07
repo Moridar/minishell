@@ -3,14 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_redirect_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 23:28:16 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/07 16:40:45 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/07 19:10:59 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_filenames(char *infilename, char *outfilename)
+{
+	if (infilename)
+		free(infilename);
+	if (outfilename)
+		free(outfilename);
+}
+
+void	redirect_check_error(char *errmsg, int *fd, t_pipe *data)
+{
+	if (errmsg)
+	{
+		ft_putstr_fd("bvsh: ", 2);
+		ft_putstr_fd(errmsg, 2);
+		free(errmsg);
+		if (errno)
+		{
+			ft_putstr_fd(": ", 2);
+			ft_putstr_fd(strerror(errno), 2);
+		}
+		ft_putstr_fd("\n", 2);
+		if (fd[1] >= 2)
+			close(fd[1]);
+		if (fd[0] >= 2)
+			close(fd[0]);
+		closepipe(data);
+		freeall(data->envp);
+		freeall(data->cmds);
+		exit(1);
+	}
+}
 
 static int	here_doc(char *delimiter, t_pipe *data)
 {
@@ -18,12 +50,9 @@ static int	here_doc(char *delimiter, t_pipe *data)
 	char	*buffer;
 	char	*tmp;
 
-	// (void)data;
 	if (!delimiter || ft_strlen(delimiter) == 0)
-	{
-		ft_putstr_fd("bvsh: syntax error near unexpected token `newline'\n", 2);
-		exit(2);
-	}
+		msg_freeall_exit("bvsh: syntax error near unexpected token `newline'\n",
+			data->envp, 2);
 	if (pipe(heredoc_fd) < 0)
 		errormsg("pipe", 1, -1);
 	while (1)
@@ -56,49 +85,24 @@ int	openfile(char *filename, char symbol, int type, t_pipe *data)
 	int	fd;
 
 	fd = 0;
-	//if (access(filename, F_OK) != -1 && access(filename, R_OK) == -1)
-	//	return (-1);
 	if (symbol == '<' && type == 1)
+	{
+		if (access(filename, R_OK) == -1)
+			return (-1);
 		fd = open(filename, O_RDONLY);
-	if (symbol == '<' && type == 2)
+	}
+	else if (symbol == '<' && type == 2)
 		fd = here_doc(filename, data);
-	if (symbol == '>' && type == 1)
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (symbol == '>' && type == 2)
-		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else if (symbol == '>')
+	{
+		if (access(filename, F_OK) == 0 && access(filename, W_OK) == -1)
+			return (-1);
+		if (type == 1)
+			fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (type == 2)
+			fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	}
 	if (fd < 0)
 		errormsg(filename, 1, -1);
 	return (fd);
-}
-
-void	free_filenames(char *infilename, char *outfilename)
-{
-	if (infilename)
-		free(infilename);
-	if (outfilename)
-		free(outfilename);
-}
-
-void	redirect_check_error(char *errmsg, int *fd, t_pipe *data)
-{
-	if (errmsg)
-	{
-		ft_putstr_fd("bvsh: ", 2);
-		ft_putstr_fd(errmsg, 2);
-		free(errmsg);
-		if (errno)
-		{
-			ft_putstr_fd(": ", 2);
-			ft_putstr_fd(strerror(errno), 2);
-		}
-		ft_putstr_fd("\n", 2);
-		if (fd[1] >= 2)
-			close(fd[1]);
-		if (fd[0] >= 2)
-			close(fd[0]);
-		closepipe(data);
-		freeall(data->envp);
-		freeall(data->cmds);
-		exit(1);
-	}
 }

@@ -84,9 +84,7 @@ static int	get_fd(char symbol, int i, t_pipe *data, char **filename)
 	int		fd;
 
 	fd = get_filename(data->cmds[i], symbol, filename, data);
-	if (fd < 0)
-		ft_printf("file error fix here\n");
-	if (fd > 2)
+	if (fd < 0 || fd > 2)
 		return (fd);
 	if (symbol == '<' && i == 0)
 		return (STDIN_FILENO);
