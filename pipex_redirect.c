@@ -13,34 +13,6 @@
 
 #include "minishell.h"
 
-static int	here_doc(char *delimiter)
-{
-	int		heredoc_fd[2];
-	char	*buffer;
-
-	if (!delimiter || ft_strlen(delimiter) == 0)
-	{
-		ft_putstr_fd("bvsh: syntax error near unexpected token 'newline'\n", 2);
-		exit(2);
-	}
-	if (pipe(heredoc_fd) < 0)
-		errormsg("pipe", 1, -1);
-	while (1)
-	{
-		buffer = readline("> ");
-		if (!buffer)
-			break ;
-		if (ft_strncmp(buffer, delimiter, ft_strlen(delimiter) + 1) == 0)
-			break ;
-		write(heredoc_fd[1], buffer, ft_strlen(buffer));
-		write(heredoc_fd[1], "\n", 1);
-		free(buffer);
-	}
-	free(buffer);
-	close(heredoc_fd[1]);
-	return (heredoc_fd[0]);
-}
-
 char	*cut_filename(char *str, char symbol, t_pipe *data)
 {
 	int		i;
@@ -77,7 +49,7 @@ static int	get_filename(char *cmd, char symbol, char **filename, t_pipe *data)
 
 	i = -1;
 	lasttype = 0;
-	while (cmd[++i])
+	while (cmd[++i] && lasttype >= 0)
 	{
 		if (cmd[i] == '\'' || cmd[i] == '"')
 			i += get_quote_length(cmd + i, cmd[i]) - 1;
@@ -86,11 +58,10 @@ static int	get_filename(char *cmd, char symbol, char **filename, t_pipe *data)
 		{
 			if (lasttype > 2)
 				close(lasttype);
-			lasttype = type;
-			if (handle_file(cmd + i, symbol, filename, data) == -1)
-				break ;
-			if (symbol == '<' && type == 2)
-				lasttype = here_doc(*filename);
+			if (*filename)
+				free(*filename);
+			*filename = cut_filename(cmd + i, symbol, data);
+			lasttype = openfile(*filename, data, symbol, type);
 		}
 		if (type >= 3)
 			errormsg("syntax error near unexpected token `<'", 1, -1);
@@ -100,33 +71,31 @@ static int	get_filename(char *cmd, char symbol, char **filename, t_pipe *data)
 
 //infile
 //type 0 = pipe / std-in
+//type > 2 will be the fd of the file
 //type 1 = < = file
 //type 2 = << = here_doc
 //outfile
 //type 0 = pipe / std-out
+//type > 2 will be the fd of the file
 //type 1 = > = file  
 //type 2 = >> = append
 static int	get_fd(char symbol, int i, t_pipe *data, char **filename)
 {
-	int		type;
+	int		fd;
 
-	type = get_filename(data->cmds[i], symbol, filename, data);
-	if (symbol == '<' && type == 0 && i == 0)
+	fd = get_filename(data->cmds[i], symbol, filename, data);
+	if (fd < 0)
+		ft_printf("file error fix here\n");
+	if (fd > 2)
+		return (fd);
+	if (symbol == '<' && i == 0)
 		return (STDIN_FILENO);
-	if (symbol == '<' && type == 0)
+	if (symbol == '<')
 		return (data->fd[(i + 1) % 2][0]);
-	if (symbol == '<' && type == 1)
-		return (open(*filename, O_RDONLY));
-	if (symbol == '<' && type > 2)
-		return (type);
-	if (symbol == '>' && type == 0 && i == data->cmdc - 1)
+	if (symbol == '>' && i == data->cmdc - 1)
 		return (STDOUT_FILENO);
-	if (symbol == '>' && type == 0)
+	if (symbol == '>')
 		return (data->fd[i % 2][1]);
-	if (symbol == '>' && type == 1)
-		return (open(*filename, O_WRONLY | O_CREAT | O_TRUNC, 0644));
-	if (symbol == '>' && type == 2)
-		return (open(*filename, O_WRONLY | O_CREAT | O_APPEND, 0644));
 	return (-1);
 }
 

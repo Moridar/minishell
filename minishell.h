@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/07 13:50:03 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:00:13 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char	*cut_filename(char *str, char symbol, t_pipe *data);
 void	redirect_check_error(char *errmsg, int *fd, t_pipe *data);
 void	free_filenames(char *infilename, char *outfilename);
 int		handle_file(char *cmd, char symbol, char **filename, t_pipe *data);
+int		openfile(char *filename, t_pipe *data, char symbol, int type);
 
 //Error and exit handling
 void	freeall(char **strarray);

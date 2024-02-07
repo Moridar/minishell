@@ -6,11 +6,39 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 23:28:16 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/06 16:20:01 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:22:11 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	here_doc(char *delimiter)
+{
+	int		heredoc_fd[2];
+	char	*buffer;
+
+	if (!delimiter || ft_strlen(delimiter) == 0)
+	{
+		ft_putstr_fd("bvsh: syntax error near unexpected token 'newline'\n", 2);
+		exit(2);
+	}
+	if (pipe(heredoc_fd) < 0)
+		errormsg("pipe", 1, -1);
+	while (1)
+	{
+		buffer = readline("> ");
+		if (!buffer)
+			break ;
+		if (ft_strncmp(buffer, delimiter, ft_strlen(delimiter) + 1) == 0)
+			break ;
+		write(heredoc_fd[1], buffer, ft_strlen(buffer));
+		write(heredoc_fd[1], "\n", 1);
+		free(buffer);
+	}
+	free(buffer);
+	close(heredoc_fd[1]);
+	return (heredoc_fd[0]);
+}
 
 /**
  * Checks permission of the file and stop redirect if there is no permission
@@ -19,27 +47,26 @@
  * @return -1 if file exist but has no read permission, 0 if file exist and
  * and can be read or was created if it did not exist before.
 */
-static int	check_file_perm_exist(char *filename)
+int	openfile(char *filename, t_pipe *data, char symbol, int type)
 {
-	int		fd;
+	int	fd;
 
-	if (access(filename, F_OK) != -1 && access(filename, R_OK) == -1)
-		return (-1);
-	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	fd = 0;
+	if (!data)
+		ft_printf("no data");
+	//if (access(filename, F_OK) != -1 && access(filename, R_OK) == -1)
+	//	return (-1);
+	if (symbol == '<' && type == 1)
+		fd = open(filename, O_RDONLY);
+	if (symbol == '<' && type == 2)
+		fd = here_doc(filename);
+	if (symbol == '>' && type == 1)
+		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (symbol == '>' && type == 2)
+		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 		errormsg(filename, 1, -1);
-	close(fd);
-	return (0);
-}
-
-int	handle_file(char *cmd, char symbol, char **filename, t_pipe *data)
-{
-	if (*filename)
-		free(*filename);
-	*filename = cut_filename(cmd, symbol, data);
-	if (symbol == '>' && check_file_perm_exist(*filename) == -1)
-		return (-1);
-	return (0);
+	return (fd);
 }
 
 void	free_filenames(char *infilename, char *outfilename)
