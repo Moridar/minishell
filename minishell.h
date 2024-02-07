@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/07 13:27:27 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/07 13:45:19 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ int		write_history_file(char *line);
 int		read_history_file(void);
 
 // Builtins
-int		builtins(char **cmd, t_pipe *data, char *line, int count);
+int		builtins(char **cmd, t_pipe *data, int count);
 int		child_builtins(char **cmd, t_pipe *data);
-int		exit_builtin(char **cmd, t_pipe *data, char *line, int argc);
+int		exit_builtin(char **cmd, t_pipe *data, int argc);
 
 #endif

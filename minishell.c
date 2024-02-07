@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/05 11:18:57 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/07 13:40:38 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	minishell_command(char *argv[], t_pipe *data)
 	line = ft_strdup(argv[2]);
 	replace_pipes(line);
 	data->cmds = ft_split(line, 31);
+	free(line);
 	data->cmdc = get_string_array_size(data->cmds);
 	g_exit_status = pipex(data);
 }
