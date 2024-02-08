@@ -114,7 +114,7 @@ void	set_direction(t_pipe *data, int i, int *fd)
 		errorexit = ft_strdup(filename[1]);
 	if (errorexit == NULL)
 		fd[0] = get_fd('<', i, data, &(filename[0]));
-	if (fd[0] < 0)
+	if (!errorexit && fd[0] < 0)
 		errorexit = ft_strdup(filename[0]);
 	if (!errorexit && filename[0] && filename[1] && ft_strncmp(filename[0],
 			filename[1], ft_strlen(filename[0]) + 1) == 0)
