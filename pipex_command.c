@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:11:39 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/05 02:36:15 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/08 13:58:47 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,11 @@ char	**split_shell_cmd(char	*cmd, t_pipe *data)
 	{
 		new_str = interpret(command[i], data);
 		free(command[i]);
-		command[i] = new_str;
+		command[i] = NULL;
+		if (*new_str)
+			command[i] = new_str;
+		else
+			free(new_str);
 		if (command[i++])
 			new_size++;
 	}

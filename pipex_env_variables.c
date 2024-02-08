@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:12:21 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/06 11:57:16 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/08 09:35:20 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ static char	*expand_simple_var(char *start, t_pipe *data)
 			res = shift_replace_spaces(res);
 		}
 	}
+	if (!res)
+		res = ft_strdup("");
 	return (res);
 }
 
@@ -82,6 +84,8 @@ static char	*expand_simple_var(char *start, t_pipe *data)
  */
 char	*expand_env_args(char *str, t_pipe *data)
 {
+	if (!str)
+		return (ft_strdup(""));
 	if (*str == '~')
 		return (expand_simple_var("$HOME", data));
 	if (*str != '$')

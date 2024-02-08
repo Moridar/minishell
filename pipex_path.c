@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/05 14:26:22 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/08 13:33:27 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ char	*check_cmdpath(char *cmd, t_pipe *data, char **cmds)
 {
 	char	*cmdpath;
 
-	cmdpath = NULL;
 	if (ft_strchr(cmd, '/') == NULL)
 		cmdpath = get_path(cmd, data);
 	else if (access(cmd, F_OK) == 0)

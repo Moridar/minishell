@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_execute.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/06 15:35:21 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/08 13:33:07 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	child_execute(t_pipe *data, int i)
 	freeall(data->cmds);
 	dup_and_close_fds(fd);
 	closepipe(data);
-	if (child_builtins(cmd, data))
+	if (!*cmd[0] || child_builtins(cmd, data))
 		freeall_exit(cmd, 0);
 	path = check_cmdpath(cmd[0], data, cmd);
 	execve(path, cmd, data->envp);
