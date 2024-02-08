@@ -6,11 +6,17 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/07 13:44:42 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/08 14:52:04 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	free_return(void *ptr, int returnvalue)
+{
+	free(ptr);
+	return (returnvalue);
+}
 
 static void	clean_memory(t_pipe *data, char **cmd)
 {
