@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/08 17:41:46 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/08 18:26:46 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	set_direction(t_pipe *data, int i, int *fd)
 	filename[0] = NULL;
 	filename[1] = NULL;
 	errorexit = NULL;
+	fd[0] = 0;
 	fd[1] = get_fd('>', i, data, &filename[1]);
 	if (fd[1] < 0)
 		errorexit = ft_strdup(filename[1]);

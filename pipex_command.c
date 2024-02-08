@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:11:39 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/08 15:05:55 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/08 19:30:00 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,34 @@ char	*replace_spaces(char *cmd)
 	return (new_cmd);
 }
 
+char	**interpret_commands(char **command, t_pipe *data)
+{
+	int		i;
+	int		new_size;
+	char	*interpreted_str;
+
+	i = 0;
+	new_size = 0;
+	while (command[i])
+	{
+		interpreted_str = interpret(command[i], data);
+		if (!interpreted_str)
+			return (NULL);
+		free(command[i]);
+		if (!interpreted_str[0])
+		{
+			free(interpreted_str);
+			interpreted_str = NULL;
+		}
+		command[i] = interpreted_str;
+		if (command[i++])
+			new_size++;
+	}
+	if (new_size != i)
+		command = reallocate_arraylist(command, new_size);
+	return (command);
+}
+
 /**
  * Splits the shell command. Preserves whitespaces inside quotes, expands env
  * variables and trims wrapping quotes.
@@ -53,29 +81,19 @@ char	**split_shell_cmd(char	*cmd, t_pipe *data)
 {
 	char	*new_str;
 	char	**command;
-	int		i;
-	int		new_size;
+	char	**interpreted_command;
+	int		size;
 
 	new_str = replace_spaces(cmd);
 	command = ft_split(new_str, 31);
+	size = get_string_array_size(command);
 	free(new_str);
-	i = 0;
-	new_size = 0;
-	while (command[i])
+	interpreted_command = interpret_commands(command, data);
+	if (interpreted_command == NULL)
 	{
-		new_str = interpret(command[i], data);
-		if (!new_str)
-			exit(EXIT_FAILURE);
-		free(command[i]);
-		command[i] = NULL;
-		if (*new_str)
-			command[i] = new_str;
-		else
-			free(new_str);
-		if (command[i++])
-			new_size++;
+		while (size >= 0)
+			free(command[size--]);
+		free(command);
 	}
-	if (new_size != i)
-		command = reallocate_arraylist(command, new_size);
-	return (command);
+	return (interpreted_command);
 }

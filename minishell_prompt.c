@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/07 13:48:13 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/08 19:33:49 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,12 @@ void	process_prompt_line(char *line, t_pipe *data)
 	free(line);
 	data->cmdc = get_string_array_size(data->cmds);
 	cmd = split_shell_cmd(data->cmds[0], data);
+	if (!cmd)
+	{
+		freeall(data->cmds);
+		ft_putstr_fd("bvsh: allocation fail\n", 2);
+		free_env_exit(data, 1);
+	}
 	if (cmd[0] && data->cmdc == 1)
 		builtins_res = builtins(cmd, data);
 	if (builtins_res == 0)

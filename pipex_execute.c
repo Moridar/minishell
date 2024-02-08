@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/08 13:33:07 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/08 19:41:09 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ static void	child_execute(t_pipe *data, int i)
 	freeall(data->cmds);
 	dup_and_close_fds(fd);
 	closepipe(data);
+	if (!cmd)
+	{
+		ft_putstr_fd("Malloc fails\n", 2);
+		exit (EXIT_FAILURE);
+	}
 	if (!*cmd[0] || child_builtins(cmd, data))
 		freeall_exit(cmd, 0);
 	path = check_cmdpath(cmd[0], data, cmd);
@@ -63,7 +68,7 @@ static void	execute_pipe(int i, t_pipe *data)
 	execute_fork(i, data);
 	if (i != 0)
 		close(data->fd[(i + 1) % 2][0]);
-	waitpid(data->pid[i - 1], &data->status, 0);
+	waitpid(data->pid[i], &data->status, 0);
 	close(data->fd[i % 2][1]);
 }
 
@@ -83,11 +88,7 @@ void	execute(int i, t_pipe *data)
 		execute_fork(i, data);
 		close(data->fd[(i + 1) % 2][0]);
 		waitpid(data->pid[i], &data->status, 0);
-		close(data->fd[(i + 1) % 2][1]);
 	}
 	else
-	{
 		execute_pipe(i, data);
-		waitpid(data->pid[i], &data->status, 0);
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 23:28:16 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/08 17:50:58 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/08 18:59:11 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,28 @@ void	redirect_check_error(char *errmsg, int *fd, t_pipe *data)
 	}
 }
 
+static int	buffer_interpret_pipe(char *buffer, int *heredoc_fd, t_pipe *data)
+{
+	char	*interpreted_str;
+
+	interpreted_str = interpret(buffer, data);
+	free(buffer);
+	if (!interpreted_str)
+	{
+		close(heredoc_fd[1]);
+		close(heredoc_fd[0]);
+		return (-2);
+	}
+	write(heredoc_fd[1], interpreted_str, ft_strlen(interpreted_str));
+	write(heredoc_fd[1], "\n", 1);
+	free(interpreted_str);
+	return (0);
+}
+
 static int	here_doc(char *delimiter, t_pipe *data)
 {
 	int		heredoc_fd[2];
 	char	*buffer;
-	char	*tmp;
 
 	if (!delimiter || ft_strlen(delimiter) == 0)
 		return (-3);
@@ -65,11 +82,8 @@ static int	here_doc(char *delimiter, t_pipe *data)
 			break ;
 		if (ft_strncmp(buffer, delimiter, ft_strlen(delimiter) + 1) == 0)
 			break ;
-		tmp = interpret(buffer, data);
-		free(buffer);
-		write(heredoc_fd[1], tmp, ft_strlen(tmp));
-		write(heredoc_fd[1], "\n", 1);
-		free(tmp);
+		if (buffer_interpret_pipe(buffer, heredoc_fd, data) == -2)
+			return (-2);
 	}
 	free(buffer);
 	close(heredoc_fd[1]);
