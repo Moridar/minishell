@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 23:28:16 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/07 19:10:59 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/08 17:50:58 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ void	redirect_check_error(char *errmsg, int *fd, t_pipe *data)
 			ft_putstr_fd(": ", 2);
 			ft_putstr_fd(strerror(errno), 2);
 		}
+		else if (fd[1] == -2 || fd[2] == -2)
+			ft_putstr_fd(": Allocation error", 2);
+		else if (fd[0] == -3)
+			ft_putstr_fd(": Syntax error near unexpected token `newline'", 2);
 		ft_putstr_fd("\n", 2);
 		if (fd[1] >= 2)
 			close(fd[1]);
@@ -51,10 +55,9 @@ static int	here_doc(char *delimiter, t_pipe *data)
 	char	*tmp;
 
 	if (!delimiter || ft_strlen(delimiter) == 0)
-		msg_freeall_exit("bvsh: syntax error near unexpected token `newline'\n",
-			data->envp, 2);
+		return (-3);
 	if (pipe(heredoc_fd) < 0)
-		errormsg("pipe", 1, -1);
+		return (-1);
 	while (1)
 	{
 		buffer = readline("> ");
@@ -84,6 +87,8 @@ int	openfile(char *filename, char symbol, int type, t_pipe *data)
 {
 	int	fd;
 
+	if (!filename)
+		return (-2);
 	fd = 0;
 	if (symbol == '<' && type == 1)
 	{
@@ -102,7 +107,5 @@ int	openfile(char *filename, char symbol, int type, t_pipe *data)
 		if (type == 2)
 			fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	}
-	if (fd < 0)
-		errormsg(filename, 1, -1);
 	return (fd);
 }

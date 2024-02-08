@@ -3,11 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/01/30 15:20:40 by vshchuki         ###   ########.fr       */
-/*																			  */
+/*   Updated: 2024/02/08 17:41:46 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +19,6 @@ static char	*cut_filename(char *str, char symbol, t_pipe *data)
 	char	*filename;
 	char	*tmp;
 
-	filename = NULL;
 	i = 0;
 	while (str[i] == symbol)
 		i++;
@@ -36,8 +34,6 @@ static char	*cut_filename(char *str, char symbol, t_pipe *data)
 	}
 	tmp = ft_substr(str, start, i - start);
 	filename = interpret(tmp, data);
-	if (!tmp)
-		exit(EXIT_FAILURE);
 	free(tmp);
 	ft_memset(str, ' ', i);
 	return (filename);

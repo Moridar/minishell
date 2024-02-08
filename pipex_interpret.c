@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/08 15:11:56 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/08 17:36:37 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ char	*interpret(char *str, t_pipe *data)
 	int		start;
 	int		len;
 
+	if (!str)
+		return (NULL);
 	ret = ft_strdup("");
 	start = 0;
 	while (ret && str[start] && !ft_isspace(str[start]))
