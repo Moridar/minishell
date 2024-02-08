@@ -109,13 +109,13 @@ void	set_direction(t_pipe *data, int i, int *fd)
 	filename[0] = NULL;
 	filename[1] = NULL;
 	errorexit = NULL;
-	fd[0] = get_fd('<', i, data, &(filename[0]));
-	if (fd[0] < 0)
-		errorexit = ft_strdup(filename[0]);
-	if (errorexit == NULL)
-		fd[1] = get_fd('>', i, data, &filename[1]);
+	fd[1] = get_fd('>', i, data, &filename[1]);
 	if (fd[1] < 0)
 		errorexit = ft_strdup(filename[1]);
+	if (errorexit == NULL)
+		fd[0] = get_fd('<', i, data, &(filename[0]));
+	if (fd[0] < 0)
+		errorexit = ft_strdup(filename[0]);
 	if (!errorexit && filename[0] && filename[1] && ft_strncmp(filename[0],
 			filename[1], ft_strlen(filename[0]) + 1) == 0)
 		errorexit = ft_strdup("cat: -: input file is output file");
