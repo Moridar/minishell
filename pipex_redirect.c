@@ -36,6 +36,8 @@ static char	*cut_filename(char *str, char symbol, t_pipe *data)
 	}
 	tmp = ft_substr(str, start, i - start);
 	filename = interpret(tmp, data);
+	if (!tmp)
+		exit(EXIT_FAILURE);
 	free(tmp);
 	ft_memset(str, ' ', i);
 	return (filename);
