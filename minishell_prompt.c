@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_prompt.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/09 02:31:11 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:22:00 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	handle_ctrl_d(void)
 	exit(g_exit_status);
 }
 
-void	process_prompt_line(char *line, t_pipe *data)
+static int	process_prompt_line(char *line, t_pipe *data)
 {
 	char	**cmd;
 	int		builtins_res;
@@ -72,19 +72,13 @@ void	process_prompt_line(char *line, t_pipe *data)
 	write_history_file(line, data);
 	replace_pipes(line);
 	data->cmds = ft_split(line, 31);
-	if (!data->cmds)
-		freeall_exit(data->envp, EXIT_FAILURE);
 	free(line);
+	if (!data->cmds)
+		return (-2);
 	data->cmdc = get_string_array_size(data->cmds);
 	cmd = split_shell_cmd(data->cmds[0], data);
 	if (!cmd)
-	{
-		freeall(data->cmds);
-		// these two lines can be refactored with msg_freeall_exit?
-		// ft_putstr_fd("bvsh: allocation fail\n", 2); // can we remove this?
-		// free_env_exit(data, 1); // what is the difference between free_env_exit and freeall_exit? 
-		 msg_freeall_exit("bvsh: allocation fail\n", data->envp, EXIT_FAILURE);
-	}
+		freeall_return(data->cmds, -2);
 	if (cmd[0] && data->cmdc == 1)
 		builtins_res = builtins(cmd, data);
 	freeall(cmd);
@@ -92,17 +86,20 @@ void	process_prompt_line(char *line, t_pipe *data)
 		g_exit_status = pipex(data);
 	freeall(data->cmds);
 	if (builtins_res == 2)
-		free_env_exit(data, 1);
+		return (1);
+	return (0);
 }
 
 int	minishell_prompt(t_pipe *data)
 {
-	char			*line;
+	char	*line;
+	int		return_value;
 
 	g_exit_status = 0;
 	read_history_file(data);
 	signal(SIGQUIT, signal_handler);
-	while (1)
+	return_value = 0;
+	while (return_value == 0)
 	{
 		signal(SIGINT, signal_handler);
 		toggle_carret(0);
@@ -110,9 +107,9 @@ int	minishell_prompt(t_pipe *data)
 		if (line == NULL)
 			handle_ctrl_d();
 		if (line && *line)
-			process_prompt_line(line, data);
+			return_value = process_prompt_line(line, data);
 	}
-	return (0);
+	return (return_value);
 }
 
 /* int	main(int argc, char const *argv[], char *envp[])

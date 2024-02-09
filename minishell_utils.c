@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/08 14:52:53 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/09 09:42:22 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,6 @@ void	toggle_carret(int is_on)
 	else
 		new_attr.c_lflag |= ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &new_attr);
-}
-
-void	*free_return_null(void *ptr)
-{
-	free(ptr);
-	return (NULL);
 }
 
 /**

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/09 02:16:32 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:16:40 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ int		openfile(char *filename, char symbol, int type, t_pipe *data);
 //Error and exit handling
 void	freeall(char **strarray);
 void	freeall_exit(char **strarray, int exitno);
-void	msg_freeall_exit(char *msg, char **strarray, int exitno);
+int		freeall_return(char **strarray, int return_value);
 int		free_return(void *ptr, int returnvalue);
 void	*free_return_null(void *ptr);
-void	free_env_exit(t_pipe *data, int exitno);
+void	msg_freeall_exit(char *msg, char **strarray, int exitno);
 void	errormsg(char *msg, int exits, int exit_status);
 void	closepipe(t_pipe *data);
 void	dup_and_close_fds(int fd[2]);
