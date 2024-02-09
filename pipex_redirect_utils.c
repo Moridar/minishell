@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 23:28:16 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/09 13:42:44 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/10 01:25:49 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	redirect_check_error(char *errmsg, int *fd, t_pipe *data)
 		free(errmsg);
 		if (fd[1] == -2 || fd[2] == -2)
 			ft_putstr_fd("Allocation error", 2);
-		else if ((fd[1] != 3 && fd[0] != -3) && errno)
+		else if ((fd[1] != -3 && fd[0] != -3) && errno)
 		{
 			ft_putstr_fd(": ", 2);
 			ft_putstr_fd(strerror(errno), 2);
