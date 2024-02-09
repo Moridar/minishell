@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_prompt.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/08 19:33:49 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/09 02:31:11 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,24 +69,28 @@ void	process_prompt_line(char *line, t_pipe *data)
 
 	builtins_res = 0;
 	add_history(line);
-	write_history_file(line);
+	write_history_file(line, data);
 	replace_pipes(line);
 	data->cmds = ft_split(line, 31);
+	if (!data->cmds)
+		freeall_exit(data->envp, EXIT_FAILURE);
 	free(line);
 	data->cmdc = get_string_array_size(data->cmds);
 	cmd = split_shell_cmd(data->cmds[0], data);
 	if (!cmd)
 	{
 		freeall(data->cmds);
-		ft_putstr_fd("bvsh: allocation fail\n", 2);
-		free_env_exit(data, 1);
+		// these two lines can be refactored with msg_freeall_exit?
+		// ft_putstr_fd("bvsh: allocation fail\n", 2); // can we remove this?
+		// free_env_exit(data, 1); // what is the difference between free_env_exit and freeall_exit? 
+		 msg_freeall_exit("bvsh: allocation fail\n", data->envp, EXIT_FAILURE);
 	}
 	if (cmd[0] && data->cmdc == 1)
 		builtins_res = builtins(cmd, data);
+	freeall(cmd);
 	if (builtins_res == 0)
 		g_exit_status = pipex(data);
 	freeall(data->cmds);
-	freeall(cmd);
 	if (builtins_res == 2)
 		free_env_exit(data, 1);
 }
@@ -96,7 +100,7 @@ int	minishell_prompt(t_pipe *data)
 	char			*line;
 
 	g_exit_status = 0;
-	read_history_file();
+	read_history_file(data);
 	signal(SIGQUIT, signal_handler);
 	while (1)
 	{

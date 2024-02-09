@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_execute.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/08 19:41:09 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/09 02:31:48 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	child_execute(t_pipe *data, int i)
 
 	toggle_carret(1);
 	set_direction(data, i, fd);
-	cmd = split_shell_cmd(data->cmds[i], data);
+	cmd = split_shell_cmd(data->cmds[i], data); // should we not check this for NULL?
 	freeall(data->cmds);
 	dup_and_close_fds(fd);
 	closepipe(data);

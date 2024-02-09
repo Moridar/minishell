@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_builtins.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/07 13:48:34 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/09 02:05:34 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	validate_key(int keylen, char *key)
 	while (!err && i < keylen - 1)
 		if (ft_isalnum(key[i++]) == 0)
 			err = 1;
-	if (!err && keylen > (int) ft_strlen(key))
+	if (!err && keylen > (int)ft_strlen(key))
 		return (0);
 	if (keylen == 1 || key[keylen - 1] != '=')
 		err = 1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/08 15:26:57 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/09 02:16:32 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ char	**copy_double_array(char **arr1, int increase_size);
 char	**reallocate_arraylist(char **arr, int size);
 
 // History
-int		write_history_file(char *line);
-int		read_history_file(void);
+int		write_history_file(char *line, t_pipe *data);
+int		read_history_file(t_pipe *data);
 
 // Builtins
 int		builtins(char **cmd, t_pipe *data);

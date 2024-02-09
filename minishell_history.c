@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_history.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:32:14 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/06 12:01:14 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/09 01:59:09 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Creates if it does not exits and writes line history to a .bvsh_history file.
  * Will not write if line is empty.
 */
-int	write_history_file(char *line)
+int	write_history_file(char *line, t_pipe *data)
 {
 	int	fd;
 
@@ -25,8 +25,8 @@ int	write_history_file(char *line)
 	fd = open(".bvsh_history", O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
+		freeall(data->envp);
 		errormsg(".bvsh_history", 1, -1);
-		return (1);
 	}
 	write(fd, line, ft_strlen(line));
 	write(fd, "\n", 1);
@@ -38,7 +38,7 @@ int	write_history_file(char *line)
  * Reads history into readline prompt making it possible to use up and down
  * arrows to go through previous commands.
 */
-int	read_history_file(void)
+int	read_history_file(t_pipe *data)
 {
 	int		fd;
 	char	*line;
@@ -46,8 +46,8 @@ int	read_history_file(void)
 	fd = open(".bvsh_history", O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
+		freeall(data->envp);
 		errormsg(".bvsh_history", 1, -1);
-		return (1);
 	}
 	line = get_next_line(fd);
 	while (line)

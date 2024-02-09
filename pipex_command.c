@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:11:39 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/08 19:30:00 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/09 02:33:30 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ char	**split_shell_cmd(char	*cmd, t_pipe *data)
 	char	**interpreted_command;
 	int		size;
 
-	new_str = replace_spaces(cmd);
-	command = ft_split(new_str, 31);
+	new_str = replace_spaces(cmd); // do we need to null check this split? or or will new_str be NULL and then ft_split return NULL too? then interpreted command return NULL?
+	command = ft_split(new_str, 31); // do we need to null check this split? 
 	size = get_string_array_size(command);
 	free(new_str);
 	interpreted_command = interpret_commands(command, data);
