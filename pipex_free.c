@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 09:39:03 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/09 10:16:27 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/09 13:15:03 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ int	freeall_return(char **strarray, int return_value)
 {
 	freeall(strarray);
 	return (return_value);
+}
+
+void	*free_return_null(void *ptr)
+{
+	free(ptr);
+	return (NULL);
 }
 
 void	freeall_exit(char **strarray, int exitno)

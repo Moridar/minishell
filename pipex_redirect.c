@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/09 12:36:14 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/09 13:55:02 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ static int	get_fd(char *cmd, char **filename, t_pipe *data)
 		*filename = cut_filename(cmd, symbol, data);
 		fd = openfile(*filename, symbol, type, data);
 	}
-	if (type >= 3) //can it exit here?
-		errormsg("syntax error near unexpected token `<'", 1, -1);
+	if (type >= 3)
+		return (-3);
 	return (fd);
 }
 
-static char	*find_redirections(t_pipe *data, char *cmd, int *fd, char **filename)
+static char	*find_redirections(t_pipe *data, char *cmd, int *fd, char **file)
 {
 	int		i;
 	int		index;
@@ -77,9 +77,13 @@ static char	*find_redirections(t_pipe *data, char *cmd, int *fd, char **filename
 				index = 1;
 			if (fd[index] >= 2)
 				close(fd[index]);
-			fd[index] = get_fd(cmd + i, &filename[index], data);
+			fd[index] = get_fd(cmd + i, &file[index], data);
+			if (fd[index] == -3 && (ft_isspace(cmd[i + 2]) || !cmd[i + 2]))
+				return (ft_strjoin("newline", "'"));
+			if (fd[index] == -3)
+				return (ft_strjoin(cmd + i + 2, "'"));
 			if (fd[index] < 0)
-				return (ft_strdup(filename[index]));
+				return (ft_strdup(file[index]));
 		}
 	}
 	return (NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:38:30 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/09 02:15:48 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/09 13:05:56 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ int	pipex(t_pipe	*data)
 	i = -1;
 	while (++i < data->cmdc)
 		execute(i, data);
+	i = -1;
+	while (++i < data->cmdc)
+		waitpid(data->pid[i], &data->status, 0);
 	free(data->pid);
 	return (WEXITSTATUS(data->status));
 }
