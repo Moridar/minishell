@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/09 14:09:23 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/09 15:46:33 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,8 @@ static void	signal_handler(int signo)
 		rl_redisplay();
 }
 
-/**
- * Replaces all pipe char (|) inside prompt line to a special char (31) for
- * the split avoiding pipe chars (|) inside quotes stay unaffected.
-*/
-void	replace_pipes(char *cmd)
-{
-	int		i;
-
-	i = 0;
-	while (cmd[i])
-	{
-		if (cmd[i] == '|')
-			cmd[i] = 31;
-		if ((cmd[i] == '\'' || cmd[i] == '"')
-			&& get_quote_length(&cmd[i], cmd[i]) != 1)
-			i += get_quote_length(&cmd[i], cmd[i]) - 1;
-		i++;
-	}
-}
-
 /* Exit on ctrl + d */
-void	handle_ctrl_d(void)
+static void	handle_ctrl_d(void)
 {
 	rl_on_new_line();
 	rl_replace_line("exit\n", 0);
@@ -62,20 +42,43 @@ void	handle_ctrl_d(void)
 	exit(g_exit_status);
 }
 
+/**
+ * Gives prompt input if the line has pipe | and no command after it.
+ * The last command will be written from prompt commands double array.
+*/
+void	handle_empty_pipe(t_pipe *data, int pipes_count)
+{
+	char	*tmp;
+
+	tmp = data->cmds[pipes_count - 1];
+	data->cmds[pipes_count - 1] = ft_strtrim(tmp, " \t\n\v\f\r");
+	free(tmp);
+	if (data->cmds[pipes_count - 1] && data->cmds[pipes_count - 1][0] == '\0')
+		data->cmds[pipes_count - 1] = NULL;
+	data->cmdc = get_string_array_size(data->cmds);
+	if (pipes_count > data->cmdc)
+	{
+		data->cmds = reallocate_arraylist(data->cmds, pipes_count);
+		data->cmds[pipes_count - 1] = readline(">");
+		data->cmdc = pipes_count;
+	}
+}
+
 static int	process_prompt_line(char *line, t_pipe *data)
 {
 	char	**cmd;
 	int		builtins_res;
+	int		pipes_count;
 
 	builtins_res = 0;
 	add_history(line);
 	write_history_file(line, data);
-	replace_pipes(line);
+	pipes_count = replace_pipes(line);
 	data->cmds = ft_split(line, 31);
-	free(line);
 	if (!data->cmds)
 		return (-2);
-	data->cmdc = get_string_array_size(data->cmds);
+	free(line);
+	handle_empty_pipe(data, pipes_count);
 	cmd = split_shell_cmd(data->cmds[0], data);
 	if (!cmd)
 		freeall_return(data->cmds, -2);

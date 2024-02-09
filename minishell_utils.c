@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/09 14:09:28 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/09 15:47:30 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,34 @@ char	**reallocate_arraylist(char **arr, int newsize)
 		}
 		i++;
 	}
-	free(arr[i]);
+	if (j == i)
+		free(arr[i]);
 	free(arr);
 	return (new_arr);
+}
+
+/**
+ * Replaces all pipe char (|) inside prompt line to a special char (31) for
+ * the split avoiding pipe chars (|) inside quotes stay unaffected.
+*/
+int	replace_pipes(char *cmd)
+{
+	int		i;
+	int		count;
+
+	i = 0;
+	count = 0;
+	while (cmd[i])
+	{
+		if (cmd[i] == '|')
+		{
+			cmd[i] = 31;
+			count++;
+		}
+		if ((cmd[i] == '\'' || cmd[i] == '"')
+			&& get_quote_length(&cmd[i], cmd[i]) != 1)
+			i += get_quote_length(&cmd[i], cmd[i]) - 1;
+		i++;
+	}
+	return (count + 1);
 }
