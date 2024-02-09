@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_execute.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/09 02:31:48 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/09 11:12:05 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,20 @@ static void	child_execute(t_pipe *data, int i)
 
 	toggle_carret(1);
 	set_direction(data, i, fd);
-	cmd = split_shell_cmd(data->cmds[i], data); // should we not check this for NULL?
+	cmd = split_shell_cmd(data->cmds[i], data);
 	freeall(data->cmds);
 	dup_and_close_fds(fd);
 	closepipe(data);
 	if (!cmd)
 	{
 		ft_putstr_fd("Malloc fails\n", 2);
-		exit (EXIT_FAILURE);
+		freeall_exit(data->envp, EXIT_FAILURE);
 	}
 	if (!*cmd[0] || child_builtins(cmd, data))
+	{
+		freeall(data->envp);
 		freeall_exit(cmd, 0);
+	}
 	path = check_cmdpath(cmd[0], data, cmd);
 	execve(path, cmd, data->envp);
 }

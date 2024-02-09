@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/09 10:23:26 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/09 11:29:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,6 @@ int	main(int argc, char *argv[], char *envp[])
 		return_value = minishell_files(argc, argv, &data);
 	freeall(data.envp);
 	if (return_value == -2)
-		ft_putstr_fd("bsch: malloc error\n", 2);
+		ft_putstr_fd("bvsh: malloc error\n", 2);
 	return (return_value != 0);
 }
