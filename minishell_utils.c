@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/09 11:33:53 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/09 14:09:28 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,3 @@ char	**reallocate_arraylist(char **arr, int newsize)
 	free(arr);
 	return (new_arr);
 }
-
-/* int	main(int argc, char *argv[], char *envp[])
-{
-	t_pipe 	data;
-
-	copy_double_array(envp, &data.envp);
-} */

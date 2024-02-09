@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:38:30 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/09 13:05:56 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/09 14:13:23 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,3 @@ int	pipex(t_pipe	*data)
 	free(data->pid);
 	return (WEXITSTATUS(data->status));
 }
-
-/* int	main(int argc, char *argv[], char *envp[])
-{
-	int		cmdc;
-	char	*cmds[8];
-	char	**commands;
-
-	if (argc > 10 && argv)
-		ft_printf("pipex: %d\n", argc);
-	cmdc = 2;
-	cmds[0] = ft_strdup("<< END cat");
-	cmds[1] = ft_strdup("cat");
-	pipex(cmdc, cmds, envp);
-	exit(0);
-}*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_prompt.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/09 10:22:00 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/09 14:09:23 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,20 +111,3 @@ int	minishell_prompt(t_pipe *data)
 	}
 	return (return_value);
 }
-
-/* int	main(int argc, char const *argv[], char *envp[])
-{
-	t_pipe 	data;
-
-	(void)argc;
-	(void)argv;
-	printf("hello!");
-	copy_double_array(envp, &data.envp, 0);
-	printf("%s\n", data.envp[0]);
-	return (0);
-} */
-
-//bash -c "echo $SHELL\"helloworld\""
-//Output: |/bin/zshhelloworld|
-//./pipex -c "echo $SHELL\"helloworld\""
-//Output: /bin/zsh"helloworld"

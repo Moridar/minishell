@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_builtins_exit.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/09 09:41:36 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/09 14:08:51 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ static int	handle_wrong_arg(char *status)
 		return (2);
 	temp = error_msg;
 	error_msg = ft_strjoin(temp, ": numeric argument required\n");
+	free(temp);
 	if (!error_msg)
 		return (2);
 	ft_putstr_fd("exit\n", 1);
 	ft_putstr_fd(error_msg, 2);
-	free(temp);
 	free(error_msg);
 	return (1);
 }
