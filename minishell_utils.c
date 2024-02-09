@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/10 00:30:47 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/10 01:24:52 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ char	**reallocate_arraylist(char **arr, int newsize)
  * Replaces all pipe char (|) inside prompt line to a special char (31) for
  * the split avoiding pipe chars (|) inside quotes stay unaffected.
 */
-int	replace_pipes(char *cmd)
+int	replace_pipes(char *cmd, t_pipe *data)
 {
 	int		i;
 	int		count;
@@ -119,6 +119,13 @@ int	replace_pipes(char *cmd)
 	{
 		if (cmd[i] == '|')
 		{
+			if (cmd[i + 1] == '|')
+			{
+				freeall(data->envp);
+				errormsg("double pipe", 1, 0);
+				// ft_putstr_fd("bvsh: double pipe: syntax error\n", 2);
+				// freeall_exit(data->envp, 1);
+			}
 			cmd[i] = 31;
 			count++;
 		}
