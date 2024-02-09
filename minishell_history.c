@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_history.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:32:14 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/09 01:59:09 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/09 22:12:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	write_history_file(char *line, t_pipe *data)
 	fd = open(".bvsh_history", O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
+		free(line);
 		freeall(data->envp);
 		errormsg(".bvsh_history", 1, -1);
 	}

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:13:28 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/09 13:15:13 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/09 23:12:31 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * @brief Print error message and exits
- * @brief Msg will be formatted: 'pipex: @msg: @stderrmsg. 
+ * @brief Msg will be formatted: 'bvsh: @msg: @stderrmsg. 
  * @brief Exits if not set 0.
  * @param msg and exits
  * @param exit_status If set to -1 will get the errno.

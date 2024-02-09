@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:11:39 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/09 11:42:55 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/10 00:30:31 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*replace_spaces(char *cmd)
 	return (new_cmd);
 }
 
-char	**interpret_commands(char **command, t_pipe *data)
+static char	**interpret_commands(char **command, t_pipe *data)
 {
 	int		i;
 	int		new_size;

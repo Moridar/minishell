@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_prompt.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/09 15:46:33 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/10 00:12:38 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,42 +43,45 @@ static void	handle_ctrl_d(void)
 }
 
 /**
- * Gives prompt input if the line has pipe | and no command after it.
+ * Splits the line by pipes and stores the commands in the data struct.
+ * Gives prompt input if the line has a loose pipe (no command after it).
  * The last command will be written from prompt commands double array.
 */
-void	handle_empty_pipe(t_pipe *data, int pipes_count)
+void	data_cmds_split_by_pipes(t_pipe *data, char *line)
 {
+	int		pipes_count;
 	char	*tmp;
 
+	pipes_count = replace_pipes(line);
+	data->cmds = ft_split(line, 31);
+	free(line);
+	if (!data->cmds)
+		return ;
 	tmp = data->cmds[pipes_count - 1];
 	data->cmds[pipes_count - 1] = ft_strtrim(tmp, " \t\n\v\f\r");
 	free(tmp);
 	if (data->cmds[pipes_count - 1] && data->cmds[pipes_count - 1][0] == '\0')
-		data->cmds[pipes_count - 1] = NULL;
-	data->cmdc = get_string_array_size(data->cmds);
-	if (pipes_count > data->cmdc)
 	{
-		data->cmds = reallocate_arraylist(data->cmds, pipes_count);
-		data->cmds[pipes_count - 1] = readline(">");
-		data->cmdc = pipes_count;
+		free(data->cmds[pipes_count - 1]);
+		data->cmds[pipes_count - 1] = NULL;
 	}
+	data->cmdc = get_string_array_size(data->cmds);
+	if (pipes_count == data->cmdc)
+		return ;
+	data->cmds = reallocate_arraylist(data->cmds, pipes_count);
+	data->cmds[pipes_count - 1] = readline(">");
+	data->cmdc = pipes_count;
 }
 
 static int	process_prompt_line(char *line, t_pipe *data)
 {
 	char	**cmd;
 	int		builtins_res;
-	int		pipes_count;
 
 	builtins_res = 0;
-	add_history(line);
-	write_history_file(line, data);
-	pipes_count = replace_pipes(line);
-	data->cmds = ft_split(line, 31);
+	data_cmds_split_by_pipes(data, line);
 	if (!data->cmds)
 		return (-2);
-	free(line);
-	handle_empty_pipe(data, pipes_count);
 	cmd = split_shell_cmd(data->cmds[0], data);
 	if (!cmd)
 		freeall_return(data->cmds, -2);
@@ -110,7 +113,11 @@ int	minishell_prompt(t_pipe *data)
 		if (line == NULL)
 			handle_ctrl_d();
 		if (line && *line)
+		{
+			add_history(line);
+			write_history_file(line, data);
 			return_value = process_prompt_line(line, data);
+		}
 	}
 	return (return_value);
 }

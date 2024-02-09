@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/09 15:47:30 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/10 00:30:47 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,9 @@ char	**reallocate_arraylist(char **arr, int newsize)
 	while (j < newsize)
 	{
 		if (arr[i])
-		{
-			new_arr[j] = arr[i];
-			j++;
-		}
+			new_arr[j++] = arr[i];
 		i++;
 	}
-	if (j == i)
-		free(arr[i]);
 	free(arr);
 	return (new_arr);
 }
