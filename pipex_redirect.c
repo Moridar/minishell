@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/08 18:26:46 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/09 12:36:14 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,60 +39,66 @@ static char	*cut_filename(char *str, char symbol, t_pipe *data)
 	return (filename);
 }
 
-static int	get_filename(char *cmd, char symbol, char **filename, t_pipe *data)
+static int	get_fd(char *cmd, char **filename, t_pipe *data)
+{
+	int		type;
+	int		fd;
+	char	symbol;
+
+	symbol = cmd[0];
+	fd = 0;
+	type = count_lead_chars(cmd, symbol);
+	if (type == 1 || type == 2)
+	{
+		if (*filename)
+			free(*filename);
+		*filename = cut_filename(cmd, symbol, data);
+		fd = openfile(*filename, symbol, type, data);
+	}
+	if (type >= 3) //can it exit here?
+		errormsg("syntax error near unexpected token `<'", 1, -1);
+	return (fd);
+}
+
+static char	*find_redirections(t_pipe *data, char *cmd, int *fd, char **filename)
 {
 	int		i;
-	int		type;
-	int		lasttype;
+	int		index;
 
 	i = -1;
-	lasttype = 0;
-	while (cmd[++i] && lasttype >= 0)
+	while (cmd[++i])
 	{
 		if (cmd[i] == '\'' || cmd[i] == '"')
 			i += get_quote_length(cmd + i, cmd[i]) - 1;
-		type = count_lead_chars(cmd + i, symbol);
-		if (type == 1 || type == 2)
+		if (cmd[i] == '<' || cmd[i] == '>')
 		{
-			if (lasttype > 2)
-				close(lasttype);
-			if (*filename)
-				free(*filename);
-			*filename = cut_filename(cmd + i, symbol, data);
-			lasttype = openfile(*filename, symbol, type, data);
+			index = 0;
+			if (cmd[i] == '>')
+				index = 1;
+			if (fd[index] >= 2)
+				close(fd[index]);
+			fd[index] = get_fd(cmd + i, &filename[index], data);
+			if (fd[index] < 0)
+				return (ft_strdup(filename[index]));
 		}
-		if (type >= 3)
-			errormsg("syntax error near unexpected token `<'", 1, -1);
 	}
-	return (lasttype);
+	return (NULL);
 }
 
 //infile
 //type 0 = pipe / std-in
-//type > 2 will be the fd of the file
-//type 1 = < = file
-//type 2 = << = here_doc
 //outfile
 //type 0 = pipe / std-out
-//type > 2 will be the fd of the file
-//type 1 = > = file  
-//type 2 = >> = append
-static int	get_fd(char symbol, int i, t_pipe *data, char **filename)
+static void	set_basic_fd(int i, t_pipe *data, int *fd)
 {
-	int		fd;
-
-	fd = get_filename(data->cmds[i], symbol, filename, data);
-	if (fd < 0 || fd > 2)
-		return (fd);
-	if (symbol == '<' && i == 0)
-		return (STDIN_FILENO);
-	if (symbol == '<')
-		return (data->fd[(i + 1) % 2][0]);
-	if (symbol == '>' && i == data->cmdc - 1)
-		return (STDOUT_FILENO);
-	if (symbol == '>')
-		return (data->fd[i % 2][1]);
-	return (-1);
+	if (i == 0)
+		fd[0] = STDIN_FILENO;
+	else
+		fd[0] = data->fd[(i + 1) % 2][0];
+	if (i == data->cmdc - 1)
+		fd[1] = STDOUT_FILENO;
+	else
+		fd[1] = data->fd[i % 2][1];
 }
 
 //fd[0] = input (generally pipe, but can be file/heredoc)
@@ -105,14 +111,8 @@ void	set_direction(t_pipe *data, int i, int *fd)
 	filename[0] = NULL;
 	filename[1] = NULL;
 	errorexit = NULL;
-	fd[0] = 0;
-	fd[1] = get_fd('>', i, data, &filename[1]);
-	if (fd[1] < 0)
-		errorexit = ft_strdup(filename[1]);
-	if (errorexit == NULL)
-		fd[0] = get_fd('<', i, data, &(filename[0]));
-	if (!errorexit && fd[0] < 0)
-		errorexit = ft_strdup(filename[0]);
+	set_basic_fd(i, data, fd);
+	errorexit = find_redirections(data, data->cmds[i], fd, filename);
 	if (!errorexit && filename[0] && filename[1] && ft_strncmp(filename[0],
 			filename[1], ft_strlen(filename[0]) + 1) == 0)
 		errorexit = ft_strdup("cat: -: input file is output file");
