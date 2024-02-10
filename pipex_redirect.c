@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/10 01:50:52 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/10 02:26:42 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,7 @@ static char	*find_redirections(t_pipe *data, char *cmd, int *fd, char **file)
 			i += get_quote_length(cmd + i, cmd[i]) - 1;
 		if (cmd[i] == '<' || cmd[i] == '>')
 		{
-			index = 0;
-			if (cmd[i] == '>')
-				index = 1;
+			index = cmd[i] == '>';
 			if (fd[index] >= 2)
 				close(fd[index]);
 			fd[index] = get_fd(cmd + i, &file[index], data);
@@ -117,10 +115,7 @@ void	set_direction(t_pipe *data, int i, int *fd)
 	errorexit = NULL;
 	set_basic_fd(i, data, fd);
 	errorexit = find_redirections(data, data->cmds[i], fd, filename);
-	if (!errorexit && filename[0] && filename[1] && ft_strncmp(filename[0],
-			filename[1], ft_strlen(filename[0]) + 1) == 0)
-		errorexit = ft_strdup("cat: -: input file is output file");
 	free_filenames(filename[0], filename[1]);
 	if (errorexit)
-		redirect_check_error(errorexit, fd, data);
+		redirect_error_exit(errorexit, fd, data);
 }

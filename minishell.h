@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/09 15:45:41 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/10 02:11:20 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		len_next_meta_char(char *str, char *metachars, int space);
 int		replace_pipes(char *cmd);
 
 //Redirection helpers
-void	redirect_check_error(char *errmsg, int *fd, t_pipe *data);
+void	redirect_error_exit(char *errmsg, int *fd, t_pipe *data);
 void	free_filenames(char *infilename, char *outfilename);
 int		openfile(char *filename, char symbol, int type, t_pipe *data);
 

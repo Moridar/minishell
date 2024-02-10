@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 23:28:16 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/10 01:52:27 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/10 02:12:49 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	free_filenames(char *infilename, char *outfilename)
 		free(outfilename);
 }
 
-void	redirect_check_error(char *errmsg, int *fd, t_pipe *data)
+void	redirect_error_exit(char *errmsg, int *fd, t_pipe *data)
 {
 	ft_putstr_fd("bvsh: ", 2);
 	if (fd[0] == -3 || fd[1] == -3)
@@ -28,7 +28,7 @@ void	redirect_check_error(char *errmsg, int *fd, t_pipe *data)
 	ft_putstr_fd(errmsg, 2);
 	free(errmsg);
 	if (fd[1] == -2 || fd[2] == -2)
-		ft_putstr_fd("Allocation error", 2);
+		ft_putstr_fd(": Allocation error", 2);
 	else if ((fd[1] != -3 && fd[0] != -3) && errno)
 	{
 		ft_putstr_fd(": ", 2);
