@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 23:28:16 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/10 01:25:49 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/10 01:52:27 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,30 +22,29 @@ void	free_filenames(char *infilename, char *outfilename)
 
 void	redirect_check_error(char *errmsg, int *fd, t_pipe *data)
 {
-	if (errmsg)
+	ft_putstr_fd("bvsh: ", 2);
+	if (fd[0] == -3 || fd[1] == -3)
+		ft_putstr_fd("Syntax error near unexpected token `", 2);
+	ft_putstr_fd(errmsg, 2);
+	free(errmsg);
+	if (fd[1] == -2 || fd[2] == -2)
+		ft_putstr_fd("Allocation error", 2);
+	else if ((fd[1] != -3 && fd[0] != -3) && errno)
 	{
-		ft_putstr_fd("bvsh: ", 2);
-		if (fd[0] == -3 || fd[1] == -3)
-			ft_putstr_fd("Syntax error near unexpected token `", 2);
-		ft_putstr_fd(errmsg, 2);
-		free(errmsg);
-		if (fd[1] == -2 || fd[2] == -2)
-			ft_putstr_fd("Allocation error", 2);
-		else if ((fd[1] != -3 && fd[0] != -3) && errno)
-		{
-			ft_putstr_fd(": ", 2);
-			ft_putstr_fd(strerror(errno), 2);
-		}
-		ft_putstr_fd("\n", 2);
-		if (fd[1] >= 2)
-			close(fd[1]);
-		if (fd[0] >= 2)
-			close(fd[0]);
-		closepipe(data);
-		freeall(data->envp);
-		freeall(data->cmds);
-		exit(1);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(strerror(errno), 2);
 	}
+	ft_putstr_fd("\n", 2);
+	if (fd[1] >= 2)
+		close(fd[1]);
+	if (fd[0] >= 2)
+		close(fd[0]);
+	closepipe(data);
+	freeall(data->envp);
+	freeall(data->cmds);
+	if (fd[0] == -3 || fd[1] == -3)
+		exit(2);
+	exit(1);
 }
 
 static int	buffer_interpret_pipe(char *buffer, int *heredoc_fd, t_pipe *data)

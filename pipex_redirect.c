@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/09 13:55:02 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/10 01:50:52 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,5 +121,6 @@ void	set_direction(t_pipe *data, int i, int *fd)
 			filename[1], ft_strlen(filename[0]) + 1) == 0)
 		errorexit = ft_strdup("cat: -: input file is output file");
 	free_filenames(filename[0], filename[1]);
-	redirect_check_error(errorexit, fd, data);
+	if (errorexit)
+		redirect_check_error(errorexit, fd, data);
 }
