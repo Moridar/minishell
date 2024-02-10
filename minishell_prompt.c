@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_prompt.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/10 00:12:38 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/10 01:18:49 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	data_cmds_split_by_pipes(t_pipe *data, char *line)
 	int		pipes_count;
 	char	*tmp;
 
-	pipes_count = replace_pipes(line);
+	pipes_count = replace_pipes(line, data);
 	data->cmds = ft_split(line, 31);
 	free(line);
 	if (!data->cmds)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/10 00:30:47 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/10 02:23:38 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * is_on = 1 during the command execution
  * @param is_on 1 for removing carret characters from displayin in the shell
  * 0 to hide carret characters from shell
-*/
+ */
 void	toggle_carret(int is_on)
 {
 	struct termios	new_attr;
@@ -35,7 +35,7 @@ void	toggle_carret(int is_on)
 /**
  * @return size of the double dimension string array, for example,
  * created by ft_split().
-*/
+ */
 int	get_string_array_size(char **str)
 {
 	int	j;
@@ -51,7 +51,7 @@ int	get_string_array_size(char **str)
 /**
  * Used to copy double dimension array arr1 to arr2.
  * For example, envp.
-*/
+ */
 char	**copy_double_array(char **arr1, int increase_size)
 {
 	int		size;
@@ -82,7 +82,7 @@ char	**copy_double_array(char **arr1, int increase_size)
 /**
  * Reallocates the arraylist when some elements are deleted
  * @param newsize is the size of the new array
-*/
+ */
 char	**reallocate_arraylist(char **arr, int newsize)
 {
 	char	**new_arr;
@@ -107,18 +107,25 @@ char	**reallocate_arraylist(char **arr, int newsize)
 /**
  * Replaces all pipe char (|) inside prompt line to a special char (31) for
  * the split avoiding pipe chars (|) inside quotes stay unaffected.
-*/
-int	replace_pipes(char *cmd)
+ */
+int	replace_pipes(char *cmd, t_pipe *data)
 {
 	int		i;
 	int		count;
+	char	*errmsg;
 
+	errmsg = "bvsh: double pipe: syntax error\n";
 	i = 0;
 	count = 0;
 	while (cmd[i])
 	{
 		if (cmd[i] == '|')
 		{
+			if (cmd[i + 1] == '|')
+			{
+				free(cmd);
+				msg_freeall_exit(errmsg, data->envp, 2);
+			}
 			cmd[i] = 31;
 			count++;
 		}
