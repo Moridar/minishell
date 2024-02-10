@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/10 02:11:20 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/10 02:32:03 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_pipe
 int		count_lead_chars(char *str, char c);
 int		get_quote_length(char *str, char quote);
 int		len_next_meta_char(char *str, char *metachars, int space);
-int		replace_pipes(char *cmd);
+int		replace_pipes(char *cmd, t_pipe *data);
 
 //Redirection helpers
 void	redirect_error_exit(char *errmsg, int *fd, t_pipe *data);
