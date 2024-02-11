@@ -4,7 +4,6 @@
 # Date: 01/28/2024
 
 NAME = minishell
-# HEADER = minishell.h
 
 LIB = libft/libft.a
 LIBDIR = ./libft
@@ -32,7 +31,7 @@ SRC = 	minishell.c \
 		pipex_errors.c 
 
 OBJ = $(SRC:%.c=%.o)
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
 DEBUG_FLAGS = -g -fsanitize=address,undefined,integer
 
