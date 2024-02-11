@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:50:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/05 02:36:15 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/11 02:01:09 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,17 @@ static int	echo(char **cmd, int count)
 	return (1);
 }
 
-static int	pwd(void)
+static int	pwd(t_pipe *data, char **cmd)
 {
 	char	*buff;
 
 	buff = getcwd(NULL, 0);
 	if (buff == NULL)
-		errormsg("pwd", 1, -1);
+	{
+		ft_putstr_fd("bvsh: Malloc fails\n", 2);
+		freeall(cmd);
+		freeall_exit(data->envp, EXIT_FAILURE);
+	}
 	ft_printf("%s\n", buff);
 	free(buff);
 	return (1);
@@ -52,8 +56,8 @@ static int	print_env_variables(t_pipe *data, int is_exported)
 	while (data->envp[++i])
 	{
 		if (is_exported)
-			printf("declare -x ");
-		printf("%s\n", data->envp[i]);
+			ft_printf("declare -x ");
+		ft_printf("%s\n", data->envp[i]);
 	}
 	return (1);
 }
@@ -70,7 +74,7 @@ int	child_builtins(char **cmd, t_pipe *data)
 	if (ft_strncmp(cmd[0], "echo", 5) == 0)
 		return (echo(cmd, count));
 	if (ft_strncmp(cmd[0], "pwd", 4) == 0)
-		return (pwd());
+		return (pwd(data, cmd));
 	if (ft_strncmp(cmd[0], "export", 7) == 0)
 		return (1);
 	if (ft_strncmp(cmd[0], "exit", 5) == 0)

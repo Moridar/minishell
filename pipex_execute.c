@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/09 13:12:15 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/11 02:00:50 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,17 @@ static void	child_execute(t_pipe *data, int i)
 	closepipe(data);
 	if (!cmd)
 	{
-		ft_putstr_fd("Malloc fails\n", 2);
+		ft_putstr_fd("bvsh: Malloc fails\n", 2);
 		freeall_exit(data->envp, EXIT_FAILURE);
 	}
 	if (!*cmd[0] || child_builtins(cmd, data))
 	{
 		freeall(data->envp);
-		freeall_exit(cmd, 0);
+		freeall_exit(cmd, EXIT_SUCCESS);
 	}
 	path = check_cmdpath(cmd[0], data, cmd);
 	execve(path, cmd, data->envp);
+	free(path);
 }
 
 static void	execute_fork(int i, t_pipe *data)

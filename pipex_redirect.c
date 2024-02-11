@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/10 02:26:42 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/10 02:37:41 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static void	set_basic_fd(int i, t_pipe *data, int *fd)
 		fd[1] = data->fd[i % 2][1];
 }
 
-//fd[0] = input (generally pipe, but can be file/heredoc)
+//fd[0] = input (generally pipe, but can be file/heredoc/stdin)
 //fd[1] = output (generally pipe, but can be file/stdout)
 void	set_direction(t_pipe *data, int i, int *fd)
 {
