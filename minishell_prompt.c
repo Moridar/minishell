@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 12:07:51 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 12:32:43 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	signal_handler(int signo)
 void	check_loose_pipe(t_pipe *data, int pipes_count)
 {
 	char	*tmp;
+	char	**arraylist_tmp;
 
 	tmp = data->cmds[pipes_count];
 	data->cmds[pipes_count] = ft_strtrim(tmp, " \t\n\v\f\r");
@@ -51,7 +52,9 @@ void	check_loose_pipe(t_pipe *data, int pipes_count)
 	data->cmdc = get_string_array_size(data->cmds);
 	if (pipes_count + 1 == data->cmdc)
 		return ;
-	data->cmds = reallocate_arraylist(data->cmds, pipes_count + 1);
+	arraylist_tmp = copy_double_array(data->cmds, 1);
+	freeall(data->cmds);
+	data->cmds = arraylist_tmp;
 	data->cmds[pipes_count] = readline(">");
 	data->cmdc = pipes_count + 1;
 }
