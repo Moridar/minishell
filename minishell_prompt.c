@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 12:32:43 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:18:20 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	signal_handler(int signo)
  * Gives prompt input if the line has a loose pipe (no command after it).
  * The last command will be written from prompt commands double array.
 */
-void	check_loose_pipe(t_pipe *data, int pipes_count)
+static int	check_loose_pipe(t_pipe *data, int pipes_count)
 {
 	char	*tmp;
 	char	**arraylist_tmp;
@@ -49,50 +49,59 @@ void	check_loose_pipe(t_pipe *data, int pipes_count)
 		free(data->cmds[pipes_count]);
 		data->cmds[pipes_count] = NULL;
 	}
-	data->cmdc = get_string_array_size(data->cmds);
-	if (pipes_count + 1 == data->cmdc)
-		return ;
+	if (data->cmds[pipes_count])
+		return (0);
 	arraylist_tmp = copy_double_array(data->cmds, 1);
 	freeall(data->cmds);
+	if (!arraylist_tmp)
+		return (-2);
 	data->cmds = arraylist_tmp;
 	data->cmds[pipes_count] = readline(">");
-	data->cmdc = pipes_count + 1;
+	return (0);
 }
 
-void	split_pipeline(t_pipe *data, char *line)
+static int	split_pipeline(t_pipe *data, char *line)
 {
 	int		pipes_count;
 
-	pipes_count = replace_pipes(line, data);
+	data->cmds = NULL;
+	pipes_count = replace_pipes(line);
+	if (pipes_count < 0)
+		return (free_return (line, -1));
 	data->cmds = ft_split(line, 31);
 	free(line);
 	if (!data->cmds)
-		return ;
-	check_loose_pipe(data, pipes_count);
+		return (-2);
+	if (pipes_count > 0)
+		if (check_loose_pipe(data, pipes_count) == -2)
+			return (-2);
+	data->cmdc = get_string_array_size(data->cmds);
+	return (0);
 }
 
 static int	process_prompt_line(char *line, t_pipe *data)
 {
 	char	**cmd;
-	int		builtin_return;
+	int		return_value;
 
-	builtin_return = 0;
-	split_pipeline(data, line);
-	if (!data->cmds)
-		return (-2);
+	return_value = split_pipeline(data, line);
+	if (return_value == -1)
+		return (0);
+	if (return_value != 0)
+		return (return_value);
 	if (data->cmdc == 1)
 	{
 		cmd = split_shell_cmd(data->cmds[0], data);
 		if (!cmd)
 			freeall_return(data->cmds, -2);
 		if (cmd[0])
-			builtin_return = builtins(cmd, data);
+			return_value = builtins(cmd, data);
 		freeall(cmd);
 	}
-	if (builtin_return == 0)
+	if (return_value == 0)
 		g_exit_status = pipex(data);
 	freeall(data->cmds);
-	if (builtin_return == 2)
+	if (return_value == 2)
 		return (1);
 	return (0);
 }

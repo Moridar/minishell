@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 12:05:57 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:04:34 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,11 @@ char	**reallocate_arraylist(char **arr, int newsize)
  * Replaces all pipe char (|) inside prompt line to a special char (31) for
  * the split avoiding pipe chars (|) inside quotes stay unaffected.
  */
-int	replace_pipes(char *cmd, t_pipe *data)
+int	replace_pipes(char *cmd)
 {
 	int		i;
 	int		count;
-	char	*errmsg;
 
-	errmsg = "bvsh: double pipe: syntax error\n";
 	i = 0;
 	count = 0;
 	while (cmd[i])
@@ -123,8 +121,8 @@ int	replace_pipes(char *cmd, t_pipe *data)
 		{
 			if (cmd[i + 1] == '|')
 			{
-				free(cmd);
-				msg_freeall_exit(errmsg, data->envp, 2);
+				ft_putstr_fd("bvsh: double pipe: syntax error\n", 2);
+				return (-1);
 			}
 			cmd[i] = 31;
 			count++;

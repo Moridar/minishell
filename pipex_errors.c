@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:13:28 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/12 11:52:47 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 12:47:40 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 void	errormsg_exit(char *msg, int exit_status, t_pipe *data)
 {
 
+	freeall(data->envp);
 	if (exit_status == -1)
 		exit_status = errno;
 	msg = ft_strjoin("bvsh: ", msg);
@@ -30,7 +31,6 @@ void	errormsg_exit(char *msg, int exit_status, t_pipe *data)
 	else
 		ft_putstr_fd("bvsh: Allocation error", 2);
 	free(msg);
-	freeall(data->envp);
 	exit(exit_status);
 }
 

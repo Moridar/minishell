@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 11:53:54 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:06:16 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int	run_command(char *line, t_pipe *data)
 {
-	replace_pipes(line, data);
+	if (replace_pipes(line) == -1)
+		return (-1);
 	data->cmds = ft_split(line, 31);
 	free(line);
 	if (!data->cmds)
@@ -35,9 +36,7 @@ static int	minishell_command(char *argv[], t_pipe *data)
 	line = ft_strdup(argv[2]);
 	if (!line)
 		return (-2);
-	if (run_command(line, data) == -2)
-		return (-2);
-	return (0);
+	return (run_command(line, data));
 }
 
 static int	minishell_files(int argc, char *argv[], t_pipe *data)
@@ -60,7 +59,7 @@ static int	minishell_files(int argc, char *argv[], t_pipe *data)
 			if (line[ft_strlen(line) - 1] == '\n')
 				line[ft_strlen(line) - 1] = 0;
 			ret = run_command(line, data);
-			if (ret == 0)
+			if (ret != -2)
 				line = get_next_line(fd);
 		}
 		close(fd);
