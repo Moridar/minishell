@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 13:36:01 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:42:36 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int	replace_pipes(char *cmd)
 			if (cmd[i + 1] == '|')
 			{
 				ft_putstr_fd("bvsh: double pipe: syntax error\n", 2);
+				g_exit_status = 2;
 				return (-1);
 			}
 			cmd[i] = 31;
