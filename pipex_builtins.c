@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:50:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 13:34:56 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 20:56:04 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	pwd(t_pipe *data, char **cmd)
 	buff = getcwd(NULL, 0);
 	if (buff == NULL)
 	{
-		ft_putstr_fd("bvsh: Malloc fails\n", 2);
+		ft_putstr_fd("bvsh: malloc error\n", 2);
 		freeall(cmd);
 		freeall_exit(data->envp, EXIT_FAILURE);
 	}

@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 15:25:08 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/12 20:56:28 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static int	exit_status(char *status, t_pipe *data, char **cmd)
 	if (!status_conv)
 	{
 		clean_memory(data, cmd);
+		ft_putstr_fd("bvsh: malloc error\n", 2);
 		exit (1);
 	}
 	if (status[0] == '+')
