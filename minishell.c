@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/10 01:18:37 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/12 11:14:18 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,29 +44,29 @@ static int	minishell_files(int argc, char *argv[], t_pipe *data)
 {
 	int		i;
 	int		fd;
+	int		ret;
 	char	*line;
 
+	ret = 0;
 	i = 0;
-	while (++i < argc)
+	while (ret == 0 && ++i < argc)
 	{
 		fd = open(argv[i], O_RDONLY);
 		if (fd < 0)
-			errormsg(argv[i], 1, -1);
+			errormsg(argv[i], 0, -1);
 		line = get_next_line(fd);
-		while (line)
+		while (ret == 0 && line)
 		{
 			if (line[ft_strlen(line) - 1] == '\n')
 				line[ft_strlen(line) - 1] = 0;
-			if (run_command(line, data) == -2)
-			{
-				close(fd);
-				return (-2);
-			}
-			line = get_next_line(fd);
+			ret = run_command(line, data);
+			if (ret == 0)
+				line = get_next_line(fd);
 		}
-		close(fd);
+		if (fd > 2)
+			close(fd);
 	}
-	return (0);
+	return (ret);
 }
 
 int	main(int argc, char *argv[], char *envp[])

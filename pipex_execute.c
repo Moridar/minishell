@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/11 02:00:50 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 09:40:33 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	child_execute(t_pipe *data, int i)
 	}
 	path = check_cmdpath(cmd[0], data, cmd);
 	execve(path, cmd, data->envp);
+	freeall(cmd);
 	free(path);
 }
 

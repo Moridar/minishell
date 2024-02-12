@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_prompt.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/10 01:18:49 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/12 10:37:50 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ static void	signal_handler(int signo)
 /* Exit on ctrl + d */
 static void	handle_ctrl_d(void)
 {
-	rl_on_new_line();
 	rl_replace_line("exit\n", 0);
+	rl_on_new_line();
 	rl_redisplay();
 	printf("\n");
 	exit(g_exit_status);
@@ -76,22 +76,25 @@ void	data_cmds_split_by_pipes(t_pipe *data, char *line)
 static int	process_prompt_line(char *line, t_pipe *data)
 {
 	char	**cmd;
-	int		builtins_res;
+	int		builtin_return;
 
-	builtins_res = 0;
+	builtin_return = 0;
 	data_cmds_split_by_pipes(data, line);
 	if (!data->cmds)
 		return (-2);
-	cmd = split_shell_cmd(data->cmds[0], data);
-	if (!cmd)
-		freeall_return(data->cmds, -2);
-	if (cmd[0] && data->cmdc == 1)
-		builtins_res = builtins(cmd, data);
-	freeall(cmd);
-	if (builtins_res == 0)
+	if (data->cmdc == 1)
+	{
+		cmd = split_shell_cmd(data->cmds[0], data);
+		if (!cmd)
+			freeall_return(data->cmds, -2);
+		if (cmd[0])
+			builtin_return = builtins(cmd, data);
+		freeall(cmd);
+	}
+	if (builtin_return == 0)
 		g_exit_status = pipex(data);
 	freeall(data->cmds);
-	if (builtins_res == 2)
+	if (builtin_return == 2)
 		return (1);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_builtins.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/09 02:05:34 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/12 10:36:56 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ static int	cd(t_pipe *data, char **cmd, int count)
 /**
  * @return 2 if memory allocation in one of the builtins failed.
  * 1 for successfully running builtin command.
- * 0 if the builtin has not run.
+ * 0 if the cmd is not built-in in parent
 */
 int	builtins(char **cmd, t_pipe *data)
 {
