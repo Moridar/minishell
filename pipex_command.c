@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:11:39 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/10 00:30:31 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:34:56 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	**split_shell_cmd(char	*cmd, t_pipe *data)
 	free(new_str);
 	if (!command)
 		return (NULL);
-	size = get_string_array_size(command);
+	size = sizeof_arraylist(command);
 	interpreted_command = interpret_commands(command, data);
 	if (interpreted_command == NULL)
 	{

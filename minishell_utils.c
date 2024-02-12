@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 13:04:34 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:36:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	toggle_carret(int is_on)
  * @return size of the double dimension string array, for example,
  * created by ft_split().
  */
-int	get_string_array_size(char **str)
+int	sizeof_arraylist(char **str)
 {
 	int	j;
 
@@ -52,7 +52,7 @@ int	get_string_array_size(char **str)
  * Used to copy double dimension array arr1 to arr2.
  * For example, envp.
  */
-char	**copy_double_array(char **arr1, int increase_size)
+char	**copy_arraylist(char **arr1, int increase_size)
 {
 	int		size;
 	int		i;
@@ -60,7 +60,7 @@ char	**copy_double_array(char **arr1, int increase_size)
 	char	**arr2;
 
 	i = 0;
-	size = get_string_array_size(arr1);
+	size = sizeof_arraylist(arr1);
 	arr2 = (char **)ft_calloc((size + 1 + increase_size), sizeof(char *));
 	if (!arr2)
 		return (NULL);

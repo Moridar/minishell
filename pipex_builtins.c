@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:50:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/11 02:01:09 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:34:56 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	child_builtins(char **cmd, t_pipe *data)
 {
 	int	count;
 
-	count = get_string_array_size(cmd);
+	count = sizeof_arraylist(cmd);
 	if (ft_strncmp(cmd[0], "export", 7) == 0 && count == 1)
 		return (print_env_variables(data, 1));
 	if (ft_strncmp(cmd[0], "env", 4) == 0 && count == 1)

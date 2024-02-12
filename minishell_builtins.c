@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/12 10:36:56 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:36:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	unset(t_pipe *data, char **cmd, int count)
 
 	if (count < 2)
 		return (1);
-	size = get_string_array_size(data->envp);
+	size = sizeof_arraylist(data->envp);
 	tmp = ft_strjoin(cmd[1], "=");
 	if (!tmp)
 		return (2);
@@ -89,7 +89,7 @@ static int	export(t_pipe *data, char *var)
 		data->envp[i] = var;
 		return (1);
 	}
-	newenvp = copy_double_array(data->envp, 1);
+	newenvp = copy_arraylist(data->envp, 1);
 	if (!newenvp)
 		return (free_return(var, 2));
 	newenvp[i] = var;
@@ -137,7 +137,7 @@ int	builtins(char **cmd, t_pipe *data)
 
 	if (!data || !cmd)
 		return (0);
-	count = get_string_array_size(cmd);
+	count = sizeof_arraylist(cmd);
 	if (ft_strncmp(cmd[0], "export", 7) == 0 && count > 1)
 		return (export(data, ft_strdup(cmd[1])));
 	if (ft_strncmp(cmd[0], "cd", 3) == 0)

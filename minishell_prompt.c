@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 13:18:20 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:36:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	check_loose_pipe(t_pipe *data, int pipes_count)
 	}
 	if (data->cmds[pipes_count])
 		return (0);
-	arraylist_tmp = copy_double_array(data->cmds, 1);
+	arraylist_tmp = copy_arraylist(data->cmds, 1);
 	freeall(data->cmds);
 	if (!arraylist_tmp)
 		return (-2);
@@ -75,7 +75,7 @@ static int	split_pipeline(t_pipe *data, char *line)
 	if (pipes_count > 0)
 		if (check_loose_pipe(data, pipes_count) == -2)
 			return (-2);
-	data->cmdc = get_string_array_size(data->cmds);
+	data->cmdc = sizeof_arraylist(data->cmds);
 	return (0);
 }
 

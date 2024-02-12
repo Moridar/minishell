@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 13:04:52 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:36:09 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ char	*interpret(char *str, t_pipe *data);
 char	*expand_env_args(char *str, t_pipe *data);
 
 // Array utils
-int		get_string_array_size(char **str);
-char	**copy_double_array(char **arr1, int increase_size);
+int		sizeof_arraylist(char **str);
+char	**copy_arraylist(char **arr1, int increase_size);
 char	**reallocate_arraylist(char **arr, int size);
 
 // History

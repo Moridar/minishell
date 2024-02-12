@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 13:06:16 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:36:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	run_command(char *line, t_pipe *data)
 	free(line);
 	if (!data->cmds)
 		return (-2);
-	data->cmdc = get_string_array_size(data->cmds);
+	data->cmdc = sizeof_arraylist(data->cmds);
 	g_exit_status = pipex(data);
 	freeall(data->cmds);
 	return (0);
@@ -72,7 +72,7 @@ int	main(int argc, char *argv[], char *envp[])
 	t_pipe	data;
 	int		return_value;
 
-	data.envp = copy_double_array(envp, 0);
+	data.envp = copy_arraylist(envp, 0);
 	if (!data.envp)
 		return (EXIT_FAILURE);
 	if (argc < 2)
