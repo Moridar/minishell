@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 11:16:48 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 11:53:54 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	minishell_files(int argc, char *argv[], t_pipe *data)
 	{
 		fd = open(argv[i], O_RDONLY);
 		if (fd < 0)
-			errormsg(argv[i], 1, -1, data);
+			errormsg_exit(argv[i], -1, data);
 		line = get_next_line(fd);
 		while (ret == 0 && line)
 		{

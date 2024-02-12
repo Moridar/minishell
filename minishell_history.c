@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:32:14 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 11:18:40 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 11:53:45 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	write_history_file(char *line, t_pipe *data)
 	if (fd == -1)
 	{
 		free(line);
-		errormsg(".bvsh_history", 1, -1, data);
+		errormsg_exit(".bvsh_history", -1, data);
 	}
 	write(fd, line, ft_strlen(line));
 	write(fd, "\n", 1);
@@ -45,7 +45,7 @@ int	read_history_file(t_pipe *data)
 
 	fd = open(".bvsh_history", O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
-		errormsg(".bvsh_history", 1, -1, data);
+		errormsg_exit(".bvsh_history", -1, data);
 	line = get_next_line(fd);
 	while (line)
 	{

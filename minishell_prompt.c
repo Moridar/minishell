@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 10:37:50 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 12:07:51 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,45 +32,40 @@ static void	signal_handler(int signo)
 		rl_redisplay();
 }
 
-/* Exit on ctrl + d */
-static void	handle_ctrl_d(void)
-{
-	rl_replace_line("exit\n", 0);
-	rl_on_new_line();
-	rl_redisplay();
-	printf("\n");
-	exit(g_exit_status);
-}
-
 /**
- * Splits the line by pipes and stores the commands in the data struct.
  * Gives prompt input if the line has a loose pipe (no command after it).
  * The last command will be written from prompt commands double array.
 */
-void	data_cmds_split_by_pipes(t_pipe *data, char *line)
+void	check_loose_pipe(t_pipe *data, int pipes_count)
+{
+	char	*tmp;
+
+	tmp = data->cmds[pipes_count];
+	data->cmds[pipes_count] = ft_strtrim(tmp, " \t\n\v\f\r");
+	free(tmp);
+	if (data->cmds[pipes_count] && data->cmds[pipes_count][0] == '\0')
+	{
+		free(data->cmds[pipes_count]);
+		data->cmds[pipes_count] = NULL;
+	}
+	data->cmdc = get_string_array_size(data->cmds);
+	if (pipes_count + 1 == data->cmdc)
+		return ;
+	data->cmds = reallocate_arraylist(data->cmds, pipes_count + 1);
+	data->cmds[pipes_count] = readline(">");
+	data->cmdc = pipes_count + 1;
+}
+
+void	split_pipeline(t_pipe *data, char *line)
 {
 	int		pipes_count;
-	char	*tmp;
 
 	pipes_count = replace_pipes(line, data);
 	data->cmds = ft_split(line, 31);
 	free(line);
 	if (!data->cmds)
 		return ;
-	tmp = data->cmds[pipes_count - 1];
-	data->cmds[pipes_count - 1] = ft_strtrim(tmp, " \t\n\v\f\r");
-	free(tmp);
-	if (data->cmds[pipes_count - 1] && data->cmds[pipes_count - 1][0] == '\0')
-	{
-		free(data->cmds[pipes_count - 1]);
-		data->cmds[pipes_count - 1] = NULL;
-	}
-	data->cmdc = get_string_array_size(data->cmds);
-	if (pipes_count == data->cmdc)
-		return ;
-	data->cmds = reallocate_arraylist(data->cmds, pipes_count);
-	data->cmds[pipes_count - 1] = readline(">");
-	data->cmdc = pipes_count;
+	check_loose_pipe(data, pipes_count);
 }
 
 static int	process_prompt_line(char *line, t_pipe *data)
@@ -79,7 +74,7 @@ static int	process_prompt_line(char *line, t_pipe *data)
 	int		builtin_return;
 
 	builtin_return = 0;
-	data_cmds_split_by_pipes(data, line);
+	split_pipeline(data, line);
 	if (!data->cmds)
 		return (-2);
 	if (data->cmdc == 1)
@@ -114,7 +109,7 @@ int	minishell_prompt(t_pipe *data)
 		toggle_carret(0);
 		line = readline("bvsh-1.1$ ");
 		if (line == NULL)
-			handle_ctrl_d();
+			msg_freeall_exit("bvsh-1.1$ exit\n", data->envp, g_exit_status);
 		if (line && *line)
 		{
 			add_history(line);
