@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_builtins_exit.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 14:22:15 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 15:25:08 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ static int	exit_status(char *status, t_pipe *data, char **cmd)
 	status_n = ft_atoi(status);
 	status_conv = ft_itoa(status_n);
 	if (!status_conv)
-		return (2);
+	{
+		clean_memory(data, cmd);
+		exit (1);
+	}
 	if (status[0] == '+')
 		status = status + 1;
 	ft_putstr_fd("exit\n", 1);

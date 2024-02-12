@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:13:28 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/12 14:24:42 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 15:33:54 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,8 @@ void	errormsg_exit(char *msg, int exit_status, t_pipe *data)
 	freeall(data->envp);
 	if (exit_status == -1)
 		exit_status = errno;
-	msg = ft_strjoin("bvsh: ", msg);
-	if (msg)
-		perror(msg);
-	else
-		ft_putstr_fd("bvsh: Allocation error", 2);
-	free(msg);
+	ft_putstr_fd("bvsh: ", 2);
+	perror(msg);
 	exit(exit_status);
 }
 
