@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/10 02:32:03 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 11:16:05 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		freeall_return(char **strarray, int return_value);
 int		free_return(void *ptr, int returnvalue);
 void	*free_return_null(void *ptr);
 void	msg_freeall_exit(char *msg, char **strarray, int exitno);
-void	errormsg(char *msg, int exits, int exit_status);
+void	errormsg(char *msg, int exits, int exit_status, t_pipe *data);
 void	closepipe(t_pipe *data);
 void	dup_and_close_fds(int fd[2]);
 

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/12 09:40:33 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 11:25:13 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,12 @@ static void	execute_fork(int i, t_pipe *data)
 
 	pid = fork();
 	if (pid == -1)
-		errormsg("fork", 1, -1);
+	{
+		closepipe(data);
+		freeall(data->cmds);
+		free(data->pid);
+		errormsg("fork", 1, -1, data);
+	}
 	signal(SIGINT, SIG_IGN);
 	if (pid == 0)
 	{
@@ -69,7 +74,12 @@ static void	execute_fork(int i, t_pipe *data)
 static void	execute_pipe(int i, t_pipe *data)
 {
 	if (pipe(data->fd[i % 2]) == -1)
-		errormsg("pipe", 1, -1);
+	{
+		closepipe(data);
+		freeall(data->cmds);
+		free(data->pid);
+		errormsg("pipe", 1, -1, data);
+	}
 	execute_fork(i, data);
 	if (i != 0)
 		close(data->fd[(i + 1) % 2][0]);
