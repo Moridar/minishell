@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:13:28 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/12 12:47:40 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/12 14:24:42 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 */
 void	errormsg_exit(char *msg, int exit_status, t_pipe *data)
 {
-
 	freeall(data->envp);
 	if (exit_status == -1)
 		exit_status = errno;
