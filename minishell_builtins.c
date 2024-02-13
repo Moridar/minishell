@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/12 13:36:01 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/13 10:41:19 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ static int	validate_key(int keylen, char *key)
 
 	err = 0;
 	i = 0;
-	if (ft_isalpha(key[i]) == 0)
+	if (ft_isalpha(key[i]) == 0 && key[i] != '_')
 		err = 1;
-	while (!err && i < keylen - 1)
-		if (ft_isalnum(key[i++]) == 0)
+	while (!err && ++i < keylen - 1)
+		if (ft_isalnum(key[i]) == 0 && key[i] != '_')
 			err = 1;
 	if (!err && keylen > (int)ft_strlen(key))
 		return (0);
@@ -69,7 +69,7 @@ static int	validate_key(int keylen, char *key)
 /**
  * @return 1 for success, 2 if malloc failed
 */
-static int	export(t_pipe *data, char *var)
+int	export(t_pipe *data, char *var)
 {
 	int		i;
 	int		keylen;
