@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/08 14:55:44 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/13 13:59:49 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,6 @@ static char	**get_paths(t_pipe *data)
 		if (ft_strncmp(data->envp[i], "PATH=", 5) == 0)
 			paths = ft_split((data->envp[i]) + 5, ':');
 		i++;
-	}
-	if (!paths)
-	{
-		paths = ft_split("/usr/local/bin:/usr/bin:"
-				"/bin:/usr/sbin:/sbin", ':');
 	}
 	return (paths);
 }
@@ -80,6 +75,8 @@ static char	*get_path(char *cmd, t_pipe *data)
 	char	**paths;
 
 	paths = get_paths(data);
+	if (!paths)
+		cmdnfound_exit(cmd, NULL);
 	cmd = ft_strjoin("/", cmd);
 	i = -1;
 	while (paths[++i])
