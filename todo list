@@ -1,3 +1,23 @@
+1. Global variable to only recieve signal
+2. Cat error	 with std-in
+
+4. Open minishell inside minishell (errors at pipex_get_path.c)
+5. Running a command which is a dictory should return command not found
+6. get_path permission denied missing program name
+7. Remove hardcoded paths
+8. Run vim in minishell and other program. 
+-. OLDPWD (Implement or remove)
+-. cd ../../../../../../../../../.. errored the histroy file???
+-. Exit > filename should exit. 
+-. Exit 50 | exit 50 should return 50.
+-. Export without values should store a NULL
+-. UNSET should check identiifier
+?. EXPORT :@ as metachar?
+?. EXPORT += 
+?. Maybe echo -nn
+
+
+Original discussion: 
 Hey! How are you? I am nervous. Don’t worry :D Im gonna log in.
 
 Where should I clone
