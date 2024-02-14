@@ -4,9 +4,9 @@
 
 4. [maybe fixed] Open minishell inside minishell (errors at pipex_get_path.c)
 5. [maybe fixed] Running a command which is a dictory should return command not found
-6. get_path permission denied missing program name
-7. Remove hardcoded paths
-8. Run vim in minishell and other program. 
+6. [fixed] get_path permission denied missing program name
+7. [fixed] Remove hardcoded paths
+8. [fixed] Run vim in minishell and other program. 
 -. OLDPWD (Implement or remove)
 -. cd ../../../../../../../../../.. errored the histroy file???
 -. Exit > filename should exit. 

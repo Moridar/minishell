@@ -6,13 +6,13 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/14 16:47:02 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 18:15:24 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**get_paths(t_pipe *data)
+static char	**get_paths(t_pipe *data, char **cmdline)
 {
 	int		i;
 	char	**paths;
@@ -25,17 +25,9 @@ static char	**get_paths(t_pipe *data)
 			paths = ft_split((data->envp[i]) + 5, ':');
 		i++;
 	}
+	if (!paths)
+		cmdnfound_exit(cmdline, data);
 	return (paths);
-}
-
-static void	cmdnfound_exit(char *cmd, char **cmds, t_pipe *data)
-{
-	ft_putstr_fd("bvsh: ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
-	freeall(cmds);
-	freeall(data->envp);
-	exit(127);
 }
 
 /**
@@ -43,7 +35,7 @@ static void	cmdnfound_exit(char *cmd, char **cmds, t_pipe *data)
  * returns 0 if existing file
  * exits if non-existing 
 */
-static char	*is_directory(char *path, char **cmds, t_pipe *data)
+static char	*is_directory(char *path, char **cmdline, t_pipe *data)
 {
 	DIR		*dir;
 
@@ -59,62 +51,66 @@ static char	*is_directory(char *path, char **cmds, t_pipe *data)
 		ft_putstr_fd(path, 2);
 		ft_putstr_fd(": is a directory\n", 2);
 		freeall(data->envp);
-		freeall_exit(cmds, 126);
+		freeall_exit(cmdline, 126);
 	}
-	cmdnfound_exit(path, cmds, data);
+	cmdnfound_exit(cmdline, data);
 	return (NULL);
 }
 
-static char	*get_path(char *cmd, char *cmdline, t_pipe *data)
+static char	*find_path(char *cmd, char **cmdline,
+		t_pipe *data, char **no_permission_path)
 {
-	int		i;
 	char	*cmdpath;
+	int		i;
 	char	**paths;
-	char	*tmp;
 
-	paths = get_paths(data);
-	if (!paths)
-		cmdnfound_exit(cmd, cmdline, data);
-	tmp = cmd;
+	paths = get_paths(data, cmdline);
 	cmd = ft_strjoin("/", cmd);
 	i = -1;
-	while (paths[++i])
+	while (cmd && paths[++i])
 	{
 		cmdpath = ft_strjoin(paths[i], cmd);
-		if (access(cmdpath, X_OK) == 0)
-			break ;
+		if (access(cmdpath, F_OK) == 0)
+		{
+			free(*no_permission_path);
+			if (access(cmdpath, X_OK) == 0)
+				break ;
+			*no_permission_path = ft_strdup(cmdpath);
+		}
 		free(cmdpath);
 		cmdpath = NULL;
 	}
 	freeall(paths);
 	free(cmd);
-	if (!cmdpath)
-		cmdnfound_exit(cmd, cmdline, data);
 	return (cmdpath);
+}
+
+static char	*get_path(char *cmd, char **cmdline, t_pipe *data)
+{
+	char	*cmdpath;
+	char	*no_permission_path;
+
+	no_permission_path = NULL;
+	cmdpath = find_path(cmd, cmdline, data, &no_permission_path);
+	if (cmdpath)
+		return (cmdpath);
+	if (no_permission_path)
+		cmd_no_permission_exit(no_permission_path, cmdline, data);
+	cmdnfound_exit(cmdline, data);
+	return (NULL);
 }
 
 char	*check_cmdpath(char *cmd, t_pipe *data, char **cmdline)
 {
-	char	*cmdpath;
-
-	cmdpath = NULL;
 	if (ft_strchr(cmd, '/') == NULL)
 		return (get_path(cmd, cmdline, data));
 	else if (access(cmd, F_OK) == 0)
 	{
 		if (access(cmd, X_OK) == -1)
-		{
-			freeall(data->envp);
-			msg_freeall_exit("bvsh: Permission denied\n", cmdline, 126);
-		}
-		cmdpath = ft_strdup(cmd);
+			cmd_no_permission_exit(cmd, cmdline, data);
+		return (is_directory(cmd, cmdline, data));
 	}
-	else
-	{
-		freeall(data->envp);
-		msg_freeall_exit("bvsh: No such file or directory\n", cmdline, 127);
-	}
-	if (!cmdpath)
-		cmdnfound_exit(cmd, cmdline, data);
-	return (is_directory(cmdpath, cmdline, data));
+	freeall(data->envp);
+	msg_freeall_exit("bvsh: No such file or directory\n", cmdline, 127);
+	return (NULL);
 }
