@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:33:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/05 02:36:15 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/14 16:00:35 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	dup_and_close_fds(int fd[2])
 {
-	if (fd[0] != STDERR_FILENO)
+	if (fd[0] != STDIN_FILENO)
 	{
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);

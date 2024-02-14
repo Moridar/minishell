@@ -1,5 +1,6 @@
-1. Global variable to only recieve signal
-2. Cat error	 with std-in
+1. [fixed] Global variable to only recieve signal
+1. [but] Need double checking the exit status value
+2. [fixed] Cat error	 with std-in
 
 4. Open minishell inside minishell (errors at pipex_get_path.c)
 5. Running a command which is a dictory should return command not found
