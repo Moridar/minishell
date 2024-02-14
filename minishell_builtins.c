@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/13 10:41:19 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:48:38 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ static int	unset(t_pipe *data, char **cmd, int count)
 	int		size;
 
 	if (count < 2)
-		return (1);
+		return (0);
 	size = sizeof_arraylist(data->envp);
 	tmp = ft_strjoin(cmd[1], "=");
 	if (!tmp)
-		return (2);
+		return (-2);
 	i = -1;
 	while (data->envp[++i])
 	{
@@ -37,10 +37,14 @@ static int	unset(t_pipe *data, char **cmd, int count)
 	}
 	free(tmp);
 	if (!data->envp)
-		return (2);
-	return (1);
+		return (-2);
+	return (0);
 }
 
+/**
+ * @return 1 for failure 
+ * @return 0 for success
+*/
 static int	validate_key(int keylen, char *key)
 {
 	int	i;
@@ -54,16 +58,15 @@ static int	validate_key(int keylen, char *key)
 		if (ft_isalnum(key[i]) == 0 && key[i] != '_')
 			err = 1;
 	if (!err && keylen > (int)ft_strlen(key))
-		return (0);
+		return (1);
 	if (keylen == 1 || key[keylen - 1] != '=')
 		err = 1;
 	if (!err)
-		return (1);
+		return (0);
 	ft_putstr_fd("bvsh: export: `", 2);
 	ft_putstr_fd(key, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
-	g_exit_status = 1;
-	return (0);
+	return (1);
 }
 
 /**
@@ -76,10 +79,10 @@ int	export(t_pipe *data, char *var)
 	char	**newenvp;
 
 	if (!var)
-		return (2);
+		return (-2);
 	keylen = len_next_meta_char(var, "=", 0) + 1;
-	if (validate_key(keylen, var) == 0)
-		return (free_return(var, 1));
+	if (validate_key(keylen, var))
+		return (free_return(var, 0));
 	i = -1;
 	while (data->envp[++i])
 	{
@@ -87,15 +90,15 @@ int	export(t_pipe *data, char *var)
 			continue ;
 		free(data->envp[i]);
 		data->envp[i] = var;
-		return (1);
+		return (0);
 	}
 	newenvp = copy_arraylist(data->envp, 1);
 	if (!newenvp)
-		return (free_return(var, 2));
+		return (free_return(var, -2));
 	newenvp[i] = var;
 	freeall(data->envp);
 	data->envp = newenvp;
-	return (1);
+	return (0);
 }
 
 static int	cd(t_pipe *data, char **cmd, int count)
@@ -103,19 +106,17 @@ static int	cd(t_pipe *data, char **cmd, int count)
 	char	*key;
 	char	*path;
 
-	g_exit_status = 1;
 	if (count < 2)
 		ft_putstr_fd("bvsh: cd: too few arguments\n", 2);
 	else if (chdir(cmd[1]) == 0)
 	{
 		path = getcwd(NULL, 0);
 		if (!path)
-			return (2);
+			return (-2);
 		key = ft_strjoin("PWD=", path);
 		free(path);
 		if (!key)
-			return (2);
-		g_exit_status = 0;
+			return (-2);
 		return (export(data, key));
 	}
 	else
@@ -123,7 +124,7 @@ static int	cd(t_pipe *data, char **cmd, int count)
 		ft_putstr_fd("bvsh: cd: ", 2);
 		perror(cmd[1]);
 	}
-	return (1);
+	return (0);
 }
 
 /**
@@ -146,5 +147,5 @@ int	builtins(char **cmd, t_pipe *data)
 		return (unset(data, cmd, count));
 	if (ft_strncmp(cmd[0], "exit", 5) == 0)
 		return (exit_builtin(cmd, data, count));
-	return (0);
+	return (-1);
 }

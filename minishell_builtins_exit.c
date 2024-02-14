@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/13 10:03:27 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:50:19 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,14 @@ int	exit_builtin(char **cmd, t_pipe *data, int argc)
 	if (argc == 1)
 	{
 		ft_putstr_fd("exit\n", 1);
-		clean_exit(data, cmd, 0);
+		clean_exit(data, cmd, data->exit_status);
 	}
 	exitno = exit_status(cmd[1], data, cmd);
 	if (argc > 2)
 	{
 		ft_putstr_fd("bvsh: exit: too many arguments\n", 2);
-		g_exit_status = 1;
 		return (1);
 	}
 	clean_exit(data, cmd, exitno);
-	return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 13:36:09 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:48:57 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@
 # include <dirent.h>
 # include <string.h>
 
-extern unsigned char	g_exit_status;
+extern unsigned char	g_last_signal;
 
 typedef struct s_pipe
 {
+	int		exit_status;
 	int		status;
 	int		fd[2][2];
 	pid_t	*pid;
@@ -59,7 +60,7 @@ void	closepipe(t_pipe *data);
 void	dup_and_close_fds(int fd[2]);
 
 //Main functions
-int		minishell_prompt(t_pipe *data);
+void	minishell_prompt(t_pipe *data);
 int		pipex(t_pipe *data);
 
 void	toggle_carret(int is_on);

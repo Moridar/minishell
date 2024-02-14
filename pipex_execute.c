@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_execute.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/12 20:55:59 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/14 14:52:40 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 void	interrupt(int sig)
 {
-	g_exit_status = 130;
-	if (sig == SIGINT)
-		exit(130);
+	g_last_signal = sig;
+	exit(sig);
 }
 
 static void	child_execute(t_pipe *data, int i)

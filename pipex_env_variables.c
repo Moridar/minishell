@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:12:21 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/08 09:35:20 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:03:10 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,6 @@ char	*expand_env_args(char *str, t_pipe *data)
 	if (str[1] == 0)
 		return (ft_strdup(str));
 	if (str[1] == '?')
-		return (ft_itoa(g_exit_status));
+		return (ft_itoa(data->exit_status));
 	return (expand_simple_var(str, data));
 }
