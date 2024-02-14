@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_history.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:32:14 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 11:53:45 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 14:49:57 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,13 @@
 int	write_history_file(char *line, t_pipe *data)
 {
 	int	fd;
+	char *history_path;
 
 	if (!line || line[0] == '\0')
 		return (0);
-	fd = open(".bvsh_history", O_WRONLY | O_CREAT | O_APPEND, 0644);
+	history_path = interpret("~/.bvsh_history", data);
+	fd = open(history_path, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	free(history_path);
 	if (fd == -1)
 	{
 		free(line);
@@ -42,8 +45,11 @@ int	read_history_file(t_pipe *data)
 {
 	int		fd;
 	char	*line;
+	char *history_path;
 
-	fd = open(".bvsh_history", O_RDWR | O_CREAT | O_APPEND, 0644);
+	history_path = interpret("~/.bvsh_history", data);
+	fd = open(history_path, O_RDWR | O_CREAT | O_APPEND, 0644);
+	free(history_path);
 	if (fd == -1)
 		errormsg_exit(".bvsh_history", -1, data);
 	line = get_next_line(fd);

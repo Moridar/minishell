@@ -7,14 +7,16 @@
 7. Remove hardcoded paths
 8. Run vim in minishell and other program. 
 -. OLDPWD (Implement or remove)
--. cd ../../../../../../../../../.. errored the histroy file???
+(DONE) -. cd ../../../../../../../../../.. errored the histroy file???
 -. Exit > filename should exit. 
 -. Exit 50 | exit 50 should return 50.
 -. Export without values should store a NULL
 -. UNSET should check identiifier
+-. One of the ft_strjoin was not NULL checked?
 ?. EXPORT :@ as metachar?
 ?. EXPORT += 
 ?. Maybe echo -nn
+?. Sort envp
 
 
 Original discussion: 
