@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_builtins_exit.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/14 15:50:19 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:40:53 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	clean_exit(t_pipe *data, char **cmd, int exitno)
 {
+	free(data->history_path);
 	freeall(data->cmds);
 	freeall(cmd);
 	freeall(data->envp);

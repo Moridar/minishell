@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:38:30 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/09 14:13:23 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:45:51 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	initialise(t_pipe *data)
 	data->pid = ft_calloc(sizeof(pid_t), data->cmdc);
 	if (!data->pid)
 	{
+		free(data->history_path);
 		freeall(data->envp);
 		freeall_exit(data->cmds, EXIT_FAILURE);
 	}

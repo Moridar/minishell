@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/14 17:43:43 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:49:53 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_pipe
 	int		cmdc;
 	char	**envp;
 	char	**cmds;
+	char	*history_path;
 }	t_pipe;
 
 //Helper functions
@@ -86,5 +87,7 @@ int		read_history_file(t_pipe *data);
 int		builtins(char **cmd, t_pipe *data);
 int		child_builtins(char **cmd, t_pipe *data);
 int		exit_builtin(char **cmd, t_pipe *data, int argc);
+int		unset_var(t_pipe *data, char *env_var);
+int		unset(t_pipe *data, char **cmd, int count);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_execute.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/14 18:02:40 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:49:25 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,12 @@ static void	child_execute(t_pipe *data, int i)
 	if (!cmd)
 	{
 		ft_putstr_fd("bvsh: malloc error\n", 2);
+		free(data->history_path);
 		freeall_exit(data->envp, EXIT_FAILURE);
 	}
 	if (!*cmd[0] || child_builtins(cmd, data))
 	{
+		free(data->history_path);
 		freeall(data->envp);
 		freeall_exit(cmd, EXIT_SUCCESS);
 	}
@@ -64,6 +66,7 @@ static void	execute_fork(int i, t_pipe *data)
 		free(data->pid);
 		signal(SIGINT, interrupt);
 		child_execute(data, i);
+		free(data->history_path);
 		freeall(data->envp);
 		exit(EXIT_FAILURE);
 	}

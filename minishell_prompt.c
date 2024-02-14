@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_prompt.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/14 15:49:45 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:39:45 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

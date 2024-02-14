@@ -1,21 +1,24 @@
 1. [fixed] Global variable to only recieve signal
 1. [but] Need double checking the exit status value
 2. [fixed] Cat error	 with std-in
-
 4. [maybe fixed] Open minishell inside minishell (errors at pipex_get_path.c)
 5. [maybe fixed] Running a command which is a dictory should return command not found
 6. [fixed] get_path permission denied missing program name
 7. [fixed] Remove hardcoded paths
-8. [fixed] Run vim in minishell and other program. 
--. OLDPWD (Implement or remove)
--. cd ../../../../../../../../../.. errored the histroy file???
+8. [fixed] Run vim in minishell and other program.
+[fixed] -. OLDPWD (Implement or remove)
+[fixed] -. cd ../../../../../../../../../.. errored the histroy file???
 -. Exit > filename should exit. 
 -. Exit 50 | exit 50 should return 50.
 -. Export without values should store a NULL
--. UNSET should check identiifier
+[fixed] -. UNSET should check identiifier
+[fixed] -. unset should be able to unset several env var
+-. One of the ft_strjoin was not NULL checked?
+-. Handle adding empty env var
 ?. EXPORT :@ as metachar?
 ?. EXPORT += 
 ?. Maybe echo -nn
+?. Sort envp
 
 
 Original discussion: 

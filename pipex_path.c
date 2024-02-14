@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/14 18:15:24 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:49:33 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static char	*is_directory(char *path, char **cmdline, t_pipe *data)
 		ft_putstr_fd("bvsh: ", 2);
 		ft_putstr_fd(path, 2);
 		ft_putstr_fd(": is a directory\n", 2);
+		free(data->history_path);
 		freeall(data->envp);
 		freeall_exit(cmdline, 126);
 	}
@@ -110,6 +111,7 @@ char	*check_cmdpath(char *cmd, t_pipe *data, char **cmdline)
 			cmd_no_permission_exit(cmd, cmdline, data);
 		return (is_directory(cmd, cmdline, data));
 	}
+	free(data->history_path);
 	freeall(data->envp);
 	msg_freeall_exit("bvsh: No such file or directory\n", cmdline, 127);
 	return (NULL);

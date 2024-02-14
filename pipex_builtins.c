@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:50:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 20:56:04 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:48:59 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static int	pwd(t_pipe *data, char **cmd)
 	{
 		ft_putstr_fd("bvsh: malloc error\n", 2);
 		freeall(cmd);
+		free(data->history_path);
 		freeall_exit(data->envp, EXIT_FAILURE);
 	}
 	ft_printf("%s\n", buff);

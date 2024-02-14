@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/14 15:46:36 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:31:58 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int	main(int argc, char *argv[], char *envp[])
 
 	data.exit_status = 0;
 	data.envp = copy_arraylist(envp, 0);
+	data.history_path = interpret("~/.bvsh_history", &data);
+	unset_var(&data, "OLDPWD");
 	if (!data.envp)
 		return (EXIT_FAILURE);
 	if (argc < 2)
@@ -87,6 +89,7 @@ int	main(int argc, char *argv[], char *envp[])
 		minishell_command(argv, &data);
 	else
 		minishell_files(argc, argv, &data);
+	free(data.history_path);
 	freeall(data.envp);
 	if (data.exit_status == -2)
 		ft_putstr_fd("bvsh: malloc error\n", 2);

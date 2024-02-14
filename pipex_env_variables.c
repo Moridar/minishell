@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_env_variables.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:12:21 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/14 15:03:10 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:50:21 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
