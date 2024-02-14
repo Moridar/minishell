@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 13:36:09 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:20:46 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,6 @@ int		read_history_file(t_pipe *data);
 int		builtins(char **cmd, t_pipe *data);
 int		child_builtins(char **cmd, t_pipe *data);
 int		exit_builtin(char **cmd, t_pipe *data, int argc);
+int		unset(t_pipe *data, char *env_var, int count);
 
 #endif

@@ -3,45 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_builtins.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/13 10:41:19 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 16:06:19 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	unset(t_pipe *data, char **cmd, int count)
-{
-	char	*tmp;
-	int		i;
-	int		size;
-
-	if (count < 2)
-		return (1);
-	size = sizeof_arraylist(data->envp);
-	tmp = ft_strjoin(cmd[1], "=");
-	if (!tmp)
-		return (2);
-	i = -1;
-	while (data->envp[++i])
-	{
-		if (ft_strncmp(data->envp[i], tmp, ft_strlen(tmp)) == 0)
-		{
-			free(data->envp[i]);
-			data->envp[i] = NULL;
-			data->envp = reallocate_arraylist(data->envp, size - 1);
-			break ;
-		}
-	}
-	free(tmp);
-	if (!data->envp)
-		return (2);
-	return (1);
-}
-
-static int	validate_key(int keylen, char *key)
+/**
+ * Only checks trailing '=' for export builtin
+ * @param builtin can be unset or export
+*/
+static int	validate_key(int keylen, char *key, char *builtin)
 {
 	int	i;
 	int	err;
@@ -55,15 +30,51 @@ static int	validate_key(int keylen, char *key)
 			err = 1;
 	if (!err && keylen > (int)ft_strlen(key))
 		return (0);
-	if (keylen == 1 || key[keylen - 1] != '=')
+	if (!ft_strncmp(builtin, "export", 7)
+		&& (keylen == 1 || key[keylen - 1] != '='))
 		err = 1;
 	if (!err)
 		return (1);
-	ft_putstr_fd("bvsh: export: `", 2);
+	ft_putstr_fd("bvsh: ", 2);
+	ft_putstr_fd(builtin, 2);
+	ft_putstr_fd(": `", 2);
 	ft_putstr_fd(key, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
-	g_exit_status = 1;
+	g_exit_status = 1; // refactor at merge?
 	return (0);
+}
+
+// int	unset(t_pipe *data, char **cmd, int count)
+/**
+ * Note: count arg is also used as an iterator
+*/
+int	unset(t_pipe *data, char *env_var, int count)
+{
+	char	*tmp;
+	int		size;
+
+	if (count < 2 || !env_var
+		|| !validate_key(ft_strlen(env_var), env_var, "unset"))
+		return (1);
+	size = sizeof_arraylist(data->envp);
+	tmp = ft_strjoin(env_var, "=");
+	if (!tmp)
+		return (2);
+	count = -1;
+	while (data->envp[++count])
+	{
+		if (ft_strncmp(data->envp[count], tmp, ft_strlen(tmp)) == 0)
+		{
+			free(data->envp[count]);
+			data->envp[count] = NULL;
+			data->envp = reallocate_arraylist(data->envp, size - 1);
+			break ;
+		}
+	}
+	free(tmp);
+	if (!data->envp)
+		return (2);
+	return (1);
 }
 
 /**
@@ -78,7 +89,7 @@ int	export(t_pipe *data, char *var)
 	if (!var)
 		return (2);
 	keylen = len_next_meta_char(var, "=", 0) + 1;
-	if (validate_key(keylen, var) == 0)
+	if (validate_key(keylen, var, "export") == 0)
 		return (free_return(var, 1));
 	i = -1;
 	while (data->envp[++i])
@@ -143,7 +154,7 @@ int	builtins(char **cmd, t_pipe *data)
 	if (ft_strncmp(cmd[0], "cd", 3) == 0)
 		return (cd(data, cmd, count));
 	if (ft_strncmp(cmd[0], "unset", 6) == 0)
-		return (unset(data, cmd, count));
+		return (unset(data, cmd[1], count));
 	if (ft_strncmp(cmd[0], "exit", 5) == 0)
 		return (exit_builtin(cmd, data, count));
 	return (0);

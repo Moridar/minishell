@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 13:37:57 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:50:12 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	main(int argc, char *argv[], char *envp[])
 	int		return_value;
 
 	data.envp = copy_arraylist(envp, 0);
+	unset(&data, "OLDPWD", 2);
 	if (!data.envp)
 		return (EXIT_FAILURE);
 	if (argc < 2)
