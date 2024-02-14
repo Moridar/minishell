@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/12 20:55:59 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:10:00 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static void	child_execute(t_pipe *data, int i)
 	if (!cmd)
 	{
 		ft_putstr_fd("bvsh: malloc error\n", 2);
-		freeall_exit(data->envp, EXIT_FAILURE);
+		freeall_exit(data->envp, EXIT_FAILURE, data);
 	}
 	if (!*cmd[0] || child_builtins(cmd, data))
 	{
 		freeall(data->envp);
-		freeall_exit(cmd, EXIT_SUCCESS);
+		freeall_exit(cmd, EXIT_SUCCESS, data);
 	}
 	path = check_cmdpath(cmd[0], data, cmd);
 	execve(path, cmd, data->envp);
@@ -65,6 +65,7 @@ static void	execute_fork(int i, t_pipe *data)
 		free(data->pid);
 		signal(SIGINT, interrupt);
 		child_execute(data, i);
+		free(data->history_path);
 		freeall(data->envp);
 		exit(EXIT_FAILURE);
 	}

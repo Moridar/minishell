@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:32:14 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/14 14:49:57 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/14 18:33:57 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,10 @@
 int	write_history_file(char *line, t_pipe *data)
 {
 	int	fd;
-	char *history_path;
 
 	if (!line || line[0] == '\0')
 		return (0);
-	history_path = interpret("~/.bvsh_history", data);
-	fd = open(history_path, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	free(history_path);
+	fd = open(data->history_path, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
 		free(line);
@@ -45,11 +42,7 @@ int	read_history_file(t_pipe *data)
 {
 	int		fd;
 	char	*line;
-	char *history_path;
-
-	history_path = interpret("~/.bvsh_history", data);
-	fd = open(history_path, O_RDWR | O_CREAT | O_APPEND, 0644);
-	free(history_path);
+	fd = open(data->history_path, O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		errormsg_exit(".bvsh_history", -1, data);
 	line = get_next_line(fd);

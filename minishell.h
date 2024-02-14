@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/14 15:20:46 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/14 18:45:41 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_pipe
 	int		cmdc;
 	char	**envp;
 	char	**cmds;
+	char	*history_path;
 }	t_pipe;
 
 //Helper functions
@@ -49,11 +50,11 @@ int		openfile(char *filename, char symbol, int type, t_pipe *data);
 
 //Error and exit handling
 void	freeall(char **strarray);
-void	freeall_exit(char **strarray, int exitno);
+void	freeall_exit(char **strarray, int exitno, t_pipe *data);
 int		freeall_return(char **strarray, int return_value);
 int		free_return(void *ptr, int returnvalue);
 void	*free_return_null(void *ptr);
-void	msg_freeall_exit(char *msg, char **strarray, int exitno);
+void	msg_freeall_exit(char *msg, char **strarray, int exitno, t_pipe *data);
 void	errormsg_exit(char *msg, int exit_status, t_pipe *data);
 void	closepipe(t_pipe *data);
 void	dup_and_close_fds(int fd[2]);
@@ -83,6 +84,7 @@ int		read_history_file(t_pipe *data);
 int		builtins(char **cmd, t_pipe *data);
 int		child_builtins(char **cmd, t_pipe *data);
 int		exit_builtin(char **cmd, t_pipe *data, int argc);
-int		unset(t_pipe *data, char *env_var, int count);
+int		unset_var(t_pipe *data, char *env_var);
+int		unset(t_pipe *data, char **cmd, int count);
 
 #endif

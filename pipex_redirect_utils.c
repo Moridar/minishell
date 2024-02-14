@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_redirect_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 23:28:16 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/13 10:13:35 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:02:18 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	redirect_error_exit(char *errmsg, int *fd, t_pipe *data)
 	if (fd[0] >= 2)
 		close(fd[0]);
 	closepipe(data);
+	free(data->history_path);
 	freeall(data->envp);
 	freeall(data->cmds);
 	if (fd[0] == -3 || fd[1] == -3)

@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/14 16:06:19 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:00:54 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,29 +44,25 @@ static int	validate_key(int keylen, char *key, char *builtin)
 	return (0);
 }
 
-// int	unset(t_pipe *data, char **cmd, int count)
-/**
- * Note: count arg is also used as an iterator
-*/
-int	unset(t_pipe *data, char *env_var, int count)
+int	unset_var(t_pipe *data, char *env_var)
 {
 	char	*tmp;
 	int		size;
+	int		i;
 
-	if (count < 2 || !env_var
-		|| !validate_key(ft_strlen(env_var), env_var, "unset"))
+	if (!env_var || !validate_key(ft_strlen(env_var), env_var, "unset"))
 		return (1);
 	size = sizeof_arraylist(data->envp);
 	tmp = ft_strjoin(env_var, "=");
 	if (!tmp)
 		return (2);
-	count = -1;
-	while (data->envp[++count])
+	i = -1;
+	while (data->envp[++i])
 	{
-		if (ft_strncmp(data->envp[count], tmp, ft_strlen(tmp)) == 0)
+		if (ft_strncmp(data->envp[i], tmp, ft_strlen(tmp)) == 0)
 		{
-			free(data->envp[count]);
-			data->envp[count] = NULL;
+			free(data->envp[i]);
+			data->envp[i] = NULL;
 			data->envp = reallocate_arraylist(data->envp, size - 1);
 			break ;
 		}
@@ -74,6 +70,28 @@ int	unset(t_pipe *data, char *env_var, int count)
 	free(tmp);
 	if (!data->envp)
 		return (2);
+	return (0);
+}
+
+// int	unset(t_pipe *data, char **cmd, int count)
+/**
+ * @param count shows size of array list of command how many is also used as an iterator
+*/
+int	unset_builtin(t_pipe *data, char **cmd, int count)
+{
+	int	i;
+	int	result;
+
+	if (count < 2)
+		return (1);
+	i = 0;
+	while (cmd[i])
+	{
+		result = unset_var(data, cmd[i]);
+		if (result != 0)
+			return (result);
+		i++;
+	}
 	return (1);
 }
 
@@ -154,7 +172,7 @@ int	builtins(char **cmd, t_pipe *data)
 	if (ft_strncmp(cmd[0], "cd", 3) == 0)
 		return (cd(data, cmd, count));
 	if (ft_strncmp(cmd[0], "unset", 6) == 0)
-		return (unset(data, cmd[1], count));
+		return (unset_builtin(data, cmd, count));
 	if (ft_strncmp(cmd[0], "exit", 5) == 0)
 		return (exit_builtin(cmd, data, count));
 	return (0);

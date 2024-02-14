@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_prompt.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/12 15:00:04 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 18:46:08 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	minishell_prompt(t_pipe *data)
 		if (line == NULL)
 		{
 			printf("bvsh-1.1$ exit\n");
-			freeall_exit(data->envp, g_exit_status);
+			freeall_exit(data->envp, g_exit_status, data);
 		}
 		if (line && *line)
 		{

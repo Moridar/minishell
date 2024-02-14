@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 09:39:03 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/09 13:15:03 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/14 18:59:14 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ void	*free_return_null(void *ptr)
 	return (NULL);
 }
 
-void	freeall_exit(char **strarray, int exitno)
+void	freeall_exit(char **strarray, int exitno, t_pipe *data)
 {
+	free(data->history_path);
 	freeall(strarray);
 	exit(exitno);
 }

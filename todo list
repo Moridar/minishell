@@ -12,6 +12,7 @@
 -. Exit 50 | exit 50 should return 50.
 -. Export without values should store a NULL
 (DONE) -. UNSET should check identiifier
+(IN PROGRESS) -. unset should be able to unset several env var
 -. One of the ft_strjoin was not NULL checked?
 -. Handle adding empty env var
 ?. EXPORT :@ as metachar?

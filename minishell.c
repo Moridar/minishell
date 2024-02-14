@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/14 15:50:12 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/14 18:36:09 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ int	main(int argc, char *argv[], char *envp[])
 	int		return_value;
 
 	data.envp = copy_arraylist(envp, 0);
-	unset(&data, "OLDPWD", 2);
+	data.history_path = interpret("~/.bvsh_history", &data);
+	unset_var(&data, "OLDPWD");
 	if (!data.envp)
 		return (EXIT_FAILURE);
 	if (argc < 2)
@@ -82,6 +83,7 @@ int	main(int argc, char *argv[], char *envp[])
 		return_value = minishell_command(argv, &data);
 	else
 		return_value = minishell_files(argc, argv, &data);
+	free(data.history_path);
 	freeall(data.envp);
 	if (return_value == -2)
 		ft_putstr_fd("bvsh: malloc error\n", 2);

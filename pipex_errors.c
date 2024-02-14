@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:13:28 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/12 15:33:54 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/14 18:51:54 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 */
 void	errormsg_exit(char *msg, int exit_status, t_pipe *data)
 {
+	free(data->history_path);
 	freeall(data->envp);
 	if (exit_status == -1)
 		exit_status = errno;
@@ -29,8 +30,10 @@ void	errormsg_exit(char *msg, int exit_status, t_pipe *data)
 	exit(exit_status);
 }
 
-void	msg_freeall_exit(char *msg, char **strarray, int exitno)
+void	msg_freeall_exit(char *msg, char **strarray, int exitno, t_pipe *data)
 {
+	free(data->history_path);
+	freeall(data->envp);
 	freeall(strarray);
 	ft_putstr_fd(msg, 2);
 	exit(exitno);
