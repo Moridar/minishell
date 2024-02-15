@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_errors.c                                     :+:      :+:    :+:   */
+/*   pipex_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:13:28 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/15 11:53:26 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/15 12:29:16 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,15 @@ void	clean_exit(t_pipe *data, char **cmd, int exitno)
 */
 void	errormsg_exit(char *msg, int exit_status, t_pipe *data)
 {
-	free(data->history_path);
-	freeall(data->envp);
 	if (exit_status == -1)
 		exit_status = errno;
 	ft_putstr_fd("bvsh: ", 2);
 	perror(msg);
-	exit(exit_status);
+	clean_exit(data, NULL, exit_status);
 }
 
-void	msg_freeall_exit(char *msg, char **strarray, int exitno)
+void	msg_freeall_exit(char *msg, char **strarray, int exitno, t_pipe *data)
 {
-	freeall(strarray);
 	ft_putstr_fd(msg, 2);
-	exit(exitno);
+	clean_exit(data, strarray, exitno);
 }

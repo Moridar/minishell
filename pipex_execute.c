@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/15 11:02:33 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/15 12:33:20 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ static void	execute_fork(int i, t_pipe *data)
 	if (pid == 0)
 	{
 		free(data->pid);
+		free(data->history_path);
+		data->history_path = NULL;
 		signal(SIGINT, interrupt);
 		child_execute(data, i);
 	}
