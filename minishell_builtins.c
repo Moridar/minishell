@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/15 13:26:57 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:14:59 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int	export(t_pipe *data, char *var)
  * 0 for successfully running builtin command.
  * -1 if the cmd is not built-in in parent
 */
-int	builtins(char **cmd, t_pipe *data, int fd)
+int	builtins(char **cmd, t_pipe *data)
 {
 	int	count;
 
@@ -144,7 +144,7 @@ int	builtins(char **cmd, t_pipe *data, int fd)
 	if (ft_strncmp(cmd[0], "unset", 6) == 0)
 		return (unset_builtin(data, cmd, count));
 	if (ft_strncmp(cmd[0], "exit", 5) == 0)
-		return (exit_builtin(cmd, data, count, fd));
+		return (exit_builtin(cmd, data, count));
 	free(data->cmds[0]);
 	data->cmds[0] = data->cmds[1];
 	data->cmds[1] = 0;

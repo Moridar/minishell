@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:33:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/14 16:00:35 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:14:05 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ void	dup_and_close_fds(int fd[2])
 
 void	closepipe(t_pipe *data)
 {
-	if (data->fd[0][0] >= 0)
-		close(data->fd[0][0]);
-	if (data->fd[0][1] >= 0)
-		close(data->fd[0][1]);
-	if (data->fd[1][0] >= 0)
-		close(data->fd[1][0]);
-	if (data->fd[1][1] >= 0)
-		close(data->fd[1][1]);
+	if (data->pipe[0][0] >= 0)
+		close(data->pipe[0][0]);
+	if (data->pipe[0][1] >= 0)
+		close(data->pipe[0][1]);
+	if (data->pipe[1][0] >= 0)
+		close(data->pipe[1][0]);
+	if (data->pipe[1][1] >= 0)
+		close(data->pipe[1][1]);
 }
 
 /**

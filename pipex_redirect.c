@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/14 16:00:51 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:14:02 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,11 @@ static void	set_basic_fd(int i, t_pipe *data, int *fd)
 	if (i == 0)
 		fd[0] = STDIN_FILENO;
 	else
-		fd[0] = data->fd[(i + 1) % 2][0];
+		fd[0] = data->pipe[(i + 1) % 2][0];
 	if (i == data->cmdc - 1)
 		fd[1] = STDOUT_FILENO;
 	else
-		fd[1] = data->fd[i % 2][1];
+		fd[1] = data->pipe[i % 2][1];
 }
 
 //fd[0] = input (generally pipe, but can be file/heredoc/stdin)

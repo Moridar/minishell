@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/15 13:15:32 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:15:33 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * @param status
 */
-static int	exit_status(char *status, t_pipe *data, char **cmd, int fd)
+static int	exit_status(char *status, t_pipe *data, char **cmd)
 {
 	char	*status_conv;
 	int		status_n;
@@ -29,7 +29,7 @@ static int	exit_status(char *status, t_pipe *data, char **cmd, int fd)
 	}
 	if (status[0] == '+')
 		status = status + 1;
-	ft_putstr_fd("exit\n", fd);
+	ft_putstr_fd("exit\n", data->fd[1]);
 	if (ft_strncmp(status, status_conv, ft_strlen(status_conv) + 1) != 0)
 	{
 		free(status_conv);
@@ -42,16 +42,16 @@ static int	exit_status(char *status, t_pipe *data, char **cmd, int fd)
 	return (status_n);
 }
 
-int	exit_builtin(char **cmd, t_pipe *data, int argc, int fd)
+int	exit_builtin(char **cmd, t_pipe *data, int argc)
 {
 	int	exitno;
 
 	if (argc == 1)
 	{
-		ft_putstr_fd("exit\n", fd);
+		ft_putstr_fd("exit\n", data->fd[1]);
 		clean_exit(data, cmd, data->exit_status);
 	}
-	exitno = exit_status(cmd[1], data, cmd, fd);
+	exitno = exit_status(cmd[1], data, cmd);
 	if (argc > 2)
 	{
 		ft_putstr_fd("bvsh: exit: too many arguments\n", 2);

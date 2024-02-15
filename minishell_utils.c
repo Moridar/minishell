@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/14 15:28:41 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:57:40 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ char	**copy_arraylist(char **arr1, int increase_size)
 
 /**
  * Reallocates the arraylist when some elements are deleted
+ * DO NOT use for increased size list.
  * @param newsize is the size of the new array
  */
 char	**reallocate_arraylist(char **arr, int newsize)

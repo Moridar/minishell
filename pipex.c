@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:38:30 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/14 19:45:51 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:14:02 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static void	initialise(t_pipe *data)
 		freeall(data->envp);
 		freeall_exit(data->cmds, EXIT_FAILURE);
 	}
-	data->fd[0][0] = -1;
-	data->fd[0][1] = -1;
-	data->fd[1][0] = -1;
-	data->fd[1][1] = -1;
+	data->pipe[0][0] = -1;
+	data->pipe[0][1] = -1;
+	data->pipe[1][0] = -1;
+	data->pipe[1][1] = -1;
 }
 
 int	pipex(t_pipe	*data)
