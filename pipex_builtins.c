@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:50:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/14 19:48:59 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:26:11 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	echo(char **cmd, int count)
 	}
 	if (!n_flag)
 		ft_printf("\n");
-	return (1);
+	return (0);
 }
 
 static int	pwd(t_pipe *data, char **cmd)
@@ -46,7 +46,7 @@ static int	pwd(t_pipe *data, char **cmd)
 	}
 	ft_printf("%s\n", buff);
 	free(buff);
-	return (1);
+	return (0);
 }
 
 static int	print_env_variables(t_pipe *data, int is_exported)
@@ -60,9 +60,14 @@ static int	print_env_variables(t_pipe *data, int is_exported)
 			ft_printf("declare -x ");
 		ft_printf("%s\n", data->envp[i]);
 	}
-	return (1);
+	return (0);
 }
 
+/**
+ * @return -2 if memory allocation in one of the builtins failed.
+ * 0 for successfully running builtin command.
+ * -1 if the cmd is not built-in in parent
+*/
 int	child_builtins(char **cmd, t_pipe *data)
 {
 	int	count;
@@ -76,13 +81,13 @@ int	child_builtins(char **cmd, t_pipe *data)
 		return (echo(cmd, count));
 	if (ft_strncmp(cmd[0], "pwd", 4) == 0)
 		return (pwd(data, cmd));
-	if (ft_strncmp(cmd[0], "export", 7) == 0)
-		return (1);
 	if (ft_strncmp(cmd[0], "exit", 5) == 0)
-		return (1);
+		return (exit_builtin(cmd, data, count));
+	if (ft_strncmp(cmd[0], "export", 7) == 0)
+		return (0);
 	if (ft_strncmp(cmd[0], "cd", 3) == 0)
-		return (1);
+		return (0);
 	if (ft_strncmp(cmd[0], "unset", 6) == 0)
-		return (1);
-	return (0);
+		return (0);
+	return (-1);
 }

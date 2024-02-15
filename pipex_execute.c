@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_execute.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/14 19:49:25 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/15 11:02:33 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,20 @@ static void	child_execute(t_pipe *data, int i)
 	set_direction(data, i, fd);
 	cmd = split_shell_cmd(data->cmds[i], data);
 	freeall(data->cmds);
+	data->cmds = NULL;
 	dup_and_close_fds(fd);
 	closepipe(data);
 	if (!cmd)
 	{
 		ft_putstr_fd("bvsh: malloc error\n", 2);
-		free(data->history_path);
-		freeall_exit(data->envp, EXIT_FAILURE);
+		clean_exit(data, NULL, EXIT_FAILURE);
 	}
-	if (!*cmd[0] || child_builtins(cmd, data))
-	{
-		free(data->history_path);
-		freeall(data->envp);
-		freeall_exit(cmd, EXIT_SUCCESS);
-	}
+	if (!*cmd[0] || child_builtins(cmd, data) >= 0)
+		clean_exit(data, cmd, EXIT_SUCCESS);
 	path = check_cmdpath(cmd[0], data, cmd);
 	execve(path, cmd, data->envp);
-	freeall(cmd);
 	free(path);
+	clean_exit(data, cmd, EXIT_FAILURE);
 }
 
 static void	execute_fork(int i, t_pipe *data)
@@ -66,9 +62,6 @@ static void	execute_fork(int i, t_pipe *data)
 		free(data->pid);
 		signal(SIGINT, interrupt);
 		child_execute(data, i);
-		free(data->history_path);
-		freeall(data->envp);
-		exit(EXIT_FAILURE);
 	}
 	data->pid[i] = pid;
 }

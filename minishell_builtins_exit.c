@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_builtins_exit.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/14 19:40:53 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/15 11:00:27 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	clean_exit(t_pipe *data, char **cmd, int exitno)
+void	clean_exit(t_pipe *data, char **cmd, int exitno)
 {
 	free(data->history_path);
 	freeall(data->cmds);
-	freeall(cmd);
 	freeall(data->envp);
+	freeall(cmd);
 	exit(exitno);
 }
 

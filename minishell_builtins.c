@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_builtins.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/14 19:38:50 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:26:56 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	unset_var(t_pipe *data, char *env_var)
 	int		size;
 	int		i;
 
-	if (!env_var || !validate_key(ft_strlen(env_var), env_var, "unset"))
+	if (!env_var || validate_key(ft_strlen(env_var), env_var, "unset"))
 		return (1);
 	size = sizeof_arraylist(data->envp);
 	tmp = ft_strjoin(env_var, "=");
@@ -94,7 +94,7 @@ int	unset_builtin(t_pipe *data, char **cmd, int count)
 }
 
 /**
- * @return 1 for success, 2 if malloc failed
+ * @return 0 for success, -2 if malloc failed
 */
 int	export(t_pipe *data, char *var)
 {
@@ -105,7 +105,7 @@ int	export(t_pipe *data, char *var)
 	if (!var)
 		return (-2);
 	keylen = len_next_meta_char(var, "=", 0) + 1;
-	if (validate_key(keylen, var, "export") == 0)
+	if (validate_key(keylen, var, "export") == 1)
 		return (free_return(var, 0));
 	i = -1;
 	while (data->envp[++i])
@@ -152,9 +152,9 @@ static int	cd(t_pipe *data, char **cmd, int count)
 }
 
 /**
- * @return 2 if memory allocation in one of the builtins failed.
- * 1 for successfully running builtin command.
- * 0 if the cmd is not built-in in parent
+ * @return -2 if memory allocation in one of the builtins failed.
+ * 0 for successfully running builtin command.
+ * -1 if the cmd is not built-in in parent
 */
 int	builtins(char **cmd, t_pipe *data)
 {

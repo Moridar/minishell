@@ -6,13 +6,13 @@
 6. [fixed] get_path permission denied missing program name
 7. [fixed] Remove hardcoded paths
 8. [fixed] Run vim in minishell and other program.
-[fixed] -. OLDPWD (Implement or remove)
-[fixed] -. cd ../../../../../../../../../.. errored the histroy file???
--. Exit > filename should exit. 
--. Exit 50 | exit 50 should return 50.
--. Export without values should store a NULL
-[fixed] -. UNSET should check identiifier
-[fixed] -. unset should be able to unset several env var
+9. [fixed] -. OLDPWD (Implement or remove)
+10. [fixed] -. cd ../../../../../../../../../.. errored the histroy file???
+11. Exit > filename should exit. 
+12. [fixed] Exit 50 | exit 50 should return 50.
+13. [fixed] Export without values should store a NULL
+14. [fixed] -. UNSET should check identiifier
+15. [fixed] -. unset should be able to unset several env var
 -. One of the ft_strjoin was not NULL checked?
 -. Handle adding empty env var
 ?. EXPORT :@ as metachar?

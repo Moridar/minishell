@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/14 19:49:53 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:57:57 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	free_filenames(char *infilename, char *outfilename);
 int		openfile(char *filename, char symbol, int type, t_pipe *data);
 
 //Error and exit handling
+void	clean_exit(t_pipe *data, char **cmd, int exitno);
 void	freeall(char **strarray);
 void	freeall_exit(char **strarray, int exitno);
 int		freeall_return(char **strarray, int return_value);
