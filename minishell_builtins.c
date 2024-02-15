@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/15 10:26:56 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/15 11:51:50 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ int	unset_var(t_pipe *data, char *env_var)
 }
 
 /**
- * @param count shows size of array list of command how many is also used as an iterator
+ * @param count size of **cmd
 */
-int	unset_builtin(t_pipe *data, char **cmd, int count)
+static int	unset_builtin(t_pipe *data, char **cmd, int count)
 {
 	int	i;
 	int	result;
@@ -122,32 +122,6 @@ int	export(t_pipe *data, char *var)
 	newenvp[i] = var;
 	freeall(data->envp);
 	data->envp = newenvp;
-	return (0);
-}
-
-static int	cd(t_pipe *data, char **cmd, int count)
-{
-	char	*key;
-	char	*path;
-
-	if (count < 2)
-		ft_putstr_fd("bvsh: cd: too few arguments\n", 2);
-	else if (chdir(cmd[1]) == 0)
-	{
-		path = getcwd(NULL, 0);
-		if (!path)
-			return (-2);
-		key = ft_strjoin("PWD=", path);
-		free(path);
-		if (!key)
-			return (-2);
-		return (export(data, key));
-	}
-	else
-	{
-		ft_putstr_fd("bvsh: cd: ", 2);
-		perror(cmd[1]);
-	}
 	return (0);
 }
 

@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:13:28 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/14 19:49:44 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/15 11:53:26 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	clean_exit(t_pipe *data, char **cmd, int exitno)
+{
+	free(data->history_path);
+	freeall(data->cmds);
+	freeall(data->envp);
+	freeall(cmd);
+	exit(exitno);
+}
 
 /**
  * @brief Print error message and exits
@@ -32,8 +41,6 @@ void	errormsg_exit(char *msg, int exit_status, t_pipe *data)
 
 void	msg_freeall_exit(char *msg, char **strarray, int exitno)
 {
-	// free(data->history_path);
-	// freeall(data->envp);
 	freeall(strarray);
 	ft_putstr_fd(msg, 2);
 	exit(exitno);

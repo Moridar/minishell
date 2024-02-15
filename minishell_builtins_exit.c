@@ -6,20 +6,11 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/15 11:00:27 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/15 11:54:28 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	clean_exit(t_pipe *data, char **cmd, int exitno)
-{
-	free(data->history_path);
-	freeall(data->cmds);
-	freeall(data->envp);
-	freeall(cmd);
-	exit(exitno);
-}
 
 /**
  * @param status
@@ -67,5 +58,31 @@ int	exit_builtin(char **cmd, t_pipe *data, int argc)
 		return (1);
 	}
 	clean_exit(data, cmd, exitno);
+	return (0);
+}
+
+int	cd(t_pipe *data, char **cmd, int count)
+{
+	char	*key;
+	char	*path;
+
+	if (count < 2)
+		ft_putstr_fd("bvsh: cd: too few arguments\n", 2);
+	else if (chdir(cmd[1]) == 0)
+	{
+		path = getcwd(NULL, 0);
+		if (!path)
+			return (-2);
+		key = ft_strjoin("PWD=", path);
+		free(path);
+		if (!key)
+			return (-2);
+		return (export(data, key));
+	}
+	else
+	{
+		ft_putstr_fd("bvsh: cd: ", 2);
+		perror(cmd[1]);
+	}
 	return (0);
 }

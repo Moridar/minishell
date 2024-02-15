@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/15 10:57:57 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/15 11:51:26 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int		builtins(char **cmd, t_pipe *data);
 int		child_builtins(char **cmd, t_pipe *data);
 int		exit_builtin(char **cmd, t_pipe *data, int argc);
 int		unset_var(t_pipe *data, char *env_var);
-int		unset(t_pipe *data, char **cmd, int count);
+int		cd(t_pipe *data, char **cmd, int count);
+int		export(t_pipe *data, char *var);
 
 #endif

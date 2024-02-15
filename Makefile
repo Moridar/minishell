@@ -7,10 +7,8 @@ NAME = minishell
 
 LIB = libft/libft.a
 LIBDIR = ./libft
-# READLINE_LIB = ~/.brew/opt/readline/lib
-# READLINE_HEADER = ~/.brew/opt/readline/include
-READLINE_LIB = /opt/homebrew/opt/readline/lib 
-READLINE_HEADER = /opt/homebrew/opt/readline/include
+READLINE_LIB = ~/.brew/opt/readline/lib
+READLINE_HEADER = ~/.brew/opt/readline/include
 SRC = 	minishell.c \
 		minishell_prompt.c \
 		minishell_history.c \
@@ -29,7 +27,7 @@ SRC = 	minishell.c \
 		pipex_utils.c \
 		pipex_command.c \
 		pipex_free.c \
-		pipex_errors.c 
+		pipex_exit.c 
 
 OBJ = $(SRC:%.c=%.o)
 CC = cc

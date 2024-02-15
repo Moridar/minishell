@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/14 19:31:58 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/15 11:42:38 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,26 @@ static void	minishell_files(int argc, char *argv[], t_pipe *data)
 	}
 }
 
+static int	initialize(t_pipe *data, char **envp)
+{
+	data->envp = copy_arraylist(envp, 0);
+	if (!data->envp)
+		return (EXIT_FAILURE);
+	data->history_path = interpret("~/.bvsh_history", data);
+	if (!data->history_path)
+		return (EXIT_FAILURE);
+	unset_var(data, "OLDPWD");
+	data->exit_status = 0;
+	data->cmds = NULL;
+	data->pid = NULL;
+	return (EXIT_SUCCESS);
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipe	data;
 
-	data.exit_status = 0;
-	data.envp = copy_arraylist(envp, 0);
-	data.history_path = interpret("~/.bvsh_history", &data);
-	unset_var(&data, "OLDPWD");
-	if (!data.envp)
+	if (initialize(&data, envp) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (argc < 2)
 		minishell_prompt(&data);
