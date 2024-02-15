@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:50:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/15 12:33:52 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:17:18 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	child_builtins(char **cmd, t_pipe *data)
 	if (ft_strncmp(cmd[0], "pwd", 4) == 0)
 		return (pwd(data, cmd));
 	if (ft_strncmp(cmd[0], "exit", 5) == 0)
-		return (exit_builtin(cmd, data, count));
+		return (exit_builtin(cmd, data, count, 1));
 	if (ft_strncmp(cmd[0], "export", 7) == 0)
 		return (0);
 	if (ft_strncmp(cmd[0], "cd", 3) == 0)

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/15 10:52:40 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:27:32 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ static int	process_prompt_line(char *line, t_pipe *data)
 {
 	char	**cmd;
 	int		return_value;
+	int		fd[2];
 
 	return_value = split_pipeline(data, line);
 	if (return_value != 0)
@@ -90,11 +91,13 @@ static int	process_prompt_line(char *line, t_pipe *data)
 	return_value = -1;
 	if (data->cmdc == 1)
 	{
+		data->cmds[1] = ft_strdup(data->cmds[0]);
+		set_direction(data, 0, fd);
 		cmd = split_shell_cmd(data->cmds[0], data);
 		if (!cmd)
 			freeall_return(data->cmds, -2);
 		if (cmd[0])
-			return_value = builtins(cmd, data);
+			return_value = builtins(cmd, data, fd[1]);
 		freeall(cmd);
 	}
 	if (return_value == -1)
