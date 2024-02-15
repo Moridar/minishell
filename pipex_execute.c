@@ -6,17 +6,11 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/15 14:45:47 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/15 15:00:07 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	interrupt(int sig)
-{
-	g_last_signal = sig;
-	exit(sig);
-}
 
 static void	child_execute(t_pipe *data, char **cmd)
 {
@@ -51,10 +45,10 @@ static void	execute_fork(int i, t_pipe *data, char **cmd)
 	{
 		free(data->pid);
 		free(data->history_path);
-		data->history_path = NULL;
 		free(data->cmds);
+		data->history_path = NULL;
 		data->cmds = NULL;
-		signal(SIGINT, interrupt);
+		signal(SIGINT, exit);
 		child_execute(data, cmd);
 	}
 	data->pid[i] = pid;
@@ -98,7 +92,6 @@ void	execute(int i, t_pipe *data)
 {
 	char	**cmd;
 
-	printf("execute [%d]\n", i);
 	if (data->cmdc == 1)
 	{
 		cmd = prepare_command(data, i);

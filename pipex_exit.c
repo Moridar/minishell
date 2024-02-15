@@ -6,11 +6,17 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:13:28 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/15 12:29:16 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/15 15:01:04 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	signal_exit(int sig)
+{
+	g_last_signal = sig;
+	exit(sig);
+}
 
 void	clean_exit(t_pipe *data, char **cmd, int exitno)
 {
