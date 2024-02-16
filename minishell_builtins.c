@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/15 14:14:59 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 10:37:52 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,6 @@ static int	validate_key(int keylen, char *key, char *builtin)
 	while (!err && ++i < keylen - 1)
 		if (ft_isalnum(key[i]) == 0 && key[i] != '_')
 			err = 1;
-	if (!err && keylen > (int)ft_strlen(key))
-		return (1);
-	if (!ft_strncmp(builtin, "export", 7)
-		&& (keylen == 1 || key[keylen - 1] != '='))
-		err = 1;
 	if (!err)
 		return (0);
 	ft_putstr_fd("bvsh: ", 2);
@@ -45,20 +40,20 @@ static int	validate_key(int keylen, char *key, char *builtin)
 
 int	unset_var(t_pipe *data, char *env_var)
 {
-	char	*tmp;
 	int		size;
 	int		i;
+	int		keylen;
 
-	if (!env_var || validate_key(ft_strlen(env_var), env_var, "unset"))
+	keylen = len_next_meta_char(env_var, "=", 0);
+	keylen += env_var[keylen] == '=';
+	if (!env_var || validate_key(keylen, env_var, "unset"))
 		return (1);
 	size = sizeof_arraylist(data->envp);
-	tmp = ft_strjoin(env_var, "=");
-	if (!tmp)
-		return (-2);
 	i = -1;
 	while (data->envp[++i])
 	{
-		if (ft_strncmp(data->envp[i], tmp, ft_strlen(tmp)) == 0)
+		if (ft_strncmp(data->envp[i], env_var, keylen) == 0
+			&& (!data->envp[i][keylen] || data->envp[i][keylen] == '='))
 		{
 			free(data->envp[i]);
 			data->envp[i] = NULL;
@@ -66,7 +61,6 @@ int	unset_var(t_pipe *data, char *env_var)
 			break ;
 		}
 	}
-	free(tmp);
 	if (!data->envp)
 		return (-2);
 	return (0);
@@ -82,7 +76,7 @@ static int	unset_builtin(t_pipe *data, char **cmd, int count)
 
 	if (count < 2)
 		return (0);
-	i = 0;
+	i = 1;
 	while (cmd[i])
 	{
 		result = unset_var(data, cmd[i]);
@@ -90,7 +84,7 @@ static int	unset_builtin(t_pipe *data, char **cmd, int count)
 			return (result);
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 /**
@@ -106,7 +100,7 @@ int	export(t_pipe *data, char *var)
 		return (-2);
 	keylen = len_next_meta_char(var, "=", 0) + 1;
 	if (validate_key(keylen, var, "export") == 1)
-		return (free_return(var, 0));
+		return (free_return(var, 1));
 	i = -1;
 	while (data->envp[++i])
 	{
@@ -138,15 +132,14 @@ int	builtins(char **cmd, t_pipe *data)
 		return (0);
 	count = sizeof_arraylist(cmd);
 	if (ft_strncmp(cmd[0], "export", 7) == 0 && count > 1)
-		return (export(data, ft_strdup(cmd[1])));
+		data->status = export(data, ft_strdup(cmd[1]));
 	if (ft_strncmp(cmd[0], "cd", 3) == 0)
-		return (cd(data, cmd, count));
+		data->status = cd(data, cmd, count);
 	if (ft_strncmp(cmd[0], "unset", 6) == 0)
-		return (unset_builtin(data, cmd, count));
+		data->status = (unset_builtin(data, cmd, count));
 	if (ft_strncmp(cmd[0], "exit", 5) == 0)
-		return (exit_builtin(cmd, data, count));
-	free(data->cmds[0]);
-	data->cmds[0] = data->cmds[1];
-	data->cmds[1] = 0;
-	return (-1);
+		data->status = exit_builtin(cmd, data, count);
+	else
+		return (-1);
+	return (0);
 }

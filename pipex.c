@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:38:30 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/15 14:56:08 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 10:37:17 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,7 @@ int	pipex(t_pipe	*data)
 	while (++i < data->cmdc)
 		waitpid(data->pid[i], &data->status, 0);
 	free(data->pid);
+	if (data->status < 128)
+		return (data->status);
 	return (WEXITSTATUS(data->status));
 }

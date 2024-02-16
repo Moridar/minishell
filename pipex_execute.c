@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/15 15:00:07 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 09:53:13 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	execute(int i, t_pipe *data)
 	if (data->cmdc == 1)
 	{
 		cmd = prepare_command(data, i);
-		if (builtins(cmd, data) == -1)
+		if (builtins(cmd, data) == -1 && data->status == 0)
 			execute_fork(i, data, cmd);
 	}
 	else if (i == data->cmdc - 1)
