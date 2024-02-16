@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/16 13:59:59 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 23:58:30 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ static int	exit_status(char *status, t_pipe *data, char **cmd)
 	status_n = ft_atoi(status);
 	status_conv = ft_itoa(status_n);
 	if (!status_conv)
-	{
-		ft_putstr_fd("bvsh: malloc error\n", 2);
-		clean_exit(data, cmd, 1);
-	}
+		msg_freeall_exit("bvsh: malloc error\n", cmd, 1, data);
 	if (status[0] == '+')
 		status = status + 1;
 	if (data->fd[1] > 0)

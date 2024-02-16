@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/16 12:15:23 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/17 00:05:06 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static int	split_pipeline(t_pipe *data, char *line)
 {
 	int		pipes_count;
 
-	data->cmds = NULL;
 	pipes_count = replace_pipes(line);
 	if (pipes_count < 0)
 		return (free_return (line, 2));

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:50:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/16 12:34:08 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/17 00:16:17 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,7 @@ static int	pwd(t_pipe *data, char **cmd)
 
 	buff = getcwd(NULL, 0);
 	if (buff == NULL)
-	{
-		ft_putstr_fd("bvsh: malloc error\n", 2);
-		freeall(cmd);
-		freeall_exit(data->envp, EXIT_FAILURE);
-	}
+		msg_freeall_exit("bvsh: malloc error\n", cmd, 1, data);
 	ft_printf("%s\n", buff);
 	free(buff);
 	return (0);
@@ -52,6 +48,7 @@ static int	print_env_variables(t_pipe *data, int is_exported)
 {
 	int		i;
 	char	*str;
+	int		len;
 
 	i = 0;
 	while (data->envp[++i])
@@ -59,12 +56,12 @@ static int	print_env_variables(t_pipe *data, int is_exported)
 		str = data->envp[i];
 		if (is_exported)
 		{
+			len = len_next_meta_char(str, "=", 0);
 			ft_putstr_fd("declare -x ", 1);
-			write(1, str, len_next_meta_char(str, "=", 0));
-			ft_putstr_fd("=\"", 1);
-			str += len_next_meta_char(str, "=", 0) + 1;
-			ft_putstr_fd(str, 1);
-			ft_putstr_fd("\"\n", 1);
+			write(1, str, len);
+			if (str[len] != 0)
+				ft_printf("=\"%s\"", str + len + 1);
+			ft_printf("\n");
 		}
 		else if (ft_strchr(str, '='))
 			ft_printf("%s\n", data->envp[i]);
