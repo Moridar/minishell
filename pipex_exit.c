@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:13:28 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/15 15:01:04 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 13:03:28 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ void	signal_exit(int sig)
 
 void	clean_exit(t_pipe *data, char **cmd, int exitno)
 {
+	if (data->fd[0] > 2)
+		close(data->fd[0]);
+	if (data->fd[1] > 2)
+		close(data->fd[1]);
 	free(data->history_path);
 	freeall(data->cmds);
 	freeall(data->envp);

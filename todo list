@@ -13,9 +13,9 @@
 13. [fixed] Export without values should store a NULL
 14. [fixed] -. UNSET should check identiifier
 15. [fixed] -. unset should be able to unset several env var
-16. Env only prints keys with '='. Export prints everything from env.
--. One of the ft_strjoin was not NULL checked?
--. Handle adding empty env var
+16. [fixed] Env only prints keys with '='. Export prints everything from env.
+17. [fixed] One of the ft_strjoin was not NULL checked?
+18. [fixed] Handle adding empty env var
 ?. EXPORT :@ as metachar?
 ?. EXPORT += 
 ?. Maybe echo -nn

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/15 14:58:01 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 13:13:13 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	*free_return_null(void *ptr);
 void	msg_freeall_exit(char *msg, char **strarray, int exitno, t_pipe *data);
 void	errormsg_exit(char *msg, int exit_status, t_pipe *data);
 void	closepipe(t_pipe *data);
-void	dup_and_close_fds(int fd[2]);
+void	dup_and_close_fds(t_pipe *data);
 void	cmd_no_permission_exit(char *path, char **cmdline, t_pipe *data);
 void	cmdnfound_exit(char **cmdline, t_pipe *data);
 void	signal_exit(int sig);

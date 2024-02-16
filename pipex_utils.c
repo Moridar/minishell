@@ -6,24 +6,26 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:33:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/15 14:14:05 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 13:12:51 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	dup_and_close_fds(int fd[2])
+void	dup_and_close_fds(t_pipe *data)
 {
-	if (fd[0] != STDIN_FILENO)
+	if (data->fd[0] != STDIN_FILENO)
 	{
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
+		dup2(data->fd[0], STDIN_FILENO);
+		close(data->fd[0]);
 	}
-	if (fd[1] != STDOUT_FILENO)
+	if (data->fd[1] != STDOUT_FILENO)
 	{
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
+		dup2(data->fd[1], STDOUT_FILENO);
+		close(data->fd[1]);
 	}
+	data->fd[0] = 0;
+	data->fd[1] = 1;
 }
 
 void	closepipe(t_pipe *data)

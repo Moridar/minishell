@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/15 14:14:02 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 12:45:41 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,4 +118,6 @@ void	set_direction(t_pipe *data, int i, int *fd)
 	free_filenames(filename[0], filename[1]);
 	if (errorexit)
 		redirect_error_exit(errorexit, fd, data);
+	else if (fd[0] < 0 || fd[1] < 0)
+		ft_putstr_fd("bvsh: malloc error\n", 2);
 }

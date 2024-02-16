@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 23:28:16 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/16 11:22:28 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 12:46:02 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	redirect_error_exit(char *errmsg, int *fd, t_pipe *data)
 	ft_putstr_fd(errmsg, 2);
 	free(errmsg);
 	if (fd[1] == -2 || fd[2] == -2)
-		ft_putstr_fd(": Allocation error", 2);
+		ft_putstr_fd(": malloc error", 2);
 	else if ((fd[1] != -3 && fd[0] != -3) && errno)
 	{
 		ft_putstr_fd(": ", 2);

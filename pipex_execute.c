@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/16 12:14:53 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 13:12:03 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	child_execute(t_pipe *data, char **cmd)
 	char	*path;
 
 	toggle_carret(1);
-	dup_and_close_fds(data->fd);
+	dup_and_close_fds(data);
 	closepipe(data);
 	if (!*cmd[0] || child_builtins(cmd, data) >= 0)
 		clean_exit(data, cmd, EXIT_SUCCESS);

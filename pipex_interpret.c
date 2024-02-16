@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 21:27:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/08 17:36:37 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 12:49:19 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*interpret_double_quote(char *str, t_pipe *data, int start)
 		if (str[start] == '$' && str[start + 1] == '?')
 			len = 2;
 		else if (str[start] == '$')
-			len = len_next_meta_char(str + start + 1, "$?'/", 1) + 1;
+			len = len_next_meta_char(str + start + 1, ":$?'/", 1) + 1;
 		else
 			len = len_next_meta_char(str + start, "$", 0);
 		tmp = ft_substr(str, start, len);
@@ -107,7 +107,7 @@ char	*interpret(char *str, t_pipe *data)
 		else if (str[start] == '$' && str[start + 1] == '?')
 			len = 2;
 		else if (str[start] == '$')
-			len = len_next_meta_char(str + start + 1, "$?\"'/", 1) + 1;
+			len = len_next_meta_char(str + start + 1, ":$?\"'/", 1) + 1;
 		else if (str[start] == '~')
 			len = len_next_meta_char(str + start, "/", 1);
 		else

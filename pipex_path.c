@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/15 12:29:44 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 12:36:40 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static char	*find_path(char *cmd, char **cmdline,
 	while (cmd && paths[++i])
 	{
 		cmdpath = ft_strjoin(paths[i], cmd);
-		if (access(cmdpath, F_OK) == 0)
+		if (cmdpath && access(cmdpath, F_OK) == 0)
 		{
 			free(*no_permission_path);
 			if (access(cmdpath, X_OK) == 0)
