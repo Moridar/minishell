@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/16 10:37:52 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 10:38:39 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	validate_key(int keylen, char *key, char *builtin)
 		err = 1;
 	while (!err && ++i < keylen - 1)
 		if (ft_isalnum(key[i]) == 0 && key[i] != '_')
-			err = 1;
+		err = 1;
 	if (!err)
 		return (0);
 	ft_putstr_fd("bvsh: ", 2);

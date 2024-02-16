@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/15 14:15:33 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 10:40:45 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,5 @@ int	cd(t_pipe *data, char **cmd, int count)
 		ft_putstr_fd("bvsh: cd: ", 2);
 		perror(cmd[1]);
 	}
-	return (0);
+	return (1);
 }
