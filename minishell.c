@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/15 11:42:38 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 23:49:59 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	main(int argc, char *argv[], char *envp[])
 		ft_putstr_fd("bvsh: malloc error\n", 2);
 	if (data.exit_status < 0)
 		return (EXIT_FAILURE);
-	if (data.exit_status == 0)
+	if (g_last_signal)
 		return (g_last_signal);
 	return (data.exit_status);
 }

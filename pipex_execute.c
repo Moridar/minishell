@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/16 23:21:03 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 23:42:12 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static void	execute_fork(int i, t_pipe *data, char **cmd)
 	{
 		freeall(cmd);
 		closepipe(data);
-		freeall(data->cmds);
 		free(data->pid);
 		errormsg_exit("fork", -1, data);
 	}

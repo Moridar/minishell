@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:38:30 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/16 23:18:54 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 23:45:16 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,7 @@ static void	initialise(t_pipe *data)
 {
 	data->pid = ft_calloc(sizeof(pid_t), data->cmdc);
 	if (!data->pid)
-	{
-		free(data->history_path);
-		freeall(data->envp);
-		freeall_exit(data->cmds, EXIT_FAILURE);
-	}
+		msg_freeall_exit("malloc", NULL, 1, data);
 	data->pipe[0][0] = -1;
 	data->pipe[0][1] = -1;
 	data->pipe[1][0] = -1;
