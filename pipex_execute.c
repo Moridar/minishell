@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/16 23:42:12 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/17 01:12:20 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 static void	child_execute(t_pipe *data, char **cmd)
 {
 	char	*path;
+	int		exit_status;
 
 	toggle_carret(1);
 	dup_and_close_fds(data);
 	closepipe(data);
-	if (child_builtins(cmd, data) >= 0)
-		clean_exit(data, cmd, EXIT_SUCCESS);
+	exit_status = child_builtins(cmd, data);
+	if (exit_status >= 0)
+		clean_exit(data, cmd, exit_status);
 	path = check_cmdpath(cmd[0], data, cmd);
 	execve(path, cmd, data->envp);
 	free(path);
@@ -47,6 +49,7 @@ static void	execute_fork(int i, t_pipe *data, char **cmd)
 		free(data->cmds);
 		data->history_path = NULL;
 		data->cmds = NULL;
+		data->pid = NULL;
 		signal(SIGINT, exit);
 		child_execute(data, cmd);
 	}
@@ -63,10 +66,7 @@ static char	**prepare_command(t_pipe *data, int i)
 		return (NULL);
 	cmd = split_shell_cmd(data->cmds[i], data);
 	if (!cmd)
-	{
-		ft_putstr_fd("bvsh: malloc error\n", 2);
-		clean_exit(data, NULL, EXIT_FAILURE);
-	}
+		msg_freeall_exit("bvsh: malloc error\n", NULL, 1, data);
 	if (!cmd[0])
 		return (free_return_null(cmd));
 	return (cmd);
@@ -97,7 +97,6 @@ void	execute(int i, t_pipe *data)
 {
 	char	**cmd;
 
-	cmd = NULL;
 	data->status = 0;
 	if (data->cmdc == 1)
 	{

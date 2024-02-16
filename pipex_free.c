@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 09:39:03 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/14 19:48:28 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/17 01:04:57 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@
  * @brief Free the double string array
  * @param **char strarray
 */
-void	freeall(char **strarray)
+void	freeall(char **arraylist)
 {
 	int	i;
 
-	if (strarray)
+	if (arraylist)
 	{
 		i = -1;
-		while (strarray[++i])
-			free(strarray[i]);
-		free(strarray);
+		while (arraylist[++i])
+			free(arraylist[i]);
+		free(arraylist);
 	}
 }
 
@@ -35,9 +35,9 @@ int	free_return(void *ptr, int returnvalue)
 	return (returnvalue);
 }
 
-int	freeall_return(char **strarray, int return_value)
+int	freeall_return(char **arraylist, int return_value)
 {
-	freeall(strarray);
+	freeall(arraylist);
 	return (return_value);
 }
 
@@ -47,8 +47,8 @@ void	*free_return_null(void *ptr)
 	return (NULL);
 }
 
-void	freeall_exit(char **strarray, int exitno)
+void	freeall_exit(char **arraylist, int exitno)
 {
-	freeall(strarray);
+	freeall(arraylist);
 	exit(exitno);
 }

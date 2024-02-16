@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/15 13:57:40 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/17 01:15:57 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ void	toggle_carret(int is_on)
  * @return size of the double dimension string array, for example,
  * created by ft_split().
  */
-int	sizeof_arraylist(char **str)
+int	sizeof_arraylist(char **arraylist)
 {
 	int	j;
 
 	j = 0;
-	while (str[j])
+	while (arraylist[j])
 	{
 		j++;
 	}

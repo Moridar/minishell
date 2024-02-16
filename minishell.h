@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/16 13:13:13 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/17 01:17:25 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ extern unsigned char	g_last_signal;
 
 typedef struct s_pipe
 {
-	int		exit_status;
-	int		status;
-	int		pipe[2][2];
-	int		fd[2];
 	pid_t	*pid;
+	int		fd[2];
+	int		pipe[2][2];
+	int		status;
+	int		exit_status;
 	int		cmdc;
-	char	**envp;
 	char	**cmds;
+	char	**envp;
 	char	*history_path;
 }	t_pipe;
 
@@ -51,13 +51,13 @@ void	free_filenames(char *infilename, char *outfilename);
 int		openfile(char *filename, char symbol, int type, t_pipe *data);
 
 //Error and exit handling
-void	clean_exit(t_pipe *data, char **cmd, int exitno);
-void	freeall(char **strarray);
-void	freeall_exit(char **strarray, int exitno);
-int		freeall_return(char **strarray, int return_value);
+void	clean_exit(t_pipe *data, char **arraylist, int exitno);
+void	freeall(char **arraylist);
+void	freeall_exit(char **arraylist, int exitno);
+int		freeall_return(char **arraylist, int return_value);
 int		free_return(void *ptr, int returnvalue);
 void	*free_return_null(void *ptr);
-void	msg_freeall_exit(char *msg, char **strarray, int exitno, t_pipe *data);
+void	msg_freeall_exit(char *msg, char **arraylist, int exitno, t_pipe *data);
 void	errormsg_exit(char *msg, int exit_status, t_pipe *data);
 void	closepipe(t_pipe *data);
 void	dup_and_close_fds(t_pipe *data);
@@ -78,9 +78,9 @@ char	*interpret(char *str, t_pipe *data);
 char	*expand_env_args(char *str, t_pipe *data);
 
 // Array utils
-int		sizeof_arraylist(char **str);
-char	**copy_arraylist(char **arr1, int increase_size);
-char	**reallocate_arraylist(char **arr, int size);
+int		sizeof_arraylist(char **arraylist);
+char	**copy_arraylist(char **arraylist, int increase_size);
+char	**reallocate_arraylist(char **arraylist, int size);
 
 // History
 int		write_history_file(char *line, t_pipe *data);

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:13:28 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/16 13:03:28 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/17 01:04:05 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,17 @@ void	signal_exit(int sig)
 	exit(sig);
 }
 
-void	clean_exit(t_pipe *data, char **cmd, int exitno)
+void	clean_exit(t_pipe *data, char **arraylist, int exitno)
 {
 	if (data->fd[0] > 2)
 		close(data->fd[0]);
 	if (data->fd[1] > 2)
 		close(data->fd[1]);
+	free(data->pid);
 	free(data->history_path);
 	freeall(data->cmds);
 	freeall(data->envp);
-	freeall(cmd);
+	freeall(arraylist);
 	exit(exitno);
 }
 
@@ -47,8 +48,8 @@ void	errormsg_exit(char *msg, int exit_status, t_pipe *data)
 	clean_exit(data, NULL, exit_status);
 }
 
-void	msg_freeall_exit(char *msg, char **strarray, int exitno, t_pipe *data)
+void	msg_freeall_exit(char *msg, char **arraylist, int exitno, t_pipe *data)
 {
 	ft_putstr_fd(msg, 2);
-	clean_exit(data, strarray, exitno);
+	clean_exit(data, arraylist, exitno);
 }
