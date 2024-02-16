@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/16 09:53:13 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 12:14:53 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static void	execute_fork(int i, t_pipe *data, char **cmd)
 		data->history_path = NULL;
 		data->cmds = NULL;
 		signal(SIGINT, exit);
+		if (!cmd)
+			exit(data->status);
 		child_execute(data, cmd);
 	}
 	data->pid[i] = pid;
@@ -58,13 +60,18 @@ static char	**prepare_command(t_pipe *data, int i)
 {
 	char	**cmd;
 
+	cmd = NULL;
 	set_direction(data, i, data->fd);
+	if (data->status != 0)
+		return (NULL);
 	cmd = split_shell_cmd(data->cmds[i], data);
 	if (!cmd)
 	{
 		ft_putstr_fd("bvsh: malloc error\n", 2);
 		clean_exit(data, NULL, EXIT_FAILURE);
 	}
+	if (!cmd[0])
+		return (free_return_null(cmd));
 	return (cmd);
 }
 
@@ -78,7 +85,8 @@ static void	execute_pipe(int i, t_pipe *data, char ***cmd)
 		errormsg_exit("pipe", -1, data);
 	}
 	*cmd = prepare_command(data, i);
-	execute_fork(i, data, *cmd);
+	if (*cmd || data->status)
+		execute_fork(i, data, *cmd);
 	if (i != 0)
 		close(data->pipe[(i + 1) % 2][0]);
 	close(data->pipe[i % 2][1]);
@@ -92,16 +100,19 @@ void	execute(int i, t_pipe *data)
 {
 	char	**cmd;
 
+	cmd = NULL;
+	data->status = 0;
 	if (data->cmdc == 1)
 	{
 		cmd = prepare_command(data, i);
-		if (builtins(cmd, data) == -1 && data->status == 0)
+		if (cmd && builtins(cmd, data) == -1)
 			execute_fork(i, data, cmd);
 	}
 	else if (i == data->cmdc - 1)
 	{
 		cmd = prepare_command(data, i);
-		execute_fork(i, data, cmd);
+		if (cmd || data->status)
+			execute_fork(i, data, cmd);
 		close(data->pipe[(i + 1) % 2][0]);
 	}
 	else

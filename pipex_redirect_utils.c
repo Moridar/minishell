@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_redirect_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 23:28:16 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/14 19:02:18 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:22:28 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	free_filenames(char *infilename, char *outfilename)
 
 void	redirect_error_exit(char *errmsg, int *fd, t_pipe *data)
 {
+	data->status = 1;
 	ft_putstr_fd("bvsh: ", 2);
 	if (fd[0] == -3 || fd[1] == -3)
 		ft_putstr_fd("syntax error near unexpected token `", 2);
@@ -39,13 +40,8 @@ void	redirect_error_exit(char *errmsg, int *fd, t_pipe *data)
 		close(fd[1]);
 	if (fd[0] >= 2)
 		close(fd[0]);
-	closepipe(data);
-	free(data->history_path);
-	freeall(data->envp);
-	freeall(data->cmds);
 	if (fd[0] == -3 || fd[1] == -3)
-		exit(2);
-	exit(1);
+		data->status = 2;
 }
 
 static int	buffer_interpret_pipe(char *buffer, int *heredoc_fd, t_pipe *data)

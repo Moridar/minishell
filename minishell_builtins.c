@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 00:50:23 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/16 10:38:39 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 12:15:14 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	validate_key(int keylen, char *key, char *builtin)
 		err = 1;
 	while (!err && ++i < keylen - 1)
 		if (ft_isalnum(key[i]) == 0 && key[i] != '_')
-		err = 1;
+			err = 1;
 	if (!err)
 		return (0);
 	ft_putstr_fd("bvsh: ", 2);
@@ -133,11 +133,11 @@ int	builtins(char **cmd, t_pipe *data)
 	count = sizeof_arraylist(cmd);
 	if (ft_strncmp(cmd[0], "export", 7) == 0 && count > 1)
 		data->status = export(data, ft_strdup(cmd[1]));
-	if (ft_strncmp(cmd[0], "cd", 3) == 0)
+	else if (ft_strncmp(cmd[0], "cd", 3) == 0)
 		data->status = cd(data, cmd, count);
-	if (ft_strncmp(cmd[0], "unset", 6) == 0)
+	else if (ft_strncmp(cmd[0], "unset", 6) == 0)
 		data->status = (unset_builtin(data, cmd, count));
-	if (ft_strncmp(cmd[0], "exit", 5) == 0)
+	else if (ft_strncmp(cmd[0], "exit", 5) == 0)
 		data->status = exit_builtin(cmd, data, count);
 	else
 		return (-1);

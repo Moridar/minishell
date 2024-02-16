@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/16 10:37:03 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 12:15:23 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ static int	process_prompt_line(char *line, t_pipe *data)
 	return_value = pipex(data);
 	freeall(data->cmds);
 	data->cmds = NULL;
-	if (return_value == 2)
-		return (1);
 	return (return_value);
 }
 
