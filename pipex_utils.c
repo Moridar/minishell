@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:33:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/16 13:12:51 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 13:55:04 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	dup_and_close_fds(t_pipe *data)
 		dup2(data->fd[1], STDOUT_FILENO);
 		close(data->fd[1]);
 	}
-	data->fd[0] = 0;
-	data->fd[1] = 1;
+	data->fd[0] = -1;
+	data->fd[1] = -1;
 }
 
 void	closepipe(t_pipe *data)

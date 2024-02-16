@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/16 13:12:03 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 13:55:32 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void	child_execute(t_pipe *data, char **cmd)
 	toggle_carret(1);
 	dup_and_close_fds(data);
 	closepipe(data);
+	if (!cmd)
+		exit(data->status);
 	if (!*cmd[0] || child_builtins(cmd, data) >= 0)
 		clean_exit(data, cmd, EXIT_SUCCESS);
 	path = check_cmdpath(cmd[0], data, cmd);
@@ -49,8 +51,6 @@ static void	execute_fork(int i, t_pipe *data, char **cmd)
 		data->history_path = NULL;
 		data->cmds = NULL;
 		signal(SIGINT, exit);
-		if (!cmd)
-			exit(data->status);
 		child_execute(data, cmd);
 	}
 	data->pid[i] = pid;
@@ -118,4 +118,9 @@ void	execute(int i, t_pipe *data)
 	else
 		execute_pipe(i, data, &cmd);
 	freeall(cmd);
+	if (data->fd[0] > 2)
+		close(data->fd[0]);
+	if (data->fd[1] > 2)
+		close(data->fd[1]);
+	usleep(1000);
 }

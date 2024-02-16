@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/16 13:15:29 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 13:59:59 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static int	exit_status(char *status, t_pipe *data, char **cmd)
 	}
 	if (status[0] == '+')
 		status = status + 1;
-	ft_putstr_fd("exit\n", data->fd[1]);
+	if (data->fd[1] > 0)
+		ft_putstr_fd("exit\n", 1);
 	if (ft_strncmp(status, status_conv, ft_strlen(status_conv) + 1) != 0)
 	{
 		free(status_conv);
@@ -48,7 +49,8 @@ int	exit_builtin(char **cmd, t_pipe *data, int argc)
 
 	if (argc == 1)
 	{
-		ft_putstr_fd("exit\n", data->fd[1]);
+		if (data->fd[1] > 0)
+			ft_putstr_fd("exit\n", 1);
 		clean_exit(data, cmd, data->exit_status);
 	}
 	exitno = exit_status(cmd[1], data, cmd);
