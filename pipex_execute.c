@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/16 13:55:32 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 23:21:03 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ static void	child_execute(t_pipe *data, char **cmd)
 	toggle_carret(1);
 	dup_and_close_fds(data);
 	closepipe(data);
-	if (!cmd)
-		exit(data->status);
-	if (!*cmd[0] || child_builtins(cmd, data) >= 0)
+	if (child_builtins(cmd, data) >= 0)
 		clean_exit(data, cmd, EXIT_SUCCESS);
 	path = check_cmdpath(cmd[0], data, cmd);
 	execve(path, cmd, data->envp);
@@ -85,7 +83,7 @@ static void	execute_pipe(int i, t_pipe *data, char ***cmd)
 		errormsg_exit("pipe", -1, data);
 	}
 	*cmd = prepare_command(data, i);
-	if (*cmd || data->status)
+	if (*cmd)
 		execute_fork(i, data, *cmd);
 	if (i != 0)
 		close(data->pipe[(i + 1) % 2][0]);
@@ -111,7 +109,7 @@ void	execute(int i, t_pipe *data)
 	else if (i == data->cmdc - 1)
 	{
 		cmd = prepare_command(data, i);
-		if (cmd || data->status)
+		if (cmd)
 			execute_fork(i, data, cmd);
 		close(data->pipe[(i + 1) % 2][0]);
 	}
@@ -122,5 +120,4 @@ void	execute(int i, t_pipe *data)
 		close(data->fd[0]);
 	if (data->fd[1] > 2)
 		close(data->fd[1]);
-	usleep(1000);
 }

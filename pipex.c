@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:38:30 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/16 13:55:45 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/16 23:18:54 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,20 @@ static void	initialise(t_pipe *data)
 int	pipex(t_pipe	*data)
 {
 	int		i;
+	int		exit_status;
 
 	initialise(data);
+	exit_status = 0;
 	i = -1;
 	while (++i < data->cmdc)
 		execute(i, data);
-	if (data->pid[0] == 0)
-	{
-		free(data->pid);
-		return (data->status);
-	}
+	if (data->pid[data->cmdc - 1] == 0)
+		exit_status = data->status;
 	i = -1;
 	while (++i < data->cmdc)
 		waitpid(data->pid[i], &data->status, 0);
 	free(data->pid);
+	if (exit_status)
+		return (exit_status);
 	return (WEXITSTATUS(data->status));
 }
