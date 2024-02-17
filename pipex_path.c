@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/17 17:58:32 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/17 22:30:21 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,9 @@ char	*check_cmdpath(char *cmd, t_pipe *data, char **cmdline)
 			cmd_no_permission_exit(cmd, cmdline, data);
 		return (is_directory(cmd, cmdline, data));
 	}
-	msg_freeall_exit("No such file or directory\n", cmdline, 127, data);
+	write(2, "bvsh: ", 6);
+	write(2, cmd, ft_strlen(cmd));
+	write(2, ": No such file or directory\n", 28);
+	clean_exit(data, cmdline, 127);
 	return (NULL);
 }
