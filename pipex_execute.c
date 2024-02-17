@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/17 23:42:46 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/18 01:32:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static void	child_execute(t_pipe *data, char **cmd)
 		clean_exit(data, cmd, exit_status);
 	path = check_cmdpath(cmd[0], data, cmd);
 	execve(path, cmd, data->envp);
-	free(path);
+	if (path != cmd[0])
+		free(path);
 	clean_exit(data, cmd, EXIT_FAILURE);
 }
 
