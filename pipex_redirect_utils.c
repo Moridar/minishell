@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 23:28:16 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/16 12:46:02 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/18 00:33:09 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,22 @@ static int	buffer_interpret_pipe(char *buffer, int *heredoc_fd, t_pipe *data)
 {
 	char	*interpreted_str;
 
-	interpreted_str = interpret(buffer, data);
-	free(buffer);
-	if (!interpreted_str)
+	while (*buffer)
 	{
-		close(heredoc_fd[1]);
-		close(heredoc_fd[0]);
-		return (-2);
+		interpreted_str = interpret(buffer, data);
+		if (!interpreted_str)
+		{
+			close(heredoc_fd[1]);
+			close(heredoc_fd[0]);
+			return (-2);
+		}
+		write(heredoc_fd[1], interpreted_str, ft_strlen(interpreted_str));
+		free(interpreted_str);
+		buffer += len_next_meta_char(buffer, "", 1);
+		while (ft_isspace(*buffer))
+			write(heredoc_fd[1], buffer++, 1);
 	}
-	write(heredoc_fd[1], interpreted_str, ft_strlen(interpreted_str));
 	write(heredoc_fd[1], "\n", 1);
-	free(interpreted_str);
 	return (0);
 }
 
@@ -78,8 +83,10 @@ static int	here_doc(char *delimiter, t_pipe *data)
 			break ;
 		if (ft_strncmp(buffer, delimiter, ft_strlen(delimiter) + 1) == 0)
 			break ;
+		printf("buffer: %s\n", buffer);
 		if (buffer_interpret_pipe(buffer, heredoc_fd, data) == -2)
-			return (-2);
+			return (free_return (buffer, -2));
+		free(buffer);
 	}
 	free(buffer);
 	close(heredoc_fd[1]);
