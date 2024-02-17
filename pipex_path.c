@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/16 12:36:40 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/17 17:58:32 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	**get_paths(t_pipe *data, char **cmdline)
 		i++;
 	}
 	if (!paths)
-		cmdnfound_exit(cmdline, data);
+		msg_freeall_exit("No such file or directory\n", cmdline, 127, data);
 	return (paths);
 }
 
@@ -92,7 +92,7 @@ static char	*get_path(char *cmd, char **cmdline, t_pipe *data)
 	no_permission_path = NULL;
 	cmd = ft_strjoin("/", cmd);
 	if (!cmd)
-		msg_freeall_exit("bvsh: malloc error\n",
+		msg_freeall_exit("malloc error\n",
 			cmdline, 2, data);
 	cmdpath = find_path(cmd, cmdline, data, &no_permission_path);
 	free(cmd);
@@ -114,6 +114,6 @@ char	*check_cmdpath(char *cmd, t_pipe *data, char **cmdline)
 			cmd_no_permission_exit(cmd, cmdline, data);
 		return (is_directory(cmd, cmdline, data));
 	}
-	msg_freeall_exit("bvsh: No such file or directory\n", cmdline, 127, data);
+	msg_freeall_exit("No such file or directory\n", cmdline, 127, data);
 	return (NULL);
 }

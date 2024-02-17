@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/17 12:36:23 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/17 17:58:16 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	**prepare_command(t_pipe *data, int i)
 		return (NULL);
 	cmd = split_shell_cmd(data->cmds[i], data);
 	if (!cmd)
-		msg_freeall_exit("bvsh: malloc error\n", NULL, 1, data);
+		msg_freeall_exit("malloc error\n", NULL, 1, data);
 	if (!cmd[0])
 		return (free_return_null(cmd));
 	return (cmd);

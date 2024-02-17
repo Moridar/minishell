@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:50:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/17 00:16:17 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/17 17:58:16 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	pwd(t_pipe *data, char **cmd)
 
 	buff = getcwd(NULL, 0);
 	if (buff == NULL)
-		msg_freeall_exit("bvsh: malloc error\n", cmd, 1, data);
+		msg_freeall_exit("malloc error\n", cmd, 1, data);
 	ft_printf("%s\n", buff);
 	free(buff);
 	return (0);
