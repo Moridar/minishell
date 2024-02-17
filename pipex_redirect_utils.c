@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 23:28:16 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/18 00:33:09 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/18 00:33:53 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ static int	here_doc(char *delimiter, t_pipe *data)
 			break ;
 		if (ft_strncmp(buffer, delimiter, ft_strlen(delimiter) + 1) == 0)
 			break ;
-		printf("buffer: %s\n", buffer);
 		if (buffer_interpret_pipe(buffer, heredoc_fd, data) == -2)
 			return (free_return (buffer, -2));
 		free(buffer);
