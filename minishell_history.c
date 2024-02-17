@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:32:14 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/14 19:40:22 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/17 23:10:13 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,46 +15,54 @@
 /**
  * Creates if it does not exits and writes line history to a .bvsh_history file.
  * Will not write if line is empty.
-*/
-int	write_history_file(char *line, t_pipe *data)
+ */
+int write_history_file(char *line, t_pipe *data)
 {
-	int	fd;
+	int fd;
 
-	if (!line || line[0] == '\0')
-		return (0);
-	fd = open(data->history_path, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd == -1)
+	if (data->history_path)
 	{
-		free(line);
-		errormsg_exit(".bvsh_history", -1, data);
+		if (!line || line[0] == '\0')
+			return (0);
+		fd = open(data->history_path, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (fd == -1)
+		{
+			free(line);
+			errormsg_exit(".bvsh_history", -1, data);
+		}
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		close(fd);
+		return (0);
 	}
-	write(fd, line, ft_strlen(line));
-	write(fd, "\n", 1);
-	close(fd);
-	return (0);
+	return (1);
 }
 
 /**
  * Reads history into readline prompt making it possible to use up and down
  * arrows to go through previous commands.
-*/
-int	read_history_file(t_pipe *data)
+ */
+int read_history_file(t_pipe *data)
 {
-	int		fd;
-	char	*line;
+	int fd;
+	char *line;
 
-	fd = open(data->history_path, O_RDWR | O_CREAT | O_APPEND, 0644);
-	if (fd == -1)
-		errormsg_exit(".bvsh_history", -1, data);
-	line = get_next_line(fd);
-	while (line)
+	if (data->history_path)
 	{
-		if (line[ft_strlen(line) - 1] == '\n')
-			line[ft_strlen(line) - 1] = '\0';
-		add_history(line);
-		free(line);
+		fd = open(data->history_path, O_RDWR | O_CREAT | O_APPEND, 0644);
+		if (fd == -1)
+			errormsg_exit(".bvsh_history", -1, data);
 		line = get_next_line(fd);
+		while (line)
+		{
+			if (line[ft_strlen(line) - 1] == '\n')
+				line[ft_strlen(line) - 1] = '\0';
+			add_history(line);
+			free(line);
+			line = get_next_line(fd);
+		}
+		close(fd);
+		return (0);
 	}
-	close(fd);
-	return (0);
+	return (1);
 }

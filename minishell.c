@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/16 23:49:59 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/17 23:23:41 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	run_command(char *line, t_pipe *data)
 
 /**
  * @return -2 if memory allocating function failed
-*/
+ */
 static void	minishell_command(char *argv[], t_pipe *data)
 {
 	char	*line;
@@ -73,18 +73,31 @@ static void	minishell_files(int argc, char *argv[], t_pipe *data)
 	}
 }
 
-static int	initialize(t_pipe *data, char **envp)
+int	initialize(t_pipe *data, char **envp)
 {
+	char	*path_var;
+
+	data->history_path = NULL;
+	if (!access("/tmp/", F_OK | R_OK | W_OK))
+		data->history_path = ft_strdup("/tmp/.bvsh_history");
+	if (!data->history_path)
+		return (EXIT_FAILURE);
 	data->envp = copy_arraylist(envp, 0);
 	if (!data->envp)
-		return (EXIT_FAILURE);
-	data->history_path = interpret("~/.bvsh_history", data);
-	if (!data->history_path)
 		return (EXIT_FAILURE);
 	unset_var(data, "OLDPWD");
 	data->exit_status = 0;
 	data->cmds = NULL;
 	data->pid = NULL;
+	path_var = interpret("$PATH", data);
+	if (!path_var)
+	{
+		freeall(data->envp);
+		msg_freeall_exit("malloc error\n", data->envp, 1, data);
+	}
+	if (!(int)ft_strlen(path_var))
+		export(data, ft_strjoin("PATH=", DEFAULT_PATH_VALUE));
+	free(path_var);
 	return (EXIT_SUCCESS);
 }
 
