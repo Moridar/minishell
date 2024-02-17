@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:32:14 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/17 23:10:13 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/17 23:36:25 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Creates if it does not exits and writes line history to a .bvsh_history file.
  * Will not write if line is empty.
  */
-int write_history_file(char *line, t_pipe *data)
+int	write_history_file(char *line, t_pipe *data)
 {
 	int fd;
 
@@ -42,7 +42,7 @@ int write_history_file(char *line, t_pipe *data)
  * Reads history into readline prompt making it possible to use up and down
  * arrows to go through previous commands.
  */
-int read_history_file(t_pipe *data)
+int	read_history_file(t_pipe *data)
 {
 	int fd;
 	char *line;
