@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/17 00:05:06 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/17 12:30:53 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ static int	check_loose_pipe(t_pipe *data, int pipes_count)
 		return (0);
 	arraylist_tmp = copy_arraylist(data->cmds, 1);
 	freeall(data->cmds);
+	data->cmds = arraylist_tmp;
 	if (!arraylist_tmp)
 		return (-2);
-	data->cmds = arraylist_tmp;
 	data->cmds[pipes_count] = readline(">");
 	return (0);
 }
@@ -105,6 +105,7 @@ void	minishell_prompt(t_pipe *data)
 		if (line == NULL)
 		{
 			ft_printf("bvsh-1.1$ exit\n");
+			freeall(data->cmds);
 			break ;
 		}
 		if (line && *line)

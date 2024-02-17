@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/17 01:12:20 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/17 12:36:23 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static void	execute_fork(int i, t_pipe *data, char **cmd)
 	{
 		freeall(cmd);
 		closepipe(data);
-		free(data->pid);
 		errormsg_exit("fork", -1, data);
 	}
 	signal(SIGINT, SIG_IGN);
@@ -46,7 +45,7 @@ static void	execute_fork(int i, t_pipe *data, char **cmd)
 	{
 		free(data->pid);
 		free(data->history_path);
-		free(data->cmds);
+		freeall(data->cmds);
 		data->history_path = NULL;
 		data->cmds = NULL;
 		data->pid = NULL;
@@ -78,7 +77,6 @@ static void	execute_pipe(int i, t_pipe *data, char ***cmd)
 	{
 		closepipe(data);
 		freeall(data->cmds);
-		free(data->pid);
 		errormsg_exit("pipe", -1, data);
 	}
 	*cmd = prepare_command(data, i);
