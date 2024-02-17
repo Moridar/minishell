@@ -17,7 +17,8 @@
 17. [fixed] One of the ft_strjoin was not NULL checked?
 18. [fixed] Handle adding empty env var
 19. Should minishell_files run only one file?
-?. EXPORT :@ as metachar?
+20. [fixed] EXPORT : as metachar
+?. EXPORT @ as metachar?
 ?. EXPORT += 
-?. Maybe echo -nn
+?. Maybe fix echo -nn 
 ?. Sort envp
