@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/18 21:35:44 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/18 22:35:05 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,9 @@ static void	minishell_files(char *argv[], t_pipe *data)
 
 int	initialize(t_pipe *data, char **envp)
 {
+	data->exit_status = 0;
+	data->cmds = NULL;
+	data->pid = NULL;
 	data->history_path = NULL;
 	if (!access("/tmp/", F_OK | R_OK | W_OK))
 		data->history_path = ft_strdup("/tmp/.bvsh_history");
@@ -77,11 +80,8 @@ int	initialize(t_pipe *data, char **envp)
 		return (EXIT_FAILURE);
 	data->envp = copy_arraylist(envp, 0);
 	if (!data->envp)
-		return (EXIT_FAILURE);
+		return (free_return(data->history_path, EXIT_FAILURE));
 	unset_var(data, "OLDPWD");
-	data->exit_status = 0;
-	data->cmds = NULL;
-	data->pid = NULL;
 	if (getenv("PATH") == NULL)
 		export(data, ft_strjoin("PATH=", PATH));
 	return (EXIT_SUCCESS);
