@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/17 23:23:41 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/18 02:01:08 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,35 +48,31 @@ static void	minishell_command(char *argv[], t_pipe *data)
 	run_command(line, data);
 }
 
-static void	minishell_files(int argc, char *argv[], t_pipe *data)
+static void	minishell_files(char *argv[], t_pipe *data)
 {
 	int		i;
 	int		fd;
 	char	*line;
 
 	i = 0;
-	while (data->exit_status != -2 && ++i < argc)
+
+	fd = open(argv[i], O_RDONLY);
+	if (fd < 0)
+		errormsg_exit(argv[i], -1, data);
+	line = get_next_line(fd);
+	while (data->exit_status != -2 && line)
 	{
-		fd = open(argv[i], O_RDONLY);
-		if (fd < 0)
-			errormsg_exit(argv[i], -1, data);
-		line = get_next_line(fd);
-		while (data->exit_status != -2 && line)
-		{
-			if (line[ft_strlen(line) - 1] == '\n')
-				line[ft_strlen(line) - 1] = 0;
-			run_command(line, data);
-			if (data->exit_status != -2)
-				line = get_next_line(fd);
-		}
-		close(fd);
+		if (line[ft_strlen(line) - 1] == '\n')
+			line[ft_strlen(line) - 1] = 0;
+		run_command(line, data);
+		if (data->exit_status != -2)
+			line = get_next_line(fd);
 	}
+	close(fd);
 }
 
 int	initialize(t_pipe *data, char **envp)
 {
-	char	*path_var;
-
 	data->history_path = NULL;
 	if (!access("/tmp/", F_OK | R_OK | W_OK))
 		data->history_path = ft_strdup("/tmp/.bvsh_history");
@@ -89,15 +85,8 @@ int	initialize(t_pipe *data, char **envp)
 	data->exit_status = 0;
 	data->cmds = NULL;
 	data->pid = NULL;
-	path_var = interpret("$PATH", data);
-	if (!path_var)
-	{
-		freeall(data->envp);
-		msg_freeall_exit("malloc error\n", data->envp, 1, data);
-	}
-	if (!(int)ft_strlen(path_var))
+	if (getenv("PATH") == NULL)
 		export(data, ft_strjoin("PATH=", DEFAULT_PATH_VALUE));
-	free(path_var);
 	return (EXIT_SUCCESS);
 }
 
@@ -112,7 +101,7 @@ int	main(int argc, char *argv[], char *envp[])
 	else if (ft_strnstr(argv[1], "-c", 2))
 		minishell_command(argv, &data);
 	else
-		minishell_files(argc, argv, &data);
+		minishell_files(argv, &data);
 	free(data.history_path);
 	freeall(data.envp);
 	if (data.exit_status == -2)
