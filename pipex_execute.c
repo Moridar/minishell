@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/19 00:20:16 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/19 00:27:43 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,6 @@ static void	execute_pipe(int i, t_pipe *data, char ***cmd)
 	*cmd = prepare_command(data, i);
 	if (*cmd)
 		execute_fork(i, data, *cmd);
-	if (i != 0)
-	{
-		close(data->pipe[(i + 1) % 2][0]);
-		data->pipe[(i + 1) % 2][0] = -1;
-	}
-	close(data->pipe[i % 2][1]);
-	data->pipe[i % 2][1] = -1;
 }
 
 /**
@@ -119,7 +112,6 @@ void	execute(int i, t_pipe *data)
 		cmd = prepare_command(data, i);
 		if (cmd)
 			execute_fork(i, data, cmd);
-		close(data->pipe[(i + 1) % 2][0]);
 	}
 	else
 		execute_pipe(i, data, &cmd);
