@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/18 02:05:27 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/18 14:27:36 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	initialize(t_pipe *data, char **envp)
 	data->cmds = NULL;
 	data->pid = NULL;
 	if (getenv("PATH") == NULL)
-		export(data, ft_strjoin("PATH=", DEFAULT_PATH_VALUE));
+		export(data, ft_strjoin("PATH=", PATH));
 	return (EXIT_SUCCESS);
 }
 
