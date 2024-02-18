@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/17 01:15:57 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/18 21:27:46 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,8 @@ int	replace_pipes(char *cmd)
 		{
 			if (cmd[i + 1] == '|')
 			{
-				ft_putstr_fd("bvsh: syntax error near unexpected token `|'", 2);
+				ft_putstr_fd("bvsh: syntax error "
+					"near unexpected token `|'\n", 2);
 				return (-1);
 			}
 			cmd[i] = 31;

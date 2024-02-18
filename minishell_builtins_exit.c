@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/17 17:58:16 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/18 21:35:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	exit_status(char *status, t_pipe *data, char **cmd)
 	status_n = ft_atoi(status);
 	status_conv = ft_itoa(status_n);
 	if (!status_conv)
-		msg_freeall_exit("malloc error\n", cmd, 1, data);
+		msg_freeall_exit("malloc error", cmd, 1, data);
 	if (status[0] == '+')
 		status = status + 1;
 	if (data->fd[1] > 0)

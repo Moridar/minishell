@@ -16,7 +16,7 @@
 16. [fixed] Env only prints keys with '='. Export prints everything from env.
 17. [fixed] One of the ft_strjoin was not NULL checked?
 18. [fixed] Handle adding empty env var
-19. Should minishell_files run only one file?
+19. [fixed] Should minishell_files run only one file?
 20. [fixed] EXPORT : as metachar
 ?. EXPORT @ as metachar?
 ?. EXPORT += 

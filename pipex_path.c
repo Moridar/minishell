@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:13:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/17 23:40:02 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/18 21:34:34 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	**get_paths(t_pipe *data, char **cmdline)
 		i++;
 	}
 	if (!paths)
-		msg_freeall_exit("No such file or directory\n", cmdline, 127, data);
+		msg_freeall_exit("No such file or directory", cmdline, 127, data);
 	return (paths);
 }
 
@@ -92,7 +92,7 @@ static char	*get_path(char *cmd, char **cmdline, t_pipe *data)
 	no_permission_path = NULL;
 	cmd = ft_strjoin("/", cmd);
 	if (!cmd)
-		msg_freeall_exit("malloc error\n",
+		msg_freeall_exit("malloc error",
 			cmdline, 2, data);
 	cmdpath = find_path(cmd, cmdline, data, &no_permission_path);
 	free(cmd);

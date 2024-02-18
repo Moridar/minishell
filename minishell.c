@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/18 14:27:36 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/18 21:35:44 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,21 @@
 
 static void	run_command(char *line, t_pipe *data)
 {
-	if (replace_pipes(line) == -1)
+	int	count;
+
+	count = replace_pipes(line);
+	if (count == -1)
 	{
-		data->exit_status = 2;
 		free(line);
-		return ;
+		msg_freeall_exit("syntax error: unexpected end of file", NULL, 2, data);
 	}
 	data->cmds = ft_split(line, 31);
 	free(line);
 	if (!data->cmds)
-	{
-		data->exit_status = -2;
-		return ;
-	}
+		msg_freeall_exit("malloc error", NULL, 1, data);
 	data->cmdc = sizeof_arraylist(data->cmds);
+	if (count + 1 != data->cmdc)
+		msg_freeall_exit("syntax error: unexpected end of file", NULL, 2, data);
 	data->exit_status = pipex(data);
 	freeall(data->cmds);
 }
@@ -50,24 +51,21 @@ static void	minishell_command(char *argv[], t_pipe *data)
 
 static void	minishell_files(char *argv[], t_pipe *data)
 {
-	int		i;
-	int		fd;
 	char	*line;
 
-	i = 0;
-	fd = open(argv[i], O_RDONLY);
-	if (fd < 0)
-		errormsg_exit(argv[i], -1, data);
-	line = get_next_line(fd);
+	data->fd[0] = open(argv[1], O_RDONLY);
+	if (data->fd[0] < 0)
+		errormsg_exit(argv[1], -1, data);
+	line = get_next_line(data->fd[0]);
 	while (data->exit_status != -2 && line)
 	{
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = 0;
 		run_command(line, data);
 		if (data->exit_status != -2)
-			line = get_next_line(fd);
+			line = get_next_line(data->fd[0]);
 	}
-	close(fd);
+	close(data->fd[0]);
 }
 
 int	initialize(t_pipe *data, char **envp)

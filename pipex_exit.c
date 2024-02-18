@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:13:28 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/17 17:57:25 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/18 21:34:42 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ void	msg_freeall_exit(char *msg, char **arraylist, int exitno, t_pipe *data)
 {
 	ft_putstr_fd("bvsh: ", 2);
 	ft_putstr_fd(msg, 2);
+	ft_putstr_fd("\n", 2);
 	clean_exit(data, arraylist, exitno);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:50:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/17 22:10:19 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/18 21:34:53 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	pwd(t_pipe *data, char **cmd)
 
 	buff = getcwd(NULL, 0);
 	if (buff == NULL)
-		msg_freeall_exit("malloc error\n", cmd, 1, data);
+		msg_freeall_exit("malloc error", cmd, 1, data);
 	ft_printf("%s\n", buff);
 	free(buff);
 	return (0);
