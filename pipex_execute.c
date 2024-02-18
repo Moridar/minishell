@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/19 00:27:43 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/19 00:52:06 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,6 @@ static char	**prepare_command(t_pipe *data, int i)
 	return (cmd);
 }
 
-static void	execute_pipe(int i, t_pipe *data, char ***cmd)
-{
-	if (pipe(data->pipe[i % 2]) == -1)
-	{
-		closepipe(data);
-		freeall(data->cmds);
-		errormsg_exit("pipe", -1, data);
-	}
-	*cmd = prepare_command(data, i);
-	if (*cmd)
-		execute_fork(i, data, *cmd);
-}
-
 /**
  * Entrance to execution of the commands
  * @param index the command index
@@ -101,20 +88,13 @@ void	execute(int i, t_pipe *data)
 	char	**cmd;
 
 	data->status = 0;
-	if (data->cmdc == 1)
-	{
-		cmd = prepare_command(data, i);
-		if (cmd && builtins(cmd, data) == -1)
-			execute_fork(i, data, cmd);
-	}
-	else if (i == data->cmdc - 1)
-	{
-		cmd = prepare_command(data, i);
-		if (cmd)
-			execute_fork(i, data, cmd);
-	}
-	else
-		execute_pipe(i, data, &cmd);
+	if (data->cmdc != 1 && i != data->cmdc - 1 && pipe(data->pipe[i % 2]) == -1)
+		errormsg_exit("pipe", -1, data);
+	cmd = prepare_command(data, i);
+	if (data->cmdc == 1 && cmd && builtins(cmd, data) != -1)
+		;
+	else if (cmd)
+		execute_fork(i, data, cmd);
 	freeall(cmd);
 	if (data->fd[0] > 2)
 		close(data->fd[0]);

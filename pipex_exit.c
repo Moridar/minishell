@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:13:28 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/18 21:34:42 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/19 00:47:35 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	signal_exit(int sig)
 
 void	clean_exit(t_pipe *data, char **arraylist, int exitno)
 {
+	closepipe(data);
 	if (data->fd[0] > 2)
 		close(data->fd[0]);
 	if (data->fd[1] > 2)
