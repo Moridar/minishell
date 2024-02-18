@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/18 22:35:05 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/18 22:53:42 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,31 +68,33 @@ static void	minishell_files(char *argv[], t_pipe *data)
 	close(data->fd[0]);
 }
 
-int	initialize(t_pipe *data, char **envp)
+static void	initialize(t_pipe *data, char **envp)
 {
 	data->exit_status = 0;
+	data->fd[0] = -1;
+	data->fd[1] = -1;
 	data->cmds = NULL;
 	data->pid = NULL;
+	data->envp = NULL;
 	data->history_path = NULL;
 	if (!access("/tmp/", F_OK | R_OK | W_OK))
 		data->history_path = ft_strdup("/tmp/.bvsh_history");
 	if (!data->history_path)
-		return (EXIT_FAILURE);
+		msg_freeall_exit("malloc error", NULL, 1, data);
 	data->envp = copy_arraylist(envp, 0);
 	if (!data->envp)
-		return (free_return(data->history_path, EXIT_FAILURE));
+		msg_freeall_exit("malloc error", NULL, 1, data);
 	unset_var(data, "OLDPWD");
 	if (getenv("PATH") == NULL)
-		export(data, ft_strjoin("PATH=", PATH));
-	return (EXIT_SUCCESS);
+		if (export(data, ft_strjoin("PATH=", PATH)) == -2)
+			msg_freeall_exit("malloc error", NULL, 1, data);
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipe	data;
 
-	if (initialize(&data, envp) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+	initialize(&data, envp);
 	if (argc < 2)
 		minishell_prompt(&data);
 	else if (ft_strnstr(argv[1], "-c", 2))
