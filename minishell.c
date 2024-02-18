@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/18 02:01:08 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/18 02:05:27 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static void	minishell_files(char *argv[], t_pipe *data)
 	char	*line;
 
 	i = 0;
-
 	fd = open(argv[i], O_RDONLY);
 	if (fd < 0)
 		errormsg_exit(argv[i], -1, data);

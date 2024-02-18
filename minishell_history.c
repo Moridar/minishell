@@ -6,7 +6,7 @@
 /*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:32:14 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/17 23:36:25 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/18 02:05:52 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  */
 int	write_history_file(char *line, t_pipe *data)
 {
-	int fd;
+	int	fd;
 
 	if (data->history_path)
 	{
@@ -44,8 +44,8 @@ int	write_history_file(char *line, t_pipe *data)
  */
 int	read_history_file(t_pipe *data)
 {
-	int fd;
-	char *line;
+	int		fd;
+	char	*line;
 
 	if (data->history_path)
 	{
