@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/19 01:42:49 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/20 11:18:21 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,6 @@ int	main(int argc, char *argv[], char *envp[])
 	if (data.exit_status < 0)
 		return (EXIT_FAILURE);
 	if (g_last_signal)
-		return (g_last_signal);
+		return (1);
 	return (data.exit_status);
 }

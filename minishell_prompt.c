@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/17 12:30:53 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/20 11:18:40 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void	minishell_prompt(t_pipe *data)
 		}
 		if (line && *line)
 		{
+			data->exit_status = g_last_signal != 0;
 			g_last_signal = 0;
 			add_history(line);
 			write_history_file(line, data);
