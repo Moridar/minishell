@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 23:28:16 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/18 00:33:53 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/20 10:24:53 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,28 @@ void	free_filenames(char *infilename, char *outfilename)
 		free(outfilename);
 }
 
-void	redirect_error_exit(char *errmsg, int *fd, t_pipe *data)
+void	redirect_error(char *errmsg, int *fd, t_pipe *data)
 {
 	data->status = 1;
 	ft_putstr_fd("bvsh: ", 2);
 	if (fd[0] == -3 || fd[1] == -3)
+	{
 		ft_putstr_fd("syntax error near unexpected token `", 2);
+		data->status = 2;
+	}
 	ft_putstr_fd(errmsg, 2);
 	free(errmsg);
 	if (fd[1] == -2 || fd[2] == -2)
-		ft_putstr_fd(": malloc error", 2);
+	{
+		ft_putstr_fd(": malloc error\n", 2);
+		clean_exit(data, NULL, 1);
+	}
 	else if ((fd[1] != -3 && fd[0] != -3) && errno)
 	{
 		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(strerror(errno), 2);
 	}
 	ft_putstr_fd("\n", 2);
-	if (fd[1] >= 2)
-		close(fd[1]);
-	if (fd[0] >= 2)
-		close(fd[0]);
-	if (fd[0] == -3 || fd[1] == -3)
-		data->status = 2;
 }
 
 static int	buffer_interpret_pipe(char *buffer, int *heredoc_fd, t_pipe *data)

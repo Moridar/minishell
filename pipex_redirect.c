@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:03:01 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/19 00:16:15 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/20 10:26:22 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static char	*find_redirections(t_pipe *data, char *cmd, int *fd, char **file)
 				close(fd[index]);
 			fd[index] = get_fd(cmd + i, &file[index], data);
 			if (fd[index] == -3 && (ft_isspace(cmd[i + 2]) || !cmd[i + 2]))
-				return (ft_strjoin("newline", "'"));
+				return (ft_strdup("newline'"));
 			if (fd[index] == -3)
 				return (ft_strjoin(cmd + i + 2, "'"));
 			if (fd[index] < 0)
@@ -114,16 +114,16 @@ static void	set_basic_fd(int i, t_pipe *data, int *fd)
 void	set_direction(t_pipe *data, int i, int *fd)
 {
 	char	*filename[2];
-	char	*errorexit;
+	char	*errormsg;
 
 	filename[0] = NULL;
 	filename[1] = NULL;
-	errorexit = NULL;
+	errormsg = NULL;
 	set_basic_fd(i, data, fd);
-	errorexit = find_redirections(data, data->cmds[i], fd, filename);
+	errormsg = find_redirections(data, data->cmds[i], fd, filename);
 	free_filenames(filename[0], filename[1]);
-	if (errorexit)
-		redirect_error_exit(errorexit, fd, data);
+	if (errormsg)
+		redirect_error(errormsg, fd, data);
 	else if (fd[0] < 0 || fd[1] < 0)
-		ft_putstr_fd("bvsh: malloc error\n", 2);
+		errormsg_exit("malloc error", 1, data);
 }
