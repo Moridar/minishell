@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/20 11:05:23 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/20 11:06:36 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # ifndef PATH
 #  define PATH "/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:."
+# endif
 
 # include "libft/libft.h"
 # include <stdio.h>
@@ -27,7 +28,6 @@
 # include <signal.h>
 # include <dirent.h>
 # include <string.h>
-# endif
 
 extern unsigned char	g_last_signal;
 
