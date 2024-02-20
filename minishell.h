@@ -6,12 +6,16 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/20 10:21:46 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/20 11:05:23 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# ifndef PATH
+#  define PATH "/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:."
+
 # include "libft/libft.h"
 # include <stdio.h>
 # include <fcntl.h>
@@ -23,8 +27,6 @@
 # include <signal.h>
 # include <dirent.h>
 # include <string.h>
-# ifndef PATH
-#  define PATH "/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:."
 # endif
 
 extern unsigned char	g_last_signal;
@@ -66,7 +68,6 @@ void	closepipe(t_pipe *data);
 void	dup_and_close_fds(t_pipe *data);
 void	cmd_no_permission_exit(char *path, char **cmdline, t_pipe *data);
 void	cmdnfound_exit(char **cmdline, t_pipe *data);
-void	signal_exit(int sig);
 
 //Main functions
 void	minishell_prompt(t_pipe *data);
