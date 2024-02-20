@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/20 11:29:17 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/20 11:38:17 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,8 @@ void	minishell_prompt(t_pipe *data)
 		if (line && *line)
 		{
 			if (g_last_signal)
-			{
 				data->exit_status = 1;
-				g_last_signal = 0;
-			}
+			g_last_signal = 0;
 			add_history(line);
 			write_history_file(line, data);
 			data->exit_status = process_prompt_line(line, data);
