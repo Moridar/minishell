@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/20 11:38:17 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/23 14:10:18 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,14 @@ static int	split_pipeline(t_pipe *data, char *line)
 
 	pipes_count = replace_pipes(line);
 	if (pipes_count < 0)
-		return (free_return (line, 2));
+		return (free_return (line, 258));
 	data->cmds = ft_split(line, 31);
 	free(line);
 	if (!data->cmds)
 		return (-2);
-	if (pipes_count > 0)
+	// if (!data->cmds[0] && pipes_count > 0)
+	// 	ft_putstr_fd("bvsh: syntax error near unexpected token `|'\n", 2);
+	if (data->cmds[0] && pipes_count > 0)
 		if (check_loose_pipe(data, pipes_count) == -2)
 			return (-2);
 	data->cmdc = sizeof_arraylist(data->cmds);

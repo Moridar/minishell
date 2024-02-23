@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/20 11:06:36 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:45:22 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	minishell_prompt(t_pipe *data);
 int		pipex(t_pipe *data);
 
 void	toggle_carret(int is_on);
-void	execute(int i, t_pipe *data);
+int		execute(int i, t_pipe *data);
 void	set_direction(t_pipe *data, int i, int *fd);
 char	**split_shell_cmd(char	*cmd, t_pipe *data);
 char	*check_cmdpath(char *cmd, t_pipe *data, char **cmds);

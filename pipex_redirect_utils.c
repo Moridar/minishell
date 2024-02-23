@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 23:28:16 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/20 10:24:53 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:43:35 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	redirect_error(char *errmsg, int *fd, t_pipe *data)
 	if (fd[0] == -3 || fd[1] == -3)
 	{
 		ft_putstr_fd("syntax error near unexpected token `", 2);
-		data->status = 2;
+		data->status = 4;
 	}
 	ft_putstr_fd(errmsg, 2);
 	free(errmsg);

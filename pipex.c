@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:38:30 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/17 23:35:34 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:45:33 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,20 @@ int	pipex(t_pipe	*data)
 	exit_status = 0;
 	i = -1;
 	while (++i < data->cmdc)
-	{
-		execute(i, data);
-		exit_status = data->status;
-	}
+		exit_status = execute(i, data);
 	i = -1;
 	while (++i < data->cmdc)
 		waitpid(data->pid[i], &data->status, 0);
 	free(data->pid);
+	if (exit_status == 4)
+		exit_status = 2;
 	if (exit_status)
 		return (exit_status);
-	return (WEXITSTATUS(data->status));
+	if (WEXITSTATUS(data->status) != 0)
+		return (WEXITSTATUS(data->status));
+	if (data->status == 2)
+		return (printf("^C\n") + 127);
+	if (data->status == 3)
+		return (printf("^\\Quit: 3\n") + 121);
+	return (0);
 }

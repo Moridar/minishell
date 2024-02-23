@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/18 21:27:46 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/23 14:09:00 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,30 +109,31 @@ char	**reallocate_arraylist(char **arr, int newsize)
  * Replaces all pipe char (|) inside prompt line to a special char (31) for
  * the split avoiding pipe chars (|) inside quotes stay unaffected.
  */
-int	replace_pipes(char *cmd)
+int	replace_pipes(char *cmd) // ugly but we can put all args here it is 7 lines
 {
 	int		i;
 	int		count;
+	int		valid;
 
-	i = 0;
+	i = -1;
 	count = 0;
-	while (cmd[i])
+	valid = 0;
+	while (cmd[++i])
 	{
+		if (cmd[i] != '|' && ft_isprint(cmd[i]) && !ft_isspace(cmd[i]))
+			valid = 1;
 		if (cmd[i] == '|')
 		{
-			if (cmd[i + 1] == '|')
-			{
-				ft_putstr_fd("bvsh: syntax error "
-					"near unexpected token `|'\n", 2);
-				return (-1);
-			}
+			if (!valid || cmd[i + 1] == '|')
+				return (write(2, "bvsh: syntax error "
+						"near unexpected token `|'\n", 46) - 47);
 			cmd[i] = 31;
 			count++;
+			valid = 0;
 		}
 		if ((cmd[i] == '\'' || cmd[i] == '"')
 			&& get_quote_length(&cmd[i], cmd[i]) != 1)
 			i += get_quote_length(&cmd[i], cmd[i]) - 1;
-		i++;
 	}
 	return (count);
 }
