@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 02:36:51 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/23 13:45:22 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/24 02:00:44 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ void	cmdnfound_exit(char **cmdline, t_pipe *data);
 void	minishell_prompt(t_pipe *data);
 int		pipex(t_pipe *data);
 
-void	toggle_carret(int is_on);
 int		execute(int i, t_pipe *data);
 void	set_direction(t_pipe *data, int i, int *fd);
 char	**split_shell_cmd(char	*cmd, t_pipe *data);
 char	*check_cmdpath(char *cmd, t_pipe *data, char **cmds);
 char	*interpret(char *str, t_pipe *data);
 char	*expand_env_args(char *str, t_pipe *data);
+int		shlvl_increment(t_pipe *data);
 
 // Array utils
 int		sizeof_arraylist(char **arraylist);

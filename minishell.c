@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/20 11:18:21 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/24 01:58:43 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ static void	initialize(t_pipe *data, char **envp)
 	if (getenv("PATH") == NULL)
 		if (export(data, ft_strjoin("PATH=", PATH)) == -2)
 			msg_freeall_exit("malloc error", NULL, 1, data);
+	if (shlvl_increment(data) == -2)
+		msg_freeall_exit("malloc error", NULL, 1, data);
 }
 
 int	main(int argc, char *argv[], char *envp[])

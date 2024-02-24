@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/23 14:10:18 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/24 02:01:05 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ static int	split_pipeline(t_pipe *data, char *line)
 	free(line);
 	if (!data->cmds)
 		return (-2);
-	// if (!data->cmds[0] && pipes_count > 0)
-	// 	ft_putstr_fd("bvsh: syntax error near unexpected token `|'\n", 2);
 	if (data->cmds[0] && pipes_count > 0)
 		if (check_loose_pipe(data, pipes_count) == -2)
 			return (-2);
@@ -102,7 +100,6 @@ void	minishell_prompt(t_pipe *data)
 	while (data->exit_status >= 0)
 	{
 		signal(SIGINT, signal_handler);
-		toggle_carret(0);
 		line = readline("bvsh-1.1$ ");
 		if (line == NULL)
 		{

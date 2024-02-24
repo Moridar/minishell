@@ -6,28 +6,17 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:52:37 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/02/23 13:44:56 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/24 02:00:22 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void signal_handler(int signal)
-{
-	g_last_signal = signal;
-	printf("signal: %d\n", signal);
-	ft_putstr_fd("signal\n", 2);
-	if (signal == SIGINT)
-		exit (130);
-	exit(signal);
-}
 
 static void	child_execute(t_pipe *data, char **cmd)
 {
 	char	*path;
 	int		exit_status;
 
-	// toggle_carret(1);
 	dup_and_close_fds(data);
 	closepipe(data);
 	exit_status = child_builtins(cmd, data);
@@ -61,7 +50,7 @@ static void	execute_fork(int i, t_pipe *data, char **cmd)
 		data->history_path = NULL;
 		data->cmds = NULL;
 		data->pid = NULL;
-		signal(SIGINT, signal_handler);
+		signal(SIGINT, exit);
 		child_execute(data, cmd);
 	}
 	data->pid[i] = pid;

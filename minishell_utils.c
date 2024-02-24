@@ -6,31 +6,54 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/23 14:09:00 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/24 01:55:20 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * Toggles carret character (^C, ^D, ^\) which are shown by default when
- * ctrl+c, ctrl+d, ctrl+\ are pressed.
- * is_on = 0 for prompt
- * is_on = 1 during the command execution
- * @param is_on 1 for removing carret characters from displayin in the shell
- * 0 to hide carret characters from shell
- */
-void	toggle_carret(int is_on)
+int	shlvl_increment(t_pipe *data)
 {
-	struct termios	new_attr;
+	int		i;
+	int		shlvl;
+	char	*shlvl_str;
 
-	tcgetattr(STDIN_FILENO, &new_attr);
-	if (!is_on)
-		new_attr.c_lflag &= ~ECHOCTL;
-	else
-		new_attr.c_lflag |= ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &new_attr);
+	i = -1;
+	shlvl_str = getenv("SHLVL");
+	while (shlvl_str && ft_isdigit(shlvl_str[++i]))
+		;
+	if (!shlvl_str || shlvl_str[i] != '\0')
+		return (export(data, ft_strdup("SHLVL=1")));
+	shlvl = ft_atoi(shlvl_str);
+	if (shlvl < 0)
+		return (export(data, ft_strdup("SHLVL=0")));
+	shlvl_str = ft_itoa(shlvl + 1);
+	if (!shlvl_str)
+		return (1);
+	i = export(data, ft_strjoin("SHLVL=", shlvl_str));
+	free(shlvl_str);
+	return (i);
 }
+
+// /**
+//  * Toggles carret character (^C, ^D, ^\) which are shown by default when
+//  * ctrl+c, ctrl+d, ctrl+\ are pressed.
+//  * is_on = 0 for prompt
+//  * is_on = 1 during the command execution
+//  * @param is_on 1 for removing carret characters from displayin in the shell
+//  * 0 to hide carret characters from shell
+//  */
+// void	toggle_carret(int is_on)
+// {
+// 	struct termios	new_attr;
+
+// 	tcgetattr(STDIN_FILENO, &new_attr);
+// 	if (!is_on)
+// 		new_attr.c_lflag &= ~ECHOCTL;
+// 	else
+// 		new_attr.c_lflag |= ECHOCTL;
+// 	tcsetattr(STDIN_FILENO, TCSANOW, &new_attr);
+// }
 
 /**
  * @return size of the double dimension string array, for example,
