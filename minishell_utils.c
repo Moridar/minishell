@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/24 01:55:20 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/24 02:42:11 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ char	**reallocate_arraylist(char **arr, int newsize)
  * Replaces all pipe char (|) inside prompt line to a special char (31) for
  * the split avoiding pipe chars (|) inside quotes stay unaffected.
  */
-int	replace_pipes(char *cmd) // ugly but we can put all args here it is 7 lines
+int	replace_pipes(char *cmd)
 {
 	int		i;
 	int		count;
