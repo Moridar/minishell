@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/24 02:42:11 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/25 23:08:17 by vshchuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,6 @@ int	shlvl_increment(t_pipe *data)
 	free(shlvl_str);
 	return (i);
 }
-
-// /**
-//  * Toggles carret character (^C, ^D, ^\) which are shown by default when
-//  * ctrl+c, ctrl+d, ctrl+\ are pressed.
-//  * is_on = 0 for prompt
-//  * is_on = 1 during the command execution
-//  * @param is_on 1 for removing carret characters from displayin in the shell
-//  * 0 to hide carret characters from shell
-//  */
-// void	toggle_carret(int is_on)
-// {
-// 	struct termios	new_attr;
-
-// 	tcgetattr(STDIN_FILENO, &new_attr);
-// 	if (!is_on)
-// 		new_attr.c_lflag &= ~ECHOCTL;
-// 	else
-// 		new_attr.c_lflag |= ECHOCTL;
-// 	tcsetattr(STDIN_FILENO, TCSANOW, &new_attr);
-// }
 
 /**
  * @return size of the double dimension string array, for example,
