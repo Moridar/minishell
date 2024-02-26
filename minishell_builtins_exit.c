@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/27 01:40:40 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/27 01:42:32 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	exit_builtin(char **cmd, t_pipe *data, int argc)
 	return (0);
 }
 
-int	cd_absolute(t_pipe *data, char **cmd, char *pwd)
+int	cd_absolute(char **cmd, char *pwd)
 {
 	char	*pointer;
 	int		i;
@@ -82,7 +82,7 @@ int	cd_absolute(t_pipe *data, char **cmd, char *pwd)
 	}
 	if (!valid)
 		return (free_return(pwd, 1));
-	pointer = strjoin(pwd, cmd[1] + i + 2);
+	pointer = ft_strjoin(pwd, cmd[1] + i + 2);
 	if (!pointer)
 		return (free_return(pwd, 1));
 	free(pwd);
@@ -109,7 +109,7 @@ int	cd(t_pipe *data, char **cmd, int count)
 			return (-2);
 		return (export(data, key));
 	}
-	else if (cd_absolute(data, cmd, interpret("$PWD", data)) == 0)
+	else if (cd_absolute(cmd, interpret("$PWD", data)) == 0)
 		return (cd(data, cmd, count));
 	else
 	{
