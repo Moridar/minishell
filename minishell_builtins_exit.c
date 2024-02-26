@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/18 21:35:01 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/27 01:40:40 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,37 @@ int	exit_builtin(char **cmd, t_pipe *data, int argc)
 	return (0);
 }
 
+int	cd_absolute(t_pipe *data, char **cmd, char *pwd)
+{
+	char	*pointer;
+	int		i;
+	int		valid;
+
+	i = 0;
+	valid = 0;
+	if (!pwd || !pwd[0] || !cmd || !cmd[1])
+		return (free_return(pwd, 1));
+	while (cmd[1][i] == '.' && cmd[1][i + 1] == '.')
+	{
+		valid = 1;
+		pointer = ft_strrchr(pwd, '/');
+		if (pointer)
+			pointer[0] = 0;
+		if (cmd[1][i + 2] != '/')
+			break ;
+		i += 3;
+	}
+	if (!valid)
+		return (free_return(pwd, 1));
+	pointer = strjoin(pwd, cmd[1] + i + 2);
+	if (!pointer)
+		return (free_return(pwd, 1));
+	free(pwd);
+	free(cmd[1]);
+	cmd[1] = pointer;
+	return (0);
+}
+
 int	cd(t_pipe *data, char **cmd, int count)
 {
 	char	*key;
@@ -78,6 +109,8 @@ int	cd(t_pipe *data, char **cmd, int count)
 			return (-2);
 		return (export(data, key));
 	}
+	else if (cd_absolute(data, cmd, interpret("$PWD", data)) == 0)
+		return (cd(data, cmd, count));
 	else
 	{
 		ft_putstr_fd("bvsh: cd: ", 2);
