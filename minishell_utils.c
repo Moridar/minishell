@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vshchuki <vshchuki@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:19:48 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/25 23:08:17 by vshchuki         ###   ########.fr       */
+/*   Updated: 2024/02/26 15:22:10 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	shlvl_increment(t_pipe *data)
 
 	i = -1;
 	shlvl_str = getenv("SHLVL");
+	if (shlvl_str && (shlvl_str[0] == '-' || shlvl_str[0] == '+'))
+		i++;
 	while (shlvl_str && ft_isdigit(shlvl_str[++i]))
 		;
 	if (!shlvl_str || shlvl_str[i] != '\0')
