@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/27 11:14:31 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/27 11:54:20 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ static	char	*cd_interpret(char **cmd, char *pwd)
 		pointer = ft_strrchr(pwd, '/');
 		if (pointer)
 			pointer[0] = 0;
-		i += 2;
-		if (cmd[1][i] == '/')
-			i++;
+		if (access(pwd, F_OK | R_OK))
+			return (free_return_null(pwd));
+		i += 2 + (cmd[1][i] == '/');
 	}
 	pointer = pwd;
 	if (cmd[1][i])
@@ -97,9 +97,8 @@ static int	cd_absolute(char **cmd, char *pwd, t_pipe *data)
 	if (!pwd || !pwd[0] || !cmd || !cmd[1])
 		return (free_return(pwd, 1));
 	abs_path = cd_interpret(cmd, pwd);
-	printf("abs_path: %s\n", abs_path);
 	if (!abs_path)
-		return (-2);
+		return (1);
 	if (chdir(abs_path) == 0)
 	{
 		export_path = ft_strjoin("PWD=", abs_path);
