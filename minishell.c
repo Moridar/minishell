@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/24 01:58:43 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/27 15:08:44 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,11 @@ static void	minishell_files(char *argv[], t_pipe *data)
 
 static void	initialize(t_pipe *data, char **envp)
 {
+	struct termios	new_attr;
+
+	tcgetattr(STDIN_FILENO, &new_attr);
+	new_attr.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &new_attr);
 	data->exit_status = 0;
 	data->fd[0] = -1;
 	data->fd[1] = -1;
