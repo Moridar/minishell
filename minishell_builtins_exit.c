@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:04:35 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/27 01:42:32 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/27 11:14:31 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,35 +60,54 @@ int	exit_builtin(char **cmd, t_pipe *data, int argc)
 	return (0);
 }
 
-int	cd_absolute(char **cmd, char *pwd)
+static	char	*cd_interpret(char **cmd, char *pwd)
 {
-	char	*pointer;
 	int		i;
-	int		valid;
+	char	*pointer;
 
 	i = 0;
-	valid = 0;
-	if (!pwd || !pwd[0] || !cmd || !cmd[1])
-		return (free_return(pwd, 1));
-	while (cmd[1][i] == '.' && cmd[1][i + 1] == '.')
+	while (cmd[1][i] == '.' && cmd[1][i + 1] == '.'
+		&& (!cmd[1][i + 2] || cmd[1][i + 2] == '/'))
 	{
-		valid = 1;
 		pointer = ft_strrchr(pwd, '/');
 		if (pointer)
 			pointer[0] = 0;
-		if (cmd[1][i + 2] != '/')
-			break ;
-		i += 3;
+		i += 2;
+		if (cmd[1][i] == '/')
+			i++;
 	}
-	if (!valid)
+	pointer = pwd;
+	if (cmd[1][i])
+	{
+		pointer = ft_strjoin(pwd, "/");
+		free(pwd);
+		if (!pointer)
+			return (NULL);
+	}
+	pwd = ft_strjoin(pointer, cmd[1] + i);
+	free(pointer);
+	return (pwd);
+}
+
+static int	cd_absolute(char **cmd, char *pwd, t_pipe *data)
+{
+	char	*abs_path;
+	char	*export_path;
+
+	if (!pwd || !pwd[0] || !cmd || !cmd[1])
 		return (free_return(pwd, 1));
-	pointer = ft_strjoin(pwd, cmd[1] + i + 2);
-	if (!pointer)
-		return (free_return(pwd, 1));
-	free(pwd);
-	free(cmd[1]);
-	cmd[1] = pointer;
-	return (0);
+	abs_path = cd_interpret(cmd, pwd);
+	printf("abs_path: %s\n", abs_path);
+	if (!abs_path)
+		return (-2);
+	if (chdir(abs_path) == 0)
+	{
+		export_path = ft_strjoin("PWD=", abs_path);
+		free(abs_path);
+		return (export(data, export_path));
+	}
+	free(abs_path);
+	return (1);
 }
 
 int	cd(t_pipe *data, char **cmd, int count)
@@ -109,10 +128,11 @@ int	cd(t_pipe *data, char **cmd, int count)
 			return (-2);
 		return (export(data, key));
 	}
-	else if (cd_absolute(cmd, interpret("$PWD", data)) == 0)
-		return (cd(data, cmd, count));
 	else
 	{
+		count = cd_absolute(cmd, interpret("$PWD", data), data);
+		if (count != 1)
+			return (count);
 		ft_putstr_fd("bvsh: cd: ", 2);
 		perror(cmd[1]);
 	}
