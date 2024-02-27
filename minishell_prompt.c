@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:27:11 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/24 02:01:05 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/02/27 12:31:23 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ static int	process_prompt_line(char *line, t_pipe *data)
 {
 	int		return_value;
 
+	add_history(line);
+	write_history_file(line, data);
 	return_value = split_pipeline(data, line);
 	if (return_value != 0)
 		return (return_value);
@@ -107,14 +109,14 @@ void	minishell_prompt(t_pipe *data)
 			freeall(data->cmds);
 			break ;
 		}
-		if (line && *line)
+		if (!*line)
 		{
-			if (g_last_signal)
-				data->exit_status = 1;
-			g_last_signal = 0;
-			add_history(line);
-			write_history_file(line, data);
-			data->exit_status = process_prompt_line(line, data);
+			free(line);
+			continue ;
 		}
+		if (g_last_signal)
+			data->exit_status = 1;
+		g_last_signal = 0;
+		data->exit_status = process_prompt_line(line, data);
 	}
 }
