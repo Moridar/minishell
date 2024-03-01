@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 18:40:25 by vshchuki          #+#    #+#             */
-/*   Updated: 2024/02/27 15:08:44 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/03/01 11:29:41 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ static void	initialize(t_pipe *data, char **envp)
 	data->cmds = NULL;
 	data->pid = NULL;
 	data->envp = NULL;
-	data->history_path = NULL;
 	data->history_path = ft_strdup("/tmp/.bvsh_history");
 	if (!data->history_path)
 		msg_freeall_exit("malloc error", NULL, 1, data);
